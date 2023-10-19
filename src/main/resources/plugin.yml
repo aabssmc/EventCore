@@ -1,0 +1,28 @@
+name: EventCore
+version: '${version}'
+main: lol.aabss.eventcore.EventCore
+api-version: '1.20'
+authors: [aabss]
+description: Hosting events has never been easier!
+website: https://aabss.lol
+softdepend: [PlaceholderAPI]
+
+commands:
+  eventcore:
+    aliases: [event, events]
+    description: Main command for EventCore
+  revive:
+    description: Revive a player
+  reviveall:
+    description: Revive all players
+  tpalive:
+    description: Teleports all alive players to you.
+    aliases: teleportalive
+  tpdead:
+    description: Teleports all dead players to you.
+    aliases: teleportdead
+  alivelist:
+    description: Teleports all dead players to you.
+  visibility:
+    description: Hides players from you.
+    aliases: [hide]
