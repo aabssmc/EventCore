@@ -1,4 +1,4 @@
-package lol.aabss.eventcore.Commands;
+package lol.aabss.eventcore.commands.alive;
 
 import lol.aabss.eventcore.EventCore;
 import org.bukkit.ChatColor;
@@ -31,7 +31,7 @@ public class AliveList implements CommandExecutor {
                 }
             }
         }
-        else{
+        else {
             sender.sendMessage(prefix + " " + permmessage);
         }
         return true;

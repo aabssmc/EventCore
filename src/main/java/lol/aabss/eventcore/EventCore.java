@@ -1,23 +1,31 @@
 package lol.aabss.eventcore;
 
-import lol.aabss.eventcore.Metrics;
-import lol.aabss.eventcore.Commands.*;
-import lol.aabss.eventcore.Events.Death;
-import lol.aabss.eventcore.Events.Join;
-import lol.aabss.eventcore.Events.Leave;
+import lol.aabss.eventcore.commands.alive.AliveList;
+import lol.aabss.eventcore.commands.alive.TpAlive;
+import lol.aabss.eventcore.commands.dead.DeadList;
+import lol.aabss.eventcore.commands.dead.Revive;
+import lol.aabss.eventcore.commands.dead.ReviveAll;
+import lol.aabss.eventcore.commands.dead.TpDead;
+import lol.aabss.eventcore.hooks.PlaceholderAPI;
+import lol.aabss.eventcore.commands.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 
-public final class EventCore extends JavaPlugin {
+public class EventCore extends JavaPlugin {
 
     public static ArrayList<String> Alive = new ArrayList<>();
     public static ArrayList<String> Dead = new ArrayList<>();
 
+
     @Override
     public void onEnable() {
+
+        // Registering bStats
+        Metrics metrics = new Metrics(this, 19718);
+
         // Registering all commands
         getCommand("eventcore").setExecutor(new MainCommand(this));
         getCommand("revive").setExecutor(new Revive(this));
@@ -26,31 +34,40 @@ public final class EventCore extends JavaPlugin {
         getCommand("tpdead").setExecutor(new TpDead(this));
         getCommand("alivelist").setExecutor(new AliveList(this));
         getCommand("visibility").setExecutor(new Visibility(this));
+        getCommand("deadlist").setExecutor(new DeadList(this));
 
         // Registering PlaceholderAPI
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new Expansion().register();
+            getLogger().info("PlaceholderAPI found! Registering placeholders...");
+            new PlaceholderAPI().register();
+            getLogger().info("All Placeholders loaded!");
+        }
+        else{
+            getLogger().info("PlaceholderAPI not found, skipping...");
         }
 
-        // Registering bStats
-        int pluginId = 19718;
-        Metrics metrics = new Metrics(this, pluginId);
-
         // Registering all events
-        getServer().getPluginManager().registerEvents(new Death(), this);
-        getServer().getPluginManager().registerEvents(new Join(), this);
-        getServer().getPluginManager().registerEvents(new Leave(), this);
+        getServer().getPluginManager().registerEvents(new Listener(this), this);
 
+        // Update Checker
+        new UpdateChecker(this, 113142).getVersion(version -> {
+            if (this.getDescription().getVersion().equals(version)) {
+                getLogger().info("You are on the latest version!.");
+            } else {
+                getLogger().info("\nThere is a new update available at https://www.spigotmc.org/resources/113142/\n");
+            }
+        });
 
-        // Messages
-        System.out.print("EventCore config loading...");
+    // Messages
+        getLogger().info("EventCore config loading...");
         saveDefaultConfig();
-        System.out.print("EventCore config loaded!");
-        System.out.print("EventCore is now enabled!");
+        getLogger().info("EventCore config loaded!");
+        getLogger().info("EventCore is now enabled!");
     }
 
     @Override
     public void onDisable() {
-        System.out.print("EventCore disabled.");
+        getLogger().info("EventCore disabled!");
     }
+
 }

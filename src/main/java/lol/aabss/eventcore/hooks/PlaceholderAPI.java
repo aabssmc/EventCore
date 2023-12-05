@@ -1,12 +1,13 @@
-package lol.aabss.eventcore;
+package lol.aabss.eventcore.hooks;
 
+import lol.aabss.eventcore.EventCore;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Expansion extends PlaceholderExpansion {
+
+public class PlaceholderAPI extends PlaceholderExpansion {
 
 
     @Override
@@ -39,10 +40,10 @@ public class Expansion extends PlaceholderExpansion {
         if (params.equals("alive")){
             return EventCore.Alive.size() + "";
         }
-        if (params.equals("dead")) {
+        else if (params.equals("dead")) {
             return EventCore.Dead.size() + "";
         }
-        if (params.equals("status")){
+        else if (params.equals("status")){
             if (player == null){
                 return null;
             }
