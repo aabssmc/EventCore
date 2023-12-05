@@ -36,5 +36,10 @@
       <option name="name" value="maven2" />
       <option name="url" value="https://repo.skriptlang.org/releases" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven2" />
+      <option name="name" value="maven2" />
+      <option name="url" value="https://repo.aikar.co/content/groups/aikar/" />
+    </remote-repository>
   </component>
 </project>
