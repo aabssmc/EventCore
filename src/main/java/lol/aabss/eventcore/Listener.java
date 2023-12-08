@@ -1,5 +1,6 @@
 package lol.aabss.eventcore;
 
+import lol.aabss.eventcore.hooks.UpdateChecker;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -38,7 +39,7 @@ public class Listener implements org.bukkit.event.Listener {
             new UpdateChecker(plugin, 113142).getVersion(version -> {
                 if (!this.plugin.getDescription().getVersion().equals(version)) {
                     assert prefix != null;
-                    String pr = ChatColor.translateAlternateColorCodes('&', prefix);
+                    String pr = Config.color(prefix);
                     TextComponent message = getTextComponent(version, pr);
                     try {
                         TimeUnit.SECONDS.sleep(5);

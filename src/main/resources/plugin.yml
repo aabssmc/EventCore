@@ -22,10 +22,14 @@ commands:
     description: Teleports all dead players to you.
     aliases: teleportdead
   alivelist:
-    description: Teleports all dead players to you.
+    description: Lists all alive people.
   visibility:
     description: Hides players from you.
     aliases: [hide]
+  deadlist:
+    description: Lists all dead people.
   userevive:
-    description: Uses a revive if you have one.
+    aliases:
+      - reviveuse
+    description: Uses a revive
 

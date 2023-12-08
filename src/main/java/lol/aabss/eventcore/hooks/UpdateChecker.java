@@ -1,4 +1,4 @@
-package lol.aabss.eventcore;
+package lol.aabss.eventcore.hooks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;

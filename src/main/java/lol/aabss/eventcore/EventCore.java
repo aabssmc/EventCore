@@ -3,12 +3,14 @@ package lol.aabss.eventcore;
 import lol.aabss.eventcore.commands.alive.AliveList;
 import lol.aabss.eventcore.commands.alive.TpAlive;
 import lol.aabss.eventcore.commands.dead.DeadList;
-import lol.aabss.eventcore.commands.dead.Revive;
-import lol.aabss.eventcore.commands.dead.ReviveAll;
+import lol.aabss.eventcore.commands.revives.Revive;
+import lol.aabss.eventcore.commands.revives.ReviveAll;
 import lol.aabss.eventcore.commands.dead.TpDead;
+import lol.aabss.eventcore.commands.revives.UseRevive;
 import lol.aabss.eventcore.hooks.PlaceholderAPI;
 import lol.aabss.eventcore.commands.*;
 
+import lol.aabss.eventcore.hooks.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,14 +29,21 @@ public class EventCore extends JavaPlugin {
         Metrics metrics = new Metrics(this, 19718);
 
         // Registering all commands
-        getCommand("eventcore").setExecutor(new MainCommand(this));
-        getCommand("revive").setExecutor(new Revive(this));
-        getCommand("reviveall").setExecutor(new ReviveAll(this));
-        getCommand("tpalive").setExecutor(new TpAlive(this));
-        getCommand("tpdead").setExecutor(new TpDead(this));
-        getCommand("alivelist").setExecutor(new AliveList(this));
-        getCommand("visibility").setExecutor(new Visibility(this));
-        getCommand("deadlist").setExecutor(new DeadList(this));
+        getCommand("alivelist").setExecutor(new AliveList());
+        getCommand("tpalive").setExecutor(new TpAlive());
+
+        // ---
+        getCommand("deadlist").setExecutor(new DeadList());
+        getCommand("tpdead").setExecutor(new TpDead());
+
+        // ---
+        getCommand("revive").setExecutor(new Revive());
+        getCommand("reviveall").setExecutor(new ReviveAll());
+        getCommand("userevive").setExecutor(new UseRevive());
+
+        // ---
+        getCommand("eventcore").setExecutor(new MainCommand());
+        getCommand("visibility").setExecutor(new Visibility());
 
         // Registering PlaceholderAPI
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {

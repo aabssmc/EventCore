@@ -1,2 +1,5 @@
 prefix: '&6&lEventCore &8>'
 permission-message: '&cYou do not have permission to do that!'
+
+#ignores players that have a eventcore.reviveall.bypass permission when reviveall
+ignore-perm: true
