@@ -1,5 +1,6 @@
 package lol.aabss.eventcore.hooks;
 
+import lol.aabss.eventcore.Config;
 import lol.aabss.eventcore.EventCore;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
@@ -57,6 +58,14 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                 else{
                     return null;
                 }
+            }
+        }
+        else if (params.equals("revive") || params.equals("revives")){
+            if (player == null){
+                return null;
+            }
+            else{
+                return Config.getRevives(player).toString();
             }
         }
         return params;
