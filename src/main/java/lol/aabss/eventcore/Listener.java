@@ -41,11 +41,6 @@ public class Listener implements org.bukkit.event.Listener {
                     assert prefix != null;
                     String pr = Config.color(prefix);
                     TextComponent message = getTextComponent(version, pr);
-                    try {
-                        TimeUnit.SECONDS.sleep(5);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
                     p.spigot().sendMessage(message);
                 }
             });
@@ -62,8 +57,9 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event){
-        EventCore.Dead.add(event.getEntity().getName());
         EventCore.Alive.remove(event.getEntity().getName());
+        EventCore.Dead.remove(event.getEntity().getName());
+        EventCore.Dead.add(event.getEntity().getName());
     }
 
 }

@@ -2,7 +2,6 @@ package lol.aabss.eventcore.commands.revives;
 
 import lol.aabss.eventcore.Config;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

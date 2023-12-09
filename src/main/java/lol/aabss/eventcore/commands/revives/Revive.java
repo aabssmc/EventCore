@@ -3,7 +3,6 @@ package lol.aabss.eventcore.commands.revives;
 import lol.aabss.eventcore.Config;
 import lol.aabss.eventcore.EventCore;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
@@ -17,7 +16,7 @@ import java.util.List;
 public class Revive implements CommandExecutor, TabCompleter {
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         String prefix = Config.getString("prefix");
         String permmessage = Config.getString("permission-message");
         if (sender.hasPermission("eventcore.revive")){

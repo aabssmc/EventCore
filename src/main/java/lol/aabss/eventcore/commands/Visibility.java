@@ -3,7 +3,6 @@ package lol.aabss.eventcore.commands;
 import lol.aabss.eventcore.Config;
 import lol.aabss.eventcore.EventCore;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
