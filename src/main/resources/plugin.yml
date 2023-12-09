@@ -62,4 +62,5 @@ commands:
     description: Gives all alive players items.
   givedead:
     description: Gives all dead players items.
-
+  unrevive:
+    description: Unrevives a player.

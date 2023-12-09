@@ -50,6 +50,7 @@ public class EventCore extends JavaPlugin {
         Objects.requireNonNull(getCommand("giverevive")).setExecutor(new GiveRevive());
         Objects.requireNonNull(getCommand("setrevive")).setExecutor(new SetRevive());
         Objects.requireNonNull(getCommand("takerevive")).setExecutor(new TakeRevive());
+        Objects.requireNonNull(getCommand("unrevive")).setExecutor(new Unrevive());
         Objects.requireNonNull(getCommand("userevive")).setExecutor(new UseRevive());
 
         // ---
