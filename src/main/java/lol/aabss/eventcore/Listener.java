@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 
-import static lol.aabss.eventcore.EventCore.chatMuted;
+import static lol.aabss.eventcore.EventCore.*;
 
 public class Listener implements org.bukkit.event.Listener {
 
@@ -59,15 +59,23 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event){
-        EventCore.Alive.remove(event.getEntity().getName());
-        EventCore.Dead.remove(event.getEntity().getName());
-        EventCore.Dead.add(event.getEntity().getName());
-        EventCore.Recent.add(event.getEntity().getName());
-        Bukkit.getScheduler().runTaskLater(EventCore.getPlugin(EventCore.class), () ->
-                EventCore.Recent.remove(event.getEntity().getName()),
-                Config.getInteger("recent-rev-time")*60*20
-        );
-
+        if (Alive.contains(event.getEntity().getName())){
+            EventCore.Alive.remove(event.getEntity().getName());
+            EventCore.Dead.remove(event.getEntity().getName());
+            EventCore.Dead.add(event.getEntity().getName());
+            if (!Recent.contains(event.getEntity().getName())){
+                EventCore.Recent.add(event.getEntity().getName());
+                Bukkit.getScheduler().runTaskLater(EventCore.getPlugin(EventCore.class), () ->
+                                EventCore.Recent.remove(event.getEntity().getName()),
+                        Config.getInteger("recent-rev-time")*60*20
+                );
+            }
+        }
+        else{
+            EventCore.Alive.remove(event.getEntity().getName());
+            EventCore.Dead.remove(event.getEntity().getName());
+            EventCore.Dead.add(event.getEntity().getName());
+        }
     }
 
     @EventHandler
