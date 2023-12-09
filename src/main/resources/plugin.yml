@@ -64,4 +64,4 @@ commands:
   healalive:
     description: Heals all alive players.
   mutechat:
-    description: Mutes/unmutes the chat
+    description: Mutes/unmutes the chat.
