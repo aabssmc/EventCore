@@ -23,7 +23,7 @@ import java.util.ArrayList;
 @Examples({
         "all recent dead players"
 })
-@Since("1.2")
+@Since("1.3")
 public class ExprRecentDead extends SimpleExpression<Player> {
 
     static {

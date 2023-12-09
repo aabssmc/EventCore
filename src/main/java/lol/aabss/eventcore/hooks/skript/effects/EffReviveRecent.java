@@ -22,49 +22,50 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.io.Console;
 
-@Name("Revive Player")
-@Description("Revives a player.")
+@Name("Revive All Players")
+@Description("Revives all players.")
 @Examples({
-        "on player use revive:",
-        "\trevive player"
+        "revive everyone"
 })
-@Since("1.2")
-public class EffRevive extends Effect {
+@Since("1.3")
+public class EffReviveRecent extends Effect {
 
     static{
-        Skript.registerEffect(EffRevive.class,
-                "revive %player% [and [then] teleport (him|her|them|it) to %-location%]"
+        Skript.registerEffect(EffReviveRecent.class,
+                "revive [all [[of] the]] recent[ly] (dead|killed) players [and [then] teleport (him|her|them|it) to %-location%]"
         );
     }
 
-    private Expression<Player> player;
     private Expression<Location> loc;
 
     @Override
     protected void execute(@NotNull Event e) {
-        Player p = player.getSingle(e);
-        assert p != null;
-        EventCore.Alive.remove(p.getName());
-        EventCore.Dead.remove(p.getName());
-        EventCore.Alive.add(p.getName());
-        if (loc != null) {
-            Location location = loc.getSingle(e);
-            assert location != null;
-            p.teleport(location);
+        for (String player : EventCore.Recent){
+            Player p = Bukkit.getPlayer(player);
+            if (p != null){
+                EventCore.Alive.remove(p.getName());
+                EventCore.Dead.remove(p.getName());
+                EventCore.Alive.add(p.getName());
+                if (loc != null) {
+                    Location location = loc.getSingle(e);
+                    assert location != null;
+                    p.teleport(location);
+                }
+                Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(p, Bukkit.getConsoleSender()));
+            }
         }
-        Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(p, Bukkit.getConsoleSender()));
+        EventCore.Recent.clear();
     }
 
     @Override
     public @NotNull String toString(@Nullable Event e, boolean debug) {
-        return "revive player";
+        return "revive all recently dead players";
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
-        player = (Expression<Player>) exprs[0];
-        loc = (Expression<Location>) exprs[1];
+        loc = (Expression<Location>) exprs[0];
         return true;
     }
 }
