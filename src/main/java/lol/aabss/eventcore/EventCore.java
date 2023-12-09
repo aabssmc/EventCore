@@ -25,10 +25,14 @@ public class EventCore extends JavaPlugin {
 
         // Registering all commands
         getCommand("alivelist").setExecutor(new AliveList());
+        getCommand("clearalive").setExecutor(new ClearAlive());
+        getCommand("killalive").setExecutor(new KillAlive());
         getCommand("tpalive").setExecutor(new TpAlive());
 
         // ---
+        getCommand("cleardead").setExecutor(new ClearDead());
         getCommand("deadlist").setExecutor(new DeadList());
+        getCommand("killdead").setExecutor(new KillDead());
         getCommand("tpdead").setExecutor(new TpDead());
 
         // ---
