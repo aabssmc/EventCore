@@ -33,7 +33,7 @@ public class TpAlive implements CommandExecutor {
             }
         }
         else{
-            sender.sendMessage(prefix + " " + permmessage);
+            sender.sendMessage(Config.color(prefix + " " + permmessage));
         }
         return true;
     }

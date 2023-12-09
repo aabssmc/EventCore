@@ -15,19 +15,19 @@ public class DeadList implements CommandExecutor {
         String prefix = Config.getString("prefix");
         if (sender.hasPermission("eventcore.deadlist")){
             if (EventCore.Dead.isEmpty()){
-                sender.sendMessage("&7There are 0 players dead\nThere are no players dead.");
+                sender.sendMessage(Config.color("&7There are 0 players dead\nThere are no players dead."));
             }
             else{
                 if (EventCore.Dead.size() == 1){
-                    sender.sendMessage("&7There is 1 player dead" + "\n" + EventCore.Dead);
+                    sender.sendMessage(Config.color("&7There is 1 player dead" + "\n" + EventCore.Dead));
                 }
                 else{
-                    sender.sendMessage("&7There are " + EventCore.Dead.size() + " players alive" + "\n" + EventCore.Dead);
+                    sender.sendMessage(Config.color("&7There are " + EventCore.Dead.size() + " players alive" + "\n" + EventCore.Dead));
                 }
             }
         }
         else{
-            sender.sendMessage(prefix + " " + permmessage);
+            sender.sendMessage(Config.color(prefix + " " + permmessage));
         }
         return true;
     }
