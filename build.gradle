@@ -40,7 +40,7 @@ java {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    if (targetJavaVersion >= 17 || JavaVersion.current().isJava10Compatible()) {
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava17Compatible()) {
         options.release = targetJavaVersion
     }
 }

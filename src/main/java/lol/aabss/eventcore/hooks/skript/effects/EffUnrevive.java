@@ -27,8 +27,8 @@ import javax.annotation.Nullable;
 public class EffUnrevive extends Effect {
 
     static{
-        Skript.registerEffect(EffRevive.class,
-                "unrevive %player% [kill:and [then] kill (him|her|them|it)]"
+        Skript.registerEffect(EffUnrevive.class,
+                "unrevive %player% [kill:(and|then|and then) kill (him|her|them|it)]"
         );
     }
 
