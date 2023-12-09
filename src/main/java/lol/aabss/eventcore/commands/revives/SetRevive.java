@@ -29,8 +29,8 @@ public class SetRevive implements CommandExecutor {
                         Player e = Bukkit.getPlayer(args[0]);
                         assert e != null;
                         Config.setRevives(e, Integer.valueOf(args[1]));
-                        sender.sendMessage(Config.color(prefix + " &eYou set " + args[0] + "'s revives to " + args[1] + "!"));
-                        e.sendMessage(Config.color(prefix + " &eYour revive balance is now " + args[1] + "!"));
+                        sender.sendMessage(Config.color(prefix + " &eYou set " + args[0] + "'s revives to " + Integer.valueOf(args[1]) + "!"));
+                        e.sendMessage(Config.color(prefix + " &eYour revive balance is now " + Integer.valueOf(args[1]) + "!"));
                     }
                 }
             }

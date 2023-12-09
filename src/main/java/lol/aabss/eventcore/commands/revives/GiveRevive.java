@@ -29,8 +29,8 @@ public class GiveRevive implements CommandExecutor {
                         Player e = Bukkit.getPlayer(args[0]);
                         assert e != null;
                         Config.giveRevives(e, Integer.valueOf(args[1]));
-                        sender.sendMessage(Config.color(prefix + " &eYou gave " + args[0] + args[1] + " revives!"));
-                        e.sendMessage(Config.color(prefix + " &eYou received " + args[1] + " revives!"));
+                        sender.sendMessage(Config.color(prefix + " &eYou gave " + args[0] + Integer.valueOf(args[1]) + " revives!"));
+                        e.sendMessage(Config.color(prefix + " &eYou received " + Integer.valueOf(args[1]) + " revives!"));
                     }
                 }
             }
