@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'lol.aabss'
-version = '1.1'
+version = '1.2'
 
 repositories {
     mavenCentral()
@@ -18,11 +18,15 @@ repositories {
     maven {
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
+    maven {
+        url = 'https://repo.skriptlang.org/releases'
+    }
 }
 
 dependencies {
     compileOnly "org.spigotmc:spigot-api:1.20.4-R0.1-SNAPSHOT"
     compileOnly 'me.clip:placeholderapi:2.11.4'
+    implementation 'com.github.SkriptLang:Skript:2.7.0'
 }
 
 def targetJavaVersion = 17
@@ -36,7 +40,7 @@ java {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+    if (targetJavaVersion >= 17 || JavaVersion.current().isJava10Compatible()) {
         options.release = targetJavaVersion
     }
 }

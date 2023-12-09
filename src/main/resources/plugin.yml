@@ -2,10 +2,13 @@ name: EventCore
 version: '${version}'
 main: lol.aabss.eventcore.EventCore
 api-version: '1.13'
-authors: [aabss]
+authors:
+  - aabss
 description: Hosting events has never been easier!
 website: https://aabss.lol
-softdepend: [PlaceholderAPI]
+softdepend:
+  - PlaceholderAPI
+  - Skript
 
 commands:
   eventcore:

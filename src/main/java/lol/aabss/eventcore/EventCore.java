@@ -1,5 +1,7 @@
 package lol.aabss.eventcore;
 
+import ch.njol.skript.Skript;
+import ch.njol.skript.SkriptAddon;
 import lol.aabss.eventcore.commands.alive.*;
 import lol.aabss.eventcore.commands.dead.*;
 import lol.aabss.eventcore.commands.revives.*;
@@ -9,10 +11,14 @@ import lol.aabss.eventcore.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class EventCore extends JavaPlugin {
+
+    private static EventCore instance;
+    private SkriptAddon addon;
 
     public static ArrayList<String> Alive = new ArrayList<>();
     public static ArrayList<String> Dead = new ArrayList<>();
@@ -70,6 +76,23 @@ public class EventCore extends JavaPlugin {
             getLogger().info("PlaceholderAPI not found, skipping...");
         }
 
+        // Registering Skript
+        if (Bukkit.getPluginManager().getPlugin("Skript") != null){
+            getLogger().info("Skript found! Registering elements...");
+            instance = this;
+            try {
+                addon = Skript.registerAddon(this)
+                        .loadClasses("lol.aabss.eventcore", "hooks.skript");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            getLogger().info("All Skript elements loaded!");
+        }
+        else{
+            getLogger().info("Skript not found, skipping...");
+        }
+
+
         // Registering all events
         getServer().getPluginManager().registerEvents(new Listener(this), this);
 
@@ -82,7 +105,7 @@ public class EventCore extends JavaPlugin {
             }
         });
 
-    // Messages
+        // Messages
         getLogger().info("EventCore config loading...");
         saveDefaultConfig();
         getLogger().info("EventCore config loaded!");
