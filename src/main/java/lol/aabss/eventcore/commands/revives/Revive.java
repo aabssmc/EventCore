@@ -3,6 +3,8 @@ package lol.aabss.eventcore.commands.revives;
 import lol.aabss.eventcore.Config;
 import lol.aabss.eventcore.EventCore;
 
+import lol.aabss.eventcore.events.ReviveEvent;
+import lol.aabss.eventcore.events.UseReviveEvent;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
@@ -43,6 +45,7 @@ public class Revive implements CommandExecutor, TabCompleter {
                             EventCore.Dead.remove(arg.getName());
                             arg.teleport(p.getLocation());
                             Bukkit.broadcastMessage(Config.color("\n" + prefix + " &a" + args[0] + " has been revived by " + sender.getName() + "!" + "\n"));
+                            Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(arg, sender));
                         }
                     }
                 }

@@ -1,6 +1,7 @@
 package lol.aabss.eventcore.commands.revives;
 
 import lol.aabss.eventcore.Config;
+import lol.aabss.eventcore.events.UseReviveEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,8 +25,10 @@ public class UseRevive implements CommandExecutor {
                     sender.sendMessage(Config.color(prefix + " &cYou do not have enough revives!"));
                 }
                 else{
+                    Integer revs = Config.getRevives((Player) sender);
                     Config.takeRevives((Player) sender, 1);
                     Bukkit.broadcastMessage(Config.color("\n&e" + sender.getName() + " has requested to be revived!" + "\n"));
+                    Bukkit.getServer().getPluginManager().callEvent(new UseReviveEvent((Player)sender, revs, revs+1));
                 }
             }
         }

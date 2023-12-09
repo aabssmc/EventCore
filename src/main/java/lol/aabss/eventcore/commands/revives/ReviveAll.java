@@ -2,6 +2,7 @@ package lol.aabss.eventcore.commands.revives;
 
 import lol.aabss.eventcore.Config;
 import lol.aabss.eventcore.EventCore;
+import lol.aabss.eventcore.events.ReviveEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,11 +30,13 @@ public class ReviveAll implements CommandExecutor {
                             if (!sender.hasPermission("eventcore.reviveall.bypass")){
                                 EventCore.Alive.add(list.getName());
                                 list.teleport((Player) sender);
+                                Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(list, sender));
                             }
                         }
                         else{
                             EventCore.Alive.add(list.getName());
                             list.teleport((Player) sender);
+                            Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(list, sender));
                         }
                     }
                 }
