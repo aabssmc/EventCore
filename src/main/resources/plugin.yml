@@ -55,4 +55,8 @@ commands:
     description: Clears the inventory of all alive players.
   cleardead:
     description: Clears the inventory of all dead players.
+  givealive:
+    description: Gives all alive players items.
+  givedead:
+    description: Gives all dead players items.
 

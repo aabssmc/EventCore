@@ -22,7 +22,7 @@ public class DeadList implements CommandExecutor {
                     sender.sendMessage(Config.color("&7There is 1 player dead" + "\n" + EventCore.Dead));
                 }
                 else{
-                    sender.sendMessage(Config.color("&7There are " + EventCore.Dead.size() + " players alive" + "\n" + EventCore.Dead));
+                    sender.sendMessage(Config.color("&7There are " + EventCore.Dead.size() + " players dead" + "\n" + EventCore.Dead));
                 }
             }
         }

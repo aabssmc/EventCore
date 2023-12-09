@@ -16,7 +16,6 @@ public class EventCore extends JavaPlugin {
     public static ArrayList<String> Alive = new ArrayList<>();
     public static ArrayList<String> Dead = new ArrayList<>();
 
-
     @Override
     public void onEnable() {
 
@@ -26,12 +25,16 @@ public class EventCore extends JavaPlugin {
         // Registering all commands
         getCommand("alivelist").setExecutor(new AliveList());
         getCommand("clearalive").setExecutor(new ClearAlive());
+        getCommand("givealive").setExecutor(new GiveAlive());
+        getCommand("givealive").setTabCompleter(new GiveAlive());
         getCommand("killalive").setExecutor(new KillAlive());
         getCommand("tpalive").setExecutor(new TpAlive());
 
         // ---
         getCommand("cleardead").setExecutor(new ClearDead());
         getCommand("deadlist").setExecutor(new DeadList());
+        getCommand("givedead").setExecutor(new GiveDead());
+        getCommand("givedead").setTabCompleter(new GiveDead());
         getCommand("killdead").setExecutor(new KillDead());
         getCommand("tpdead").setExecutor(new TpDead());
 
