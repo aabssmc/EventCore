@@ -82,7 +82,7 @@ public class EventCore extends JavaPlugin {
             getLogger().info("All Placeholders loaded!");
         }
         else{
-            getLogger().info("PlaceholderAPI not found, skipping...");
+            getLogger().warning("PlaceholderAPI not found, skipping...");
         }
 
         // Registering Skript
@@ -98,7 +98,7 @@ public class EventCore extends JavaPlugin {
             getLogger().info("All Skript elements loaded!");
         }
         else{
-            getLogger().info("Skript not found, skipping...");
+            getLogger().warning("Skript not found, skipping...");
         }
 
 
@@ -110,7 +110,7 @@ public class EventCore extends JavaPlugin {
             if (this.getDescription().getVersion().equals(version)) {
                 getLogger().info("You are on the latest version!.");
             } else {
-                getLogger().info("\nThere is a new update available at https://www.spigotmc.org/resources/113142/\n");
+                getLogger().warning("\nThere is a new update available at https://www.spigotmc.org/resources/113142/\n");
             }
         });
 
