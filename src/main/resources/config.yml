@@ -1,5 +1,9 @@
 prefix: '&6&lEventCore &8>'
 permission-message: '&cYou do not have permission to do that!'
 
-#ignores players that have a eventcore.reviveall.bypass permission when reviveall
+# ignores players that have an eventcore.reviveall.bypass permission when reviveall
 ignore-perm: true
+
+# the amount of time it takes until a player is no longer eligible to be revived by recentrev
+# in minutes
+recent-rev-time: 1

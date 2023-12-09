@@ -5,6 +5,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,8 +14,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.TimeUnit;
 
 import static lol.aabss.eventcore.EventCore.chatMuted;
 
@@ -63,6 +62,12 @@ public class Listener implements org.bukkit.event.Listener {
         EventCore.Alive.remove(event.getEntity().getName());
         EventCore.Dead.remove(event.getEntity().getName());
         EventCore.Dead.add(event.getEntity().getName());
+        EventCore.Recent.add(event.getEntity().getName());
+        Bukkit.getScheduler().runTaskLater(EventCore.getPlugin(EventCore.class), () ->
+                EventCore.Recent.remove(event.getEntity().getName()),
+                Config.getInteger("recent-rev-time")*60*20
+        );
+
     }
 
     @EventHandler

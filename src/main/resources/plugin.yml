@@ -65,3 +65,6 @@ commands:
     description: Heals all alive players.
   mutechat:
     description: Mutes/unmutes the chat.
+  recentrev:
+    aliases: [revrecent, reviverecent, recentrevive]
+    description: Mutes/unmutes the chat.

@@ -9,6 +9,7 @@ import lol.aabss.eventcore.hooks.*;
 import lol.aabss.eventcore.commands.*;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class EventCore extends JavaPlugin {
 
     public static ArrayList<String> Alive = new ArrayList<>();
     public static ArrayList<String> Dead = new ArrayList<>();
+    public static ArrayList<String> Recent = new ArrayList<>();
 
     public static boolean chatMuted = false;
 
@@ -48,10 +50,11 @@ public class EventCore extends JavaPlugin {
         Objects.requireNonNull(getCommand("tpdead")).setExecutor(new TpDead());
 
         // ---
-        Objects.requireNonNull(getCommand("revive")).setExecutor(new Revive());
-        Objects.requireNonNull(getCommand("reviveall")).setExecutor(new ReviveAll());
         Objects.requireNonNull(getCommand("balrevive")).setExecutor(new BalRevive());
         Objects.requireNonNull(getCommand("giverevive")).setExecutor(new GiveRevive());
+        Objects.requireNonNull(getCommand("recentrev")).setExecutor(new RecentRev());
+        Objects.requireNonNull(getCommand("revive")).setExecutor(new Revive());
+        Objects.requireNonNull(getCommand("reviveall")).setExecutor(new ReviveAll());
         Objects.requireNonNull(getCommand("setrevive")).setExecutor(new SetRevive());
         Objects.requireNonNull(getCommand("takerevive")).setExecutor(new TakeRevive());
         Objects.requireNonNull(getCommand("unrevive")).setExecutor(new Unrevive());

@@ -22,13 +22,10 @@ public class MainCommand implements CommandExecutor {
         String prefix = Config.getString("prefix");
         if (sender.hasPermission("eventcore.command")){
             if (args.length == 0){
-                s.sendMessage(Config.color(prefix +" &c/eventcore <reload | help>"));
+                s.sendMessage(Config.color(prefix +" &c/eventcore <reload>"));
             }
             else{
-                if (args[0].equals("help")){
-                    s.sendMessage(Config.color(prefix + " help coming soon"));
-                }
-                else if (args[0].equals("reload")){
+                if (args[0].equals("reload")){
                     EventCore.getPlugin(EventCore.class).reloadConfig();
                     File configFile = new File(EventCore.getPlugin(EventCore.class).getDataFolder(), "data.yml");
                     FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
@@ -41,7 +38,7 @@ public class MainCommand implements CommandExecutor {
                     s.sendMessage(Config.color(prefix + " &aConfig reloaded!"));
                 }
                 else{
-                    s.sendMessage(Config.color(prefix + " &a/eventcore <reload | help>"));
+                    s.sendMessage(Config.color(prefix + " &a/eventcore <reload>"));
                 }
             }
         }
