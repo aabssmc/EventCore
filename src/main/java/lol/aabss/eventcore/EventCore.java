@@ -1,16 +1,11 @@
 package lol.aabss.eventcore;
 
-import lol.aabss.eventcore.commands.alive.AliveList;
-import lol.aabss.eventcore.commands.alive.TpAlive;
-import lol.aabss.eventcore.commands.dead.DeadList;
-import lol.aabss.eventcore.commands.revives.Revive;
-import lol.aabss.eventcore.commands.revives.ReviveAll;
-import lol.aabss.eventcore.commands.dead.TpDead;
-import lol.aabss.eventcore.commands.revives.UseRevive;
-import lol.aabss.eventcore.hooks.PlaceholderAPI;
+import lol.aabss.eventcore.commands.alive.*;
+import lol.aabss.eventcore.commands.dead.*;
+import lol.aabss.eventcore.commands.revives.*;
+import lol.aabss.eventcore.hooks.*;
 import lol.aabss.eventcore.commands.*;
 
-import lol.aabss.eventcore.hooks.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -39,6 +34,10 @@ public class EventCore extends JavaPlugin {
         // ---
         getCommand("revive").setExecutor(new Revive());
         getCommand("reviveall").setExecutor(new ReviveAll());
+        getCommand("balrevive").setExecutor(new BalRevive());
+        getCommand("giverevive").setExecutor(new GiveRevive());
+        getCommand("setrevive").setExecutor(new SetRevive());
+        getCommand("takerevive").setExecutor(new TakeRevive());
         getCommand("userevive").setExecutor(new UseRevive());
 
         // ---

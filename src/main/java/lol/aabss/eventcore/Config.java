@@ -35,9 +35,36 @@ public class Config {
         return config.getInt("revives." + p.getUniqueId());
     }
 
+    public static void giveRevives(Player p, Integer i){
+        File configFile = new File(EventCore.getPlugin(EventCore.class).getDataFolder(), "data.yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+        config.set("revives." + p.getUniqueId(), getRevives(p)+i);
+        try {
+            config.save(configFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void setRevives(Player p, Integer i){
         File configFile = new File(EventCore.getPlugin(EventCore.class).getDataFolder(), "data.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
         config.set("revives." + p.getUniqueId(), i);
+        try {
+            config.save(configFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void takeRevives(Player p, Integer i){
+        File configFile = new File(EventCore.getPlugin(EventCore.class).getDataFolder(), "data.yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+        config.set("revives." + p.getUniqueId(), getRevives(p)-i);
+        try {
+            config.save(configFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

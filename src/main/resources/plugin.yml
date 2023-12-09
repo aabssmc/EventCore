@@ -30,6 +30,21 @@ commands:
     description: Lists all dead people.
   userevive:
     aliases:
-      - reviveuse
-    description: Uses a revive
+      - viewrevive
+    description: Uses a revive.
+  balrevive:
+    aliases:
+      - revivebal
+      - revivebalance
+    description: Checks a player's balance.
+  giverevive:
+    aliases:
+      - addrevive
+    description: Adds revives to a specified player's balance.
+  setrevive:
+    description: Sets a player's revive amount.
+  takerevive:
+    aliases:
+      - removerevive
+    description: Removes revives to a specified player's balance.
 
