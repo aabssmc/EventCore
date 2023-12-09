@@ -31,6 +31,7 @@ A plugin made to simplify hosting events/challenges
   -  %eventcore_status% - The status of the player (dead or alive)
   - %eventcore_revive% - The amount of revives the player has
   - %eventcore_revives% - Alias of %eventcore_revive%
+- Skript support!
 - and more!
 
 For support, join my discord [here](https://discord.gg/33g92zJnPC)
