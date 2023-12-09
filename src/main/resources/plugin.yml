@@ -12,43 +12,38 @@ softdepend:
 
 commands:
   eventcore:
-    aliases: [event, events]
+    aliases: [event]
     description: Main command for EventCore
   revive:
     description: Revive a player.
   reviveall:
     description: Revive all players.
   tpalive:
+    aliases: [teleportalive]
     description: Teleports all alive players to you.
-    aliases: teleportalive
   tpdead:
+    aliases: [teleportdead]
     description: Teleports all dead players to you.
-    aliases: teleportdead
   alivelist:
     description: Lists all alive people.
   visibility:
-    description: Hides players from you.
     aliases: [hide]
+    description: Hides players from you.
   deadlist:
     description: Lists all dead people.
   userevive:
-    aliases:
-      - viewrevive
+    aliases: [viewrevive]
     description: Uses a revive.
   balrevive:
-    aliases:
-      - revivebal
-      - revivebalance
+    aliases: [revivebal, revivebalance]
     description: Checks a player's balance.
   giverevive:
-    aliases:
-      - addrevive
+    aliases: [addrevive]
     description: Adds revives to a specified player's balance.
   setrevive:
     description: Sets a player's revive amount.
   takerevive:
-    aliases:
-      - removerevive
+    aliases: [removerevive]
     description: Removes revives to a specified player's balance.
   killalive:
     description: Kills all alive players.
@@ -68,3 +63,5 @@ commands:
     description: Heals all dead players.
   healalive:
     description: Heals all alive players.
+  mutechat:
+    description: Mutes/unmutes the chat

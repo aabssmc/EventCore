@@ -23,7 +23,7 @@ public class EventCore extends JavaPlugin {
     public static ArrayList<String> Alive = new ArrayList<>();
     public static ArrayList<String> Dead = new ArrayList<>();
 
-    public static boolean chatmuted = false;
+    public static boolean chatMuted = false;
 
     @Override
     public void onEnable() {
@@ -59,6 +59,7 @@ public class EventCore extends JavaPlugin {
 
         // ---
         Objects.requireNonNull(getCommand("eventcore")).setExecutor(new MainCommand());
+        Objects.requireNonNull(getCommand("mutechat")).setExecutor(new Mutechat());
         Objects.requireNonNull(getCommand("visibility")).setExecutor(new Visibility());
 
         // Registering tab completions

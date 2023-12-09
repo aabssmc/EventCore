@@ -9,11 +9,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
+
+import static lol.aabss.eventcore.EventCore.chatMuted;
 
 public class Listener implements org.bukkit.event.Listener {
 
@@ -60,6 +63,17 @@ public class Listener implements org.bukkit.event.Listener {
         EventCore.Alive.remove(event.getEntity().getName());
         EventCore.Dead.remove(event.getEntity().getName());
         EventCore.Dead.add(event.getEntity().getName());
+    }
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent event){
+        if (!chatMuted){
+            if (!event.getPlayer().hasPermission("eventcore.mutechat.bypass")){
+                String prefix = Config.getString("prefix");
+                event.setCancelled(true);
+                event.getPlayer().sendMessage(prefix + " &cChat is muted!");
+            }
+        }
     }
 
 }
