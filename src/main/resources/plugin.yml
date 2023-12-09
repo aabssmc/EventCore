@@ -15,9 +15,9 @@ commands:
     aliases: [event, events]
     description: Main command for EventCore
   revive:
-    description: Revive a player
+    description: Revive a player.
   reviveall:
-    description: Revive all players
+    description: Revive all players.
   tpalive:
     description: Teleports all alive players to you.
     aliases: teleportalive
@@ -64,3 +64,7 @@ commands:
     description: Gives all dead players items.
   unrevive:
     description: Unrevives a player.
+  healdead:
+    description: Heals all dead players.
+  healalive:
+    description: Heals all alive players.

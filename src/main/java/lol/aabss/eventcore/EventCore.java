@@ -23,6 +23,8 @@ public class EventCore extends JavaPlugin {
     public static ArrayList<String> Alive = new ArrayList<>();
     public static ArrayList<String> Dead = new ArrayList<>();
 
+    public static boolean chatmuted = false;
+
     @Override
     public void onEnable() {
 
@@ -33,6 +35,7 @@ public class EventCore extends JavaPlugin {
         Objects.requireNonNull(getCommand("alivelist")).setExecutor(new AliveList());
         Objects.requireNonNull(getCommand("clearalive")).setExecutor(new ClearAlive());
         Objects.requireNonNull(getCommand("givealive")).setExecutor(new GiveAlive());
+        Objects.requireNonNull(getCommand("healalive")).setExecutor(new HealAlive());
         Objects.requireNonNull(getCommand("killalive")).setExecutor(new KillAlive());
         Objects.requireNonNull(getCommand("tpalive")).setExecutor(new TpAlive());
 
@@ -40,6 +43,7 @@ public class EventCore extends JavaPlugin {
         Objects.requireNonNull(getCommand("cleardead")).setExecutor(new ClearDead());
         Objects.requireNonNull(getCommand("deadlist")).setExecutor(new DeadList());
         Objects.requireNonNull(getCommand("givedead")).setExecutor(new GiveDead());
+        Objects.requireNonNull(getCommand("healdead")).setExecutor(new HealDead());
         Objects.requireNonNull(getCommand("killdead")).setExecutor(new KillDead());
         Objects.requireNonNull(getCommand("tpdead")).setExecutor(new TpDead());
 
