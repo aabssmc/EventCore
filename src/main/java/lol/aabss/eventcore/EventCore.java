@@ -26,7 +26,6 @@ public class EventCore extends JavaPlugin {
         getCommand("alivelist").setExecutor(new AliveList());
         getCommand("clearalive").setExecutor(new ClearAlive());
         getCommand("givealive").setExecutor(new GiveAlive());
-        getCommand("givealive").setTabCompleter(new GiveAlive());
         getCommand("killalive").setExecutor(new KillAlive());
         getCommand("tpalive").setExecutor(new TpAlive());
 
@@ -34,7 +33,6 @@ public class EventCore extends JavaPlugin {
         getCommand("cleardead").setExecutor(new ClearDead());
         getCommand("deadlist").setExecutor(new DeadList());
         getCommand("givedead").setExecutor(new GiveDead());
-        getCommand("givedead").setTabCompleter(new GiveDead());
         getCommand("killdead").setExecutor(new KillDead());
         getCommand("tpdead").setExecutor(new TpDead());
 
@@ -50,6 +48,16 @@ public class EventCore extends JavaPlugin {
         // ---
         getCommand("eventcore").setExecutor(new MainCommand());
         getCommand("visibility").setExecutor(new Visibility());
+
+        // Registering tab completions
+        getCommand("givealive").setTabCompleter(new GiveAlive());
+        getCommand("givedead").setTabCompleter(new GiveDead());
+        getCommand("balrevive").setTabCompleter(new BalRevive());
+        getCommand("giverevive").setTabCompleter(new GiveRevive());
+        getCommand("revive").setTabCompleter(new Revive());
+        getCommand("setrevive").setTabCompleter(new SetRevive());
+        getCommand("takerevive").setTabCompleter(new TakeRevive());
+        getCommand("visibility").setTabCompleter(new Visibility());
 
         // Registering PlaceholderAPI
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
