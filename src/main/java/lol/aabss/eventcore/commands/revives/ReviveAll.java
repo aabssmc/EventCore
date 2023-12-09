@@ -25,19 +25,17 @@ public class ReviveAll implements CommandExecutor {
                 EventCore.Alive.clear();
                 EventCore.Dead.clear();
                 for (Player list: Bukkit.getOnlinePlayers()) {
-                    if (list != sender){
-                        if (bypass){
-                            if (!sender.hasPermission("eventcore.reviveall.bypass")){
-                                EventCore.Alive.add(list.getName());
-                                list.teleport((Player) sender);
-                                Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(list, sender));
-                            }
-                        }
-                        else{
+                    if (bypass){
+                        if (!list.hasPermission("eventcore.reviveall.bypass")){
                             EventCore.Alive.add(list.getName());
                             list.teleport((Player) sender);
                             Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(list, sender));
                         }
+                    }
+                    else{
+                        EventCore.Alive.add(list.getName());
+                        list.teleport((Player) sender);
+                        Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(list, sender));
                     }
                 }
                 Bukkit.broadcastMessage(Config.color("\n" + prefix + " &aAll players have been revived by " + sender.getName() + "!" + "\n"));
