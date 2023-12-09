@@ -28,7 +28,7 @@ public class EffUnrevive extends Effect {
 
     static{
         Skript.registerEffect(EffRevive.class,
-                "revive %player% [kill:and [then] kill (him|her|them|it)]"
+                "unrevive %player% [kill:and [then] kill (him|her|them|it)]"
         );
     }
 
