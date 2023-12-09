@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class EventCore extends JavaPlugin {
 
@@ -23,41 +24,41 @@ public class EventCore extends JavaPlugin {
         Metrics metrics = new Metrics(this, 19718);
 
         // Registering all commands
-        getCommand("alivelist").setExecutor(new AliveList());
-        getCommand("clearalive").setExecutor(new ClearAlive());
-        getCommand("givealive").setExecutor(new GiveAlive());
-        getCommand("killalive").setExecutor(new KillAlive());
-        getCommand("tpalive").setExecutor(new TpAlive());
+        Objects.requireNonNull(getCommand("alivelist")).setExecutor(new AliveList());
+        Objects.requireNonNull(getCommand("clearalive")).setExecutor(new ClearAlive());
+        Objects.requireNonNull(getCommand("givealive")).setExecutor(new GiveAlive());
+        Objects.requireNonNull(getCommand("killalive")).setExecutor(new KillAlive());
+        Objects.requireNonNull(getCommand("tpalive")).setExecutor(new TpAlive());
 
         // ---
-        getCommand("cleardead").setExecutor(new ClearDead());
-        getCommand("deadlist").setExecutor(new DeadList());
-        getCommand("givedead").setExecutor(new GiveDead());
-        getCommand("killdead").setExecutor(new KillDead());
-        getCommand("tpdead").setExecutor(new TpDead());
+        Objects.requireNonNull(getCommand("cleardead")).setExecutor(new ClearDead());
+        Objects.requireNonNull(getCommand("deadlist")).setExecutor(new DeadList());
+        Objects.requireNonNull(getCommand("givedead")).setExecutor(new GiveDead());
+        Objects.requireNonNull(getCommand("killdead")).setExecutor(new KillDead());
+        Objects.requireNonNull(getCommand("tpdead")).setExecutor(new TpDead());
 
         // ---
-        getCommand("revive").setExecutor(new Revive());
-        getCommand("reviveall").setExecutor(new ReviveAll());
-        getCommand("balrevive").setExecutor(new BalRevive());
-        getCommand("giverevive").setExecutor(new GiveRevive());
-        getCommand("setrevive").setExecutor(new SetRevive());
-        getCommand("takerevive").setExecutor(new TakeRevive());
-        getCommand("userevive").setExecutor(new UseRevive());
+        Objects.requireNonNull(getCommand("revive")).setExecutor(new Revive());
+        Objects.requireNonNull(getCommand("reviveall")).setExecutor(new ReviveAll());
+        Objects.requireNonNull(getCommand("balrevive")).setExecutor(new BalRevive());
+        Objects.requireNonNull(getCommand("giverevive")).setExecutor(new GiveRevive());
+        Objects.requireNonNull(getCommand("setrevive")).setExecutor(new SetRevive());
+        Objects.requireNonNull(getCommand("takerevive")).setExecutor(new TakeRevive());
+        Objects.requireNonNull(getCommand("userevive")).setExecutor(new UseRevive());
 
         // ---
-        getCommand("eventcore").setExecutor(new MainCommand());
-        getCommand("visibility").setExecutor(new Visibility());
+        Objects.requireNonNull(getCommand("eventcore")).setExecutor(new MainCommand());
+        Objects.requireNonNull(getCommand("visibility")).setExecutor(new Visibility());
 
         // Registering tab completions
-        getCommand("givealive").setTabCompleter(new GiveAlive());
-        getCommand("givedead").setTabCompleter(new GiveDead());
-        getCommand("balrevive").setTabCompleter(new BalRevive());
-        getCommand("giverevive").setTabCompleter(new GiveRevive());
-        getCommand("revive").setTabCompleter(new Revive());
-        getCommand("setrevive").setTabCompleter(new SetRevive());
-        getCommand("takerevive").setTabCompleter(new TakeRevive());
-        getCommand("visibility").setTabCompleter(new Visibility());
+        Objects.requireNonNull(getCommand("givealive")).setTabCompleter(new GiveAlive());
+        Objects.requireNonNull(getCommand("givedead")).setTabCompleter(new GiveDead());
+        Objects.requireNonNull(getCommand("balrevive")).setTabCompleter(new BalRevive());
+        Objects.requireNonNull(getCommand("giverevive")).setTabCompleter(new GiveRevive());
+        Objects.requireNonNull(getCommand("revive")).setTabCompleter(new Revive());
+        Objects.requireNonNull(getCommand("setrevive")).setTabCompleter(new SetRevive());
+        Objects.requireNonNull(getCommand("takerevive")).setTabCompleter(new TakeRevive());
+        Objects.requireNonNull(getCommand("visibility")).setTabCompleter(new Visibility());
 
         // Registering PlaceholderAPI
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
