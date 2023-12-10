@@ -15,10 +15,10 @@ public class Mutechat implements CommandExecutor {
         String prefix = Config.getString("prefix");
         if (sender.hasPermission("eventcore.mutechat")){
             EventCore.chatMuted = !EventCore.chatMuted;
-            Bukkit.broadcastMessage(EventCore.chatMuted ?
+            Bukkit.broadcastMessage(Config.color(EventCore.chatMuted ?
                     prefix + " &aChat is now unmuted" :
                     prefix + " &cChat is now muted"
-            );
+            ));
         }
         else {
             sender.sendMessage(Config.color(prefix + " " + permmessage));
