@@ -8,17 +8,22 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import static lol.aabss.eventcore.EventCore.chatMuted;
+
 public class Mutechat implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         String permmessage = Config.getString("permission-message");
         String prefix = Config.getString("prefix");
         if (sender.hasPermission("eventcore.mutechat")){
-            EventCore.chatMuted = !EventCore.chatMuted;
-            Bukkit.broadcastMessage(Config.color(EventCore.chatMuted ?
-                    prefix + " &aChat is now unmuted" :
-                    prefix + " &cChat is now muted"
-            ));
+            if (chatMuted){
+                chatMuted = false;
+                Bukkit.broadcastMessage(Config.color(prefix + " &aChat is now unmuted"));
+            }
+            else{
+                chatMuted = true;
+                Bukkit.broadcastMessage(Config.color(prefix + " &cChat is now muted"));
+            }
         }
         else {
             sender.sendMessage(Config.color(prefix + " " + permmessage));

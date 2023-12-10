@@ -44,7 +44,7 @@ public class Revive implements CommandExecutor, TabCompleter {
                             EventCore.Alive.add(arg.getName());
                             EventCore.Dead.remove(arg.getName());
                             arg.teleport(p.getLocation());
-                            Bukkit.broadcastMessage(Config.color("\n" + prefix + " &" + args[0] + " has been revived by " + sender.getName() + "!" + "\n"));
+                            Bukkit.broadcastMessage(Config.color("\n" + prefix + " &e" + args[0] + " has been revived by " + sender.getName() + "!" + "\n"));
                             Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(arg, sender));
                         }
                     }
