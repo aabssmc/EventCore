@@ -80,7 +80,7 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
-        if (!chatMuted){
+        if (chatMuted){
             if (!event.getPlayer().hasPermission("eventcore.mutechat.bypass")){
                 String prefix = Config.getString("prefix");
                 event.setCancelled(true);
