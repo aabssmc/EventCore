@@ -22,10 +22,10 @@ public class TpDead implements CommandExecutor {
                 for (Player list: Bukkit.getOnlinePlayers()) {
                     if (EventCore.Dead.contains(list.getName())){
                         list.teleport(p.getLocation());
-                        list.sendMessage(Config.color(prefix + "&e" + " You have been teleported."));
+                        list.sendMessage(Config.color(prefix + " &eYou have been teleported."));
                     }
                 }
-                Bukkit.broadcastMessage(Config.color(prefix + "&e" + sender.getName() + " has teleport all dead players to them"));
+                Bukkit.broadcastMessage(Config.color(prefix + " &e" + sender.getName() + " has teleport all dead players to them"));
             }
             else{
                 sender.sendMessage(Config.color(prefix + " &cThis command is only executable by players!"));
