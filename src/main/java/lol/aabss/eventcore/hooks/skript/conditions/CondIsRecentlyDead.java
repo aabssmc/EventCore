@@ -8,7 +8,6 @@ import ch.njol.skript.doc.Since;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import static lol.aabss.eventcore.EventCore.Alive;
 import static lol.aabss.eventcore.EventCore.Recent;
 
 @Name("Is Recently Dead")

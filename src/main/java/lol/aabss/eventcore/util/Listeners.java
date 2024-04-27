@@ -2,7 +2,6 @@ package lol.aabss.eventcore.util;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import lol.aabss.eventcore.EventCore;
-import lol.aabss.eventcore.commands.Mutechat;
 import lol.aabss.eventcore.commands.Visibility;
 import lol.aabss.eventcore.hooks.UpdateChecker;
 import org.bukkit.Bukkit;
