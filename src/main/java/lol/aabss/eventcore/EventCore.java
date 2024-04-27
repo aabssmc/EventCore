@@ -1,39 +1,48 @@
 package lol.aabss.eventcore;
 
 import ch.njol.skript.Skript;
-import ch.njol.skript.SkriptAddon;
 import lol.aabss.eventcore.commands.alive.*;
 import lol.aabss.eventcore.commands.dead.*;
 import lol.aabss.eventcore.commands.revives.*;
 import lol.aabss.eventcore.hooks.*;
 import lol.aabss.eventcore.commands.*;
 
+import lol.aabss.eventcore.util.Listeners;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static lol.aabss.eventcore.hooks.UpdateChecker.UPDATE_CHECKER;
+
+
 public class EventCore extends JavaPlugin {
 
-    private static EventCore instance;
-    private SkriptAddon addon;
+    public static EventCore instance;
 
-    public static ArrayList<String> Alive = new ArrayList<>();
-    public static ArrayList<String> Dead = new ArrayList<>();
-    public static ArrayList<String> Recent = new ArrayList<>();
+    public static ArrayList<Player> Alive = new ArrayList<>();
+    public static ArrayList<Player> Dead = new ArrayList<>();
+    public static ArrayList<Player> Recent = new ArrayList<>();
 
-    public static boolean chatMuted = false;
+    public static File datafile;
+    public static FileConfiguration dataconfig;
 
     @Override
     public void onEnable() {
+        instance = this;
+
+        datafile = new File(instance.getDataFolder(), "data.yml");
+        dataconfig = YamlConfiguration.loadConfiguration(datafile);
 
         // Registering bStats
-        Metrics metrics = new Metrics(this, 19718);
+        new Metrics(this, 19718);
 
-        // Registering all commands
         Objects.requireNonNull(getCommand("alivelist")).setExecutor(new AliveList());
         Objects.requireNonNull(getCommand("clearalive")).setExecutor(new ClearAlive());
         Objects.requireNonNull(getCommand("givealive")).setExecutor(new GiveAlive());
@@ -56,6 +65,7 @@ public class EventCore extends JavaPlugin {
         Objects.requireNonNull(getCommand("revive")).setExecutor(new Revive());
         Objects.requireNonNull(getCommand("reviveall")).setExecutor(new ReviveAll());
         Objects.requireNonNull(getCommand("setrevive")).setExecutor(new SetRevive());
+        Objects.requireNonNull(getCommand("togglerevive")).setExecutor(new ToggleRevive());
         Objects.requireNonNull(getCommand("takerevive")).setExecutor(new TakeRevive());
         Objects.requireNonNull(getCommand("unrevive")).setExecutor(new Unrevive());
         Objects.requireNonNull(getCommand("userevive")).setExecutor(new UseRevive());
@@ -88,12 +98,12 @@ public class EventCore extends JavaPlugin {
         // Registering Skript
         if (Bukkit.getPluginManager().getPlugin("Skript") != null){
             getLogger().info("Skript found! Registering elements...");
-            instance = this;
             try {
-                addon = Skript.registerAddon(this)
-                        .loadClasses("lol.aabss.eventcore", "hooks.skript");
+                Skript.registerAddon(this)
+                        .loadClasses("lol.aabss.eventcore", "hooks.skript")
+                        .setLanguageFileDirectory("lang");
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException();
             }
             getLogger().info("All Skript elements loaded!");
         }
@@ -103,26 +113,22 @@ public class EventCore extends JavaPlugin {
 
 
         // Registering all events
-        getServer().getPluginManager().registerEvents(new Listener(this), this);
-
-        // Update Checker
-        new UpdateChecker(this, 113142).getVersion(version -> {
-            if (this.getDescription().getVersion().equals(version)) {
-                getLogger().info("You are on the latest version!.");
-            } else {
-                getLogger().warning("\nThere is a new update available at https://www.spigotmc.org/resources/113142/\n");
-            }
-        });
+        getServer().getPluginManager().registerEvents(new Listeners(), this);
 
         // Messages
         getLogger().info("EventCore config loading...");
+        if (!datafile.exists()) {
+            saveResource("data.yml", false);
+        }
         saveDefaultConfig();
+        UPDATE_CHECKER = getConfig().getBoolean("update-checker");
         getLogger().info("EventCore config loaded!");
         getLogger().info("EventCore is now enabled!");
     }
 
     @Override
     public void onDisable() {
+        Bukkit.getScheduler().cancelTasks(this);
         getLogger().info("EventCore disabled!");
     }
 

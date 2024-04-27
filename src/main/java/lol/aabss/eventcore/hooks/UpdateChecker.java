@@ -1,32 +1,46 @@
 package lol.aabss.eventcore.hooks;
 
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.command.CommandSender;
+import org.json.JSONArray;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Scanner;
-import java.util.function.Consumer;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.Objects;
 
+import static lol.aabss.eventcore.EventCore.instance;
+import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
+
+@SuppressWarnings("deprecation")
 public class UpdateChecker {
-    private final JavaPlugin plugin;
-    private final int resourceId;
 
-    public UpdateChecker(JavaPlugin plugin, int resourceId) {
-        this.plugin = plugin;
-        this.resourceId = resourceId;
+    public static boolean UPDATE_CHECKER;
+
+    public static String latestVersion() {
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.modrinth.com/v2/project/event/version"))
+                .build();
+        try {
+            String body = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString()).get().body();
+            return new JSONArray(body).getJSONObject(0).getString("version_number");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void getVersion(final Consumer<String> consumer) {
-        Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
-            try (InputStream is = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.resourceId).openStream(); Scanner scann = new Scanner(is)) {
-                if (scann.hasNext()) {
-                    consumer.accept(scann.next());
-                }
-            } catch (IOException e) {
-                plugin.getLogger().info("Unable to check for updates: " + e.getMessage());
-            }
-        });
+    public static void updateCheck(CommandSender p){
+        String latest = latestVersion();
+        if (!Objects.equals(latest, instance.getDescription().getVersion())){
+            p.sendMessage(miniMessage().deserialize("""
+                        
+                        <click:open_url:'https://modrinth.com/plugin/event/version/<NEW_VERSION>'><hover:show_text:'Click to update!'><gray>There is a new <gold>EventCore <gray>update! <dark_gray>(v<OLD_VERSION> -> v<NEW_VERSION>)
+                        <yellow>Click <green>here</green> to download!
+                        """.replaceAll("<NEW_VERSION>", latest)
+                    .replaceAll("<OLD_VERSION>", instance.getDescription().getVersion())
+            ));
+        }
     }
+
 }

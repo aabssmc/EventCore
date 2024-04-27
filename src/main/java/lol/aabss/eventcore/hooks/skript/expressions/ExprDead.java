@@ -11,13 +11,11 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import lol.aabss.eventcore.EventCore;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 @Name("All Dead Players")
 @Description("Gets all of the dead players.")
 @Examples({
@@ -34,11 +32,7 @@ public class ExprDead extends SimpleExpression<Player> {
 
     @Override
     protected @Nullable Player[] get(@NotNull Event e) {
-        ArrayList<Player> players = new ArrayList<>();
-        for (String play : EventCore.Dead){
-            players.add(Bukkit.getPlayer(play));
-        }
-        return players.toArray(Player[]::new);
+        return EventCore.Dead.toArray(Player[]::new);
     }
 
     @Override

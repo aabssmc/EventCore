@@ -1,34 +1,35 @@
 package lol.aabss.eventcore.commands.dead;
 
-import lol.aabss.eventcore.Config;
-import lol.aabss.eventcore.EventCore;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
 
-public class DeadList implements CommandExecutor {
+import lol.aabss.eventcore.util.SimpleCommand;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static lol.aabss.eventcore.EventCore.Dead;
+import static lol.aabss.eventcore.util.Config.msg;
+
+public class DeadList implements SimpleCommand {
 
     @Override
-    public boolean onCommand(CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        String permmessage = Config.getString("permission-message");
-        String prefix = Config.getString("prefix");
-        if (sender.hasPermission("eventcore.deadlist")){
-            if (EventCore.Dead.isEmpty()){
-                sender.sendMessage(Config.color("&7There are 0 players dead\nThere are no players dead."));
-            }
-            else{
-                if (EventCore.Dead.size() == 1){
-                    sender.sendMessage(Config.color("&7There is 1 player dead" + "\n" + EventCore.Dead));
-                }
-                else{
-                    sender.sendMessage(Config.color("&7There are " + EventCore.Dead.size() + " players dead" + "\n" + EventCore.Dead));
-                }
-            }
+    public boolean run(CommandSender sender, Command command, String[] args) {
+        List<String> names = new ArrayList<>();
+        Dead.forEach(player -> names.add(player.getName()));
+        if (names.isEmpty()){
+            sender.sendMessage(msg("deadlist.empty"));
+            return true;
         }
-        else{
-            sender.sendMessage(Config.color(prefix + " " + permmessage));
+        if (names.size() == 1){
+            sender.sendMessage(msg("deadlist.one-player")
+                    .replaceText(builder -> builder.matchLiteral("%dead%").replacement(String.valueOf(names))));
+            return true;
         }
+        sender.sendMessage(msg("deadlist.players")
+                .replaceText(builder -> builder.matchLiteral("%dead%").replacement(String.valueOf(names)))
+                .replaceText(builder -> builder.matchLiteral("%amount%").replacement(String.valueOf(names.size())))
+        );
         return true;
     }
 }

@@ -41,13 +41,14 @@ public class EffReviveAll extends Effect {
     @Override
     protected void execute(@NotNull Event e) {
         for (Player p : Bukkit.getOnlinePlayers()){
-            EventCore.Alive.remove(p.getName());
-            EventCore.Dead.remove(p.getName());
-            EventCore.Alive.add(p.getName());
+            EventCore.Alive.remove(p);
+            EventCore.Dead.remove(p);
+            EventCore.Alive.add(p);
             if (loc != null) {
                 Location location = loc.getSingle(e);
-                assert location != null;
-                p.teleport(location);
+                if (location != null){
+                    p.teleport(location);
+                }
             }
             Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(p, Bukkit.getConsoleSender()));
         }

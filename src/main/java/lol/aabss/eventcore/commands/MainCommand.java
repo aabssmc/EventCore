@@ -1,50 +1,49 @@
 package lol.aabss.eventcore.commands;
 
-import lol.aabss.eventcore.Config;
-import lol.aabss.eventcore.EventCore;
-
+import lol.aabss.eventcore.util.Config;
+import lol.aabss.eventcore.util.SimpleCommand;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.List;
 
-public class MainCommand implements CommandExecutor {
+import static lol.aabss.eventcore.EventCore.instance;
+import static lol.aabss.eventcore.util.Config.msg;
+import static lol.aabss.eventcore.util.Config.reloadConfig;
+import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
+
+public class MainCommand implements SimpleCommand {
 
     @Override
-    public boolean onCommand(CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        CommandSender s = sender;
-        String permmessage = Config.getString("permission-message");
-        String prefix = Config.getString("prefix");
-        if (sender.hasPermission("eventcore.command")){
-            if (args.length == 0){
-                s.sendMessage(Config.color(prefix +" &c/eventcore <reload>"));
-            }
-            else{
-                if (args[0].equals("reload")){
-                    EventCore.getPlugin(EventCore.class).reloadConfig();
-                    File configFile = new File(EventCore.getPlugin(EventCore.class).getDataFolder(), "data.yml");
-                    FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
-                    try {
-                        config.save(configFile);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    EventCore.getPlugin(EventCore.class).getLogger().info(" &aConfig reloaded!");
-                    s.sendMessage(Config.color(prefix + " &aConfig reloaded!"));
-                }
-                else{
-                    s.sendMessage(Config.color(prefix + " &a/eventcore <reload>"));
-                }
-            }
+    public boolean run(CommandSender sender, Command command, String[] args) {
+        if (args.length == 0){
+            sender.sendMessage(permissionMessage());
+            return true;
         }
-        else{
-            sender.sendMessage(Config.color(prefix + " " + permmessage));
+        if (!args[0].equals("reload")){
+            Config.sendMessagePrefix(sender, " <red>/eventcore <reload>");
+            return true;
         }
+        instance.reloadConfig();
+        reloadConfig();
+        sender.sendMessage(msg("reloaded"));
         return true;
     }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, Command command, String[] args) {
+        return List.of("reload");
+    }
+
+    @Override
+    public Component permissionMessage() {
+        return miniMessage().deserialize("<br><click:open_url:'https://modrinth.com/plugin/event'><b><gold>EventCore</gold></b> <yellow>by aabss</yellow> <gray>(@big.abs)</gray></click><br>");
+    }
+
+    @Override
+    public String permission() {
+        return "eventcore.command.main";
+    }
+
 }

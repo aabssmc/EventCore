@@ -42,17 +42,19 @@ public class EffRevive extends Effect {
 
     @Override
     protected void execute(@NotNull Event e) {
-        Player p = player.getSingle(e);
-        assert p != null;
-        EventCore.Alive.remove(p.getName());
-        EventCore.Dead.remove(p.getName());
-        EventCore.Alive.add(p.getName());
-        if (loc != null) {
-            Location location = loc.getSingle(e);
-            assert location != null;
-            p.teleport(location);
+        for (Player p : player.getArray(e)) {
+            EventCore.Alive.remove(p);
+            EventCore.Dead.remove(p);
+            EventCore.Alive.add(p);
+            if (loc != null) {
+                Location location = loc.getSingle(e);
+                if (location != null) {
+                    p.teleport(location);
+                }
+            }
+
+            Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(p, Bukkit.getConsoleSender()));
         }
-        Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(p, Bukkit.getConsoleSender()));
     }
 
     @Override

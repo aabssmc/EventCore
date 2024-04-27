@@ -1,7 +1,9 @@
 package lol.aabss.eventcore.commands;
 
-import lol.aabss.eventcore.Config;
+import lol.aabss.eventcore.util.Config;
 import lol.aabss.eventcore.EventCore;
+import lol.aabss.eventcore.util.SimpleCommand;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,105 +16,87 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Visibility implements CommandExecutor, TabCompleter {
+import static lol.aabss.eventcore.EventCore.instance;
+import static lol.aabss.eventcore.util.Config.msg;
+import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
+
+public class Visibility implements SimpleCommand {
 
     public static ArrayList<Player> VisAll = new ArrayList<>();
     public static ArrayList<Player> VisStaff = new ArrayList<>();
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        String prefix = Config.getString("prefix");
-        String permmessage = Config.getString("permission-message");
-        Player p = (Player) sender;
-        if (p.hasPermission("visibility.use")){
-            if (args.length == 0){
-                p.sendMessage(Config.color(prefix + " &c/visibility <all | staff | off>"));
-            }
-            else{
-                if (args[0].equals("all")){
-                    if (p.hasPermission("visibility.all")){
-                        if (Visibility.VisAll.contains(p)) {
-                            p.sendMessage(Config.color(prefix + " &cAll players are already hidden."));
-                        }
-                        else{
-                            for (Player player: Bukkit.getOnlinePlayers()){
-                                p.showPlayer(EventCore.getPlugin(EventCore.class), player);
-                                p.hidePlayer(EventCore.getPlugin(EventCore.class), player);
-                            }
-                            Visibility.VisAll.add(p);
-                            Visibility.VisStaff.remove(p);
-                            p.sendMessage(Config.color(prefix + " &aAll players are now hidden."));
-                        }
-                    }
-                    else{
-                        p.sendMessage(Config.color(prefix + " &c" + permmessage));
-                    }
-                }
-                else if (args[0].equals("staff")){
-                    if (p.hasPermission("visibility.staff")){
-                        if (Visibility.VisStaff.contains(p)) {
-                            p.sendMessage(Config.color(prefix + " &cAll players but staff are already hidden."));
-                        }
-                        else{
-                            for (Player player: Bukkit.getOnlinePlayers()){
-                                p.showPlayer(EventCore.getPlugin(EventCore.class), player);
-                                p.hidePlayer(EventCore.getPlugin(EventCore.class), player);
-                            }
-                            for (Player player: Bukkit.getOnlinePlayers()){
-                                if (player.hasPermission("visibility.staffbypass")){
-                                    p.showPlayer(EventCore.getPlugin(EventCore.class), player);
-                                }
-                            }
-                            Visibility.VisAll.remove(p);
-                            Visibility.VisStaff.add(p);
-                            p.sendMessage(Config.color(prefix + " &aAll players but staff are now hidden."));
-                        }
-                    }
-                    else{
-                        p.sendMessage(Config.color(prefix + " &c" + permmessage));
-                    }
-                }
-                else if (args[0].equals("off")){
-                    if (p.hasPermission("visibility.off")){
-                        if (Visibility.VisAll.contains(p) || Visibility.VisStaff.contains(p)) {
-                            for (Player player: Bukkit.getOnlinePlayers()){
-                                p.showPlayer(EventCore.getPlugin(EventCore.class), player);
-                            }
-                            Visibility.VisAll.remove(p);
-                            Visibility.VisStaff.remove(p);
-                            p.sendMessage(Config.color(prefix + " &aAll players are now visible."));
-
-                        }
-                        else{
-                            p.sendMessage(Config.color(prefix + " &cVisibility is already off."));
-                        }
-                    }
-                    else{
-                        p.sendMessage(Config.color(prefix + " &c" + permmessage));
-                    }
-                }
-                else{
-                    p.sendMessage(Config.color(prefix + " &c/visibility <all | staff | off>"));
-                }
-            }
+    public boolean run(CommandSender sender, Command command, String[] args) {
+        if (!(sender instanceof Player p)){
+            sender.sendMessage(msg("console"));
+            return true;
         }
-        else{
-            p.sendMessage(Config.color(prefix + " &c" + permmessage));
+        if (args.length == 0){
+            Config.sendMessagePrefix(p, " <red>/visibility <all | staff | off>");
+            return true;
         }
-        return false;
+        switch (args[0]) {
+            case "all":
+                if (p.hasPermission("eventcore.visibility.all")) {
+                    if (VisAll.contains(p)) {
+                        sender.sendMessage(msg("visibility.allalreadyhidden"));
+                    } else {
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            p.hidePlayer(instance, player);
+                        }
+                        VisAll.add(p);
+                        VisStaff.remove(p);
+                        sender.sendMessage(msg("visibility.allhidden"));
+                    }
+                } else {
+                    sender.sendMessage(msg("permission-message"));
+                }
+            case "staff":
+                if (p.hasPermission("eventcore.visibility.staff")) {
+                    if (VisStaff.contains(p)) {
+                        sender.sendMessage(msg("visibility.staffalreadyhidden"));
+                    } else {
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            if (!player.hasPermission("eventcore.visibility.staffbypass")) {
+                                p.hidePlayer(instance, player);
+                            }
+                        }
+                        VisAll.remove(p);
+                        VisStaff.add(p);
+                        sender.sendMessage(msg("visibility.staffhidden"));
+                    }
+                } else {
+                    sender.sendMessage(msg("permission-message"));
+                }
+            case "off":
+                if (p.hasPermission("eventcore.visibility.off")) {
+                    if (VisStaff.contains(p) || VisAll.contains(p)) {
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            p.showPlayer(instance, player);
+                        }
+                        VisAll.remove(p);
+                        VisStaff.remove(p);
+                        sender.sendMessage(msg("visibility.visibilityoff"));
+                    } else {
+                        sender.sendMessage(msg("visibility.visibilityalreadyoff"));
+                    }
+                } else {
+                    sender.sendMessage(msg("permission-message"));
+                }
+            default:
+                Config.sendMessagePrefix(p, " <red>/visibility <all | staff | off>");
+        }
+        return true;
     }
 
-    @Nullable
     @Override
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length == 1){
-            final List<String> completions = new ArrayList<>();
-            completions.add("all");
-            completions.add("staff");
-            completions.add("off");
-            return completions;
-        }
-        return null;
+    public String permission() {
+        return "eventcore.visibility.use";
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, Command command, String[] args) {
+        return List.of("all", "staff", "off");
     }
 
 }

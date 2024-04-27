@@ -10,12 +10,14 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import lol.aabss.eventcore.Config;
+import lol.aabss.eventcore.util.Config;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Name("Revive Balance")
 @Description("The revive balance of a player.")
@@ -32,10 +34,11 @@ public class ExprRevives extends PropertyExpression<Player, Integer> {
 
     @Override
     protected Integer @NotNull [] get(@NotNull Event event, Player @NotNull [] source) {
-        if (source.length < 1) return new Integer[0];
-        Player p = source[0];
-        assert p != null;
-        return new Integer[]{Config.getRevives(p)};
+        List<Integer> revives = new ArrayList<>();
+        for (Player p : getExpr().getArray(event)) {
+            revives.add(Config.getRevives(p));
+        }
+        return revives.toArray(Integer[]::new);
     }
 
     @Override
@@ -62,22 +65,18 @@ public class ExprRevives extends PropertyExpression<Player, Integer> {
 
     @Override
     public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode){
-        Player p = getExpr().getSingle(e);
-        assert p != null;
-        if (mode == Changer.ChangeMode.SET) {
-            Config.setRevives(p, (Integer) delta[0]);
-        }
-        else if (mode == Changer.ChangeMode.REMOVE) {
-            Config.takeRevives(p, (Integer) delta[0]);
-        }
-        else if (mode == Changer.ChangeMode.ADD) {
-            Config.giveRevives(p, (Integer) delta[0]);
-        }
-        else if (mode == Changer.ChangeMode.RESET) {
-            Config.setRevives(p, 0);
-        }
-        else {
-            assert false;
+        for (Player p : getExpr().getArray(e)) {
+            if (mode == Changer.ChangeMode.SET) {
+                Config.setRevives(p, (Integer) delta[0]);
+            } else if (mode == Changer.ChangeMode.REMOVE) {
+                Config.setRevives(p, Config.getRevives(p)-(Integer) delta[0]);
+            } else if (mode == Changer.ChangeMode.ADD) {
+                Config.setRevives(p, Config.getRevives(p)+(Integer) delta[0]);
+            } else if (mode == Changer.ChangeMode.RESET) {
+                Config.setRevives(p, 0);
+            } else {
+                assert false;
+            }
         }
     }
 

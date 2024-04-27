@@ -1,70 +1,58 @@
 package lol.aabss.eventcore.commands.revives;
 
-import lol.aabss.eventcore.Config;
 import lol.aabss.eventcore.EventCore;
 
 import lol.aabss.eventcore.events.ReviveEvent;
-import lol.aabss.eventcore.events.UseReviveEvent;
+import lol.aabss.eventcore.util.Config;
+import lol.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
 import org.bukkit.Bukkit;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Revive implements CommandExecutor, TabCompleter {
+import static lol.aabss.eventcore.util.Config.msg;
+
+public class Revive implements SimpleCommand {
 
     @Override
-    public boolean onCommand(CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        String prefix = Config.getString("prefix");
-        String permmessage = Config.getString("permission-message");
-        if (sender.hasPermission("eventcore.revive")){
-            if (sender instanceof ConsoleCommandSender) {
-                sender.sendMessage(Config.color(prefix + " &cThis command is only executable by a player."));
-            }
-            else{
-                Player p = (Player) sender;
-                if (args.length == 0){
-                    p.sendMessage(Config.color(prefix + " &cPlease set a player to revive!"));
-                }
-                else{
-                    if (Bukkit.getPlayer(args[0]) == null) {
-                        p.sendMessage(Config.color(prefix + " &cPlease set a valid player!"));
-                    }
-                    else{
-                        Player arg = Bukkit.getPlayer(args[0]);
-                        assert arg != null;
-                        if (EventCore.Alive.contains(arg.getName())){
-                            p.sendMessage(Config.color(prefix + " &cThat player is already alive!"));
-                        }
-                        else{
-                            EventCore.Alive.add(arg.getName());
-                            EventCore.Dead.remove(arg.getName());
-                            arg.teleport(p.getLocation());
-                            Bukkit.broadcastMessage(Config.color("\n" + prefix + " &e" + args[0] + " has been revived by " + sender.getName() + "!" + "\n"));
-                            Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(arg, sender));
-                        }
-                    }
-                }
-            }
+    public boolean run(CommandSender sender, Command command, String[] args) {
+        if (sender instanceof ConsoleCommandSender) {
+            sender.sendMessage(msg("console"));
+            return true;
         }
-        else{
-            sender.sendMessage(prefix + " " + permmessage);
+        if (args.length == 0){
+            sender.sendMessage(msg("revive.specifyplayer"));
+            return true;
         }
+        Player p = Bukkit.getPlayer(args[0]);
+        if (p == null) {
+            sender.sendMessage(msg("revive.invalidplayer"));
+            return true;
+        }
+        if (EventCore.Alive.contains(p)){
+            p.sendMessage(msg("revive.alreadyalive")
+                    .replaceText(builder -> builder.match("%player%").replacement(p.getName())));
+            return true;
+        }
+        EventCore.Alive.add(p);
+        EventCore.Dead.remove(p);
+        p.teleport(((Player) sender).getLocation());
+        Bukkit.broadcast(msg("revive.revived")
+                .replaceText(builder -> builder.match("%player%").replacement(p.getName()))
+                .replaceText(builder -> builder.match("%reviver%").replacement(sender.getName())));
+
+        Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(p, sender));
         return true;
     }
 
-    @Nullable
     @Override
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public List<String> tabComplete(CommandSender sender, Command command, String[] args) {
         if (args.length == 1){
-            final List<String> completions = new ArrayList<>();
-            for (Player p : Bukkit.getOnlinePlayers()){
-                completions.add(p.getName());
-            }
+            List<String> completions = new ArrayList<>();
+            EventCore.Dead.forEach(player -> completions.add(player.getName()));
             return completions;
         }
         return null;

@@ -1,59 +1,52 @@
 package lol.aabss.eventcore.commands.revives;
 
-import lol.aabss.eventcore.Config;
+import lol.aabss.eventcore.util.Config;
+import lol.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GiveRevive implements CommandExecutor, TabCompleter {
+import static lol.aabss.eventcore.util.Config.msg;
+
+public class GiveRevive implements SimpleCommand {
+
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        String permmessage = Config.getString("permission-message");
-        String prefix = Config.getString("prefix");
-        if (sender.hasPermission("eventcore.giverevive")){
-            if (args.length == 0){
-                sender.sendMessage(Config.color(prefix + " &cPlease specify a player!"));
-            }
-            else{
-                if (args.length == 1){
-                    sender.sendMessage(Config.color(prefix + " &cPlease specify an amount!"));
-                }
-                else{
-                    if (Bukkit.getPlayer(args[0]) == null){
-                        sender.sendMessage(Config.color(prefix + " &cPlease input a valid player"));
-                    }
-                    else{
-                        Player e = Bukkit.getPlayer(args[0]);
-                        assert e != null;
-                        Config.giveRevives(e, Integer.valueOf(args[1]));
-                        sender.sendMessage(Config.color(prefix + " &eYou gave " + args[0] + " " + Integer.valueOf(args[1]) + " revives!"));
-                        e.sendMessage(Config.color(prefix + " &eYou received " + Integer.valueOf(args[1]) + " revives!"));
-                    }
-                }
-            }
+    public boolean run(CommandSender sender, Command command, String[] args) {
+        if (args.length == 0){
+            sender.sendMessage(msg("giverevive.specifyplayer"));
+            return true;
         }
-        else{
-            sender.sendMessage(Config.color(prefix + " " + permmessage));
+        if (args.length == 1){
+            sender.sendMessage(msg("giverevive.specifyamount"));
+            return true;
         }
+
+        Player p = Bukkit.getPlayer(args[0]);
+        if (p == null){
+            sender.sendMessage(msg("giverevive.invalidplayer"));
+            return true;
+        }
+        Config.setRevives(p, Config.getRevives(p)+Integer.parseInt(args[1]));
+        sender.sendMessage(msg("giverevive.give")
+                .replaceText(builder -> builder.match("%player%").replacement(p.getName()))
+                .replaceText(builder -> builder.match("%amount%").replacement(args[1]))
+        );
+        sender.sendMessage(msg("giverevive.receive")
+                .replaceText(builder -> builder.match("%player%").replacement(sender.getName()))
+                .replaceText(builder -> builder.match("%amount%").replacement(args[1]))
+        );
         return true;
     }
 
-    @Nullable
     @Override
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public List<String> tabComplete(CommandSender sender, Command command, String[] args) {
         if (args.length == 1){
             final List<String> completions = new ArrayList<>();
-            for (Player p : Bukkit.getOnlinePlayers()){
-                completions.add(p.getName());
-            }
+            Bukkit.getOnlinePlayers().forEach(player -> completions.add(player.getName()));
             return completions;
         }
         return null;

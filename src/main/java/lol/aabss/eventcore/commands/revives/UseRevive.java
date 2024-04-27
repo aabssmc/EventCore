@@ -1,7 +1,8 @@
 package lol.aabss.eventcore.commands.revives;
 
-import lol.aabss.eventcore.Config;
+import lol.aabss.eventcore.util.Config;
 import lol.aabss.eventcore.events.UseReviveEvent;
+import lol.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,31 +11,31 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class UseRevive implements CommandExecutor {
+import static lol.aabss.eventcore.commands.revives.ToggleRevive.REVIVES;
+import static lol.aabss.eventcore.util.Config.msg;
+import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
+
+public class UseRevive implements SimpleCommand {
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        String prefix = Config.getString("prefix");
-        String permmessage = Config.getString("permission-message");
-        if (sender.hasPermission("eventcore.userevive")){
-            if (sender instanceof ConsoleCommandSender){
-                sender.sendMessage(Config.color(prefix + " &cThis command is only executable by a player."));
-            }
-            else{
-                if (Config.getRevives((Player) sender) <= 0){
-                    sender.sendMessage(Config.color(prefix + " &cYou do not have enough revives!"));
-                }
-                else{
-                    Integer revs = Config.getRevives((Player) sender);
-                    Config.takeRevives((Player) sender, 1);
-                    Bukkit.broadcastMessage(Config.color("\n&e" + sender.getName() + " has requested to be revived!" + "\n"));
-                    Bukkit.getServer().getPluginManager().callEvent(new UseReviveEvent((Player)sender, revs, revs+1));
-                }
-            }
+    public boolean run(CommandSender sender, Command command, String[] args) {
+        if (sender instanceof ConsoleCommandSender){
+            sender.sendMessage(msg("console"));
+            return true;
         }
-        else{
-            sender.sendMessage(Config.color(prefix + " " + permmessage));
+        if (!REVIVES){
+            sender.sendMessage(msg("userevive.revivesoff"));
+            return true;
         }
+        if (Config.getRevives((Player) sender) <= 0){
+            sender.sendMessage(msg("userevive.notenough"));
+            return true;
+        }
+        Integer revs = Config.getRevives((Player) sender);
+        Config.setRevives((Player) sender, revs-1);
+        Bukkit.broadcast(msg("userevive.request")
+                .replaceText(builder -> builder.match("%player%").replacement(sender.getName())));
+        Bukkit.getServer().getPluginManager().callEvent(new UseReviveEvent((Player)sender, revs, revs+1));
         return true;
     }
 }

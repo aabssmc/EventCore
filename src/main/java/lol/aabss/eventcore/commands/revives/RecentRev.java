@@ -1,47 +1,35 @@
 package lol.aabss.eventcore.commands.revives;
 
-import lol.aabss.eventcore.Config;
+import lol.aabss.eventcore.util.Config;
 import lol.aabss.eventcore.EventCore;
 
 import lol.aabss.eventcore.events.ReviveEvent;
-import lol.aabss.eventcore.events.UseReviveEvent;
+import lol.aabss.eventcore.util.SimpleCommand;
+import net.kyori.adventure.text.TextReplacementConfig;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
 import org.bukkit.Bukkit;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import static lol.aabss.eventcore.util.Config.msg;
 
-public class RecentRev implements CommandExecutor {
+public class RecentRev implements SimpleCommand {
 
     @Override
-    public boolean onCommand(CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        String prefix = Config.getString("prefix");
-        String permmessage = Config.getString("permission-message");
-        if (sender.hasPermission("eventcore.revive")){
-            if (sender instanceof ConsoleCommandSender) {
-                sender.sendMessage(Config.color(prefix + " &cThis command is only executable by a player."));
-            }
-            else{
-                for (String p : EventCore.Recent){
-                    Player player = Bukkit.getPlayer(p);
-                    if (player != null){
-                        EventCore.Alive.add(player.getName());
-                        EventCore.Dead.remove(player.getName());
-                        player.teleport(((Player) sender).getLocation());
-                        Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(player, sender));
-                    }
-                }
-                EventCore.Recent.clear();
-                Bukkit.broadcastMessage(Config.color("\n" + prefix + " &aAll players that died from the past " + Config.getInteger("recent-rev-time") + " minutes have been revived!\n"));
-            }
+    public boolean run(CommandSender sender, Command command, String[] args) {
+        if (sender instanceof ConsoleCommandSender) {
+            sender.sendMessage(msg("console"));
+            return true;
         }
-        else{
-            sender.sendMessage(prefix + " " + permmessage);
+        for (Player p : EventCore.Recent){
+            EventCore.Dead.remove(p);
+            EventCore.Alive.add(p);
+            p.teleport(((Player) sender).getLocation());
+            Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(p, sender));
         }
+        EventCore.Recent.clear();
+        Bukkit.broadcast(msg("recentrev.revived")
+                .replaceText(builder -> builder.match("%time%").replacement(Config.get("recent-rev-time", Integer.class).toString())));
         return true;
     }
 

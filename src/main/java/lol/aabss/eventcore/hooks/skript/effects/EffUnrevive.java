@@ -28,7 +28,7 @@ public class EffUnrevive extends Effect {
 
     static{
         Skript.registerEffect(EffUnrevive.class,
-                "unrevive %player% [kill:(and|then|and then) kill (him|her|them|it)]"
+                "unrevive %players% [kill:(and|then|and then) kill (him|her|them|it)]"
         );
     }
 
@@ -37,19 +37,19 @@ public class EffUnrevive extends Effect {
 
     @Override
     protected void execute(@NotNull Event e) {
-        Player p = player.getSingle(e);
-        assert p != null;
-        EventCore.Alive.remove(p.getName());
-        EventCore.Dead.remove(p.getName());
-        EventCore.Dead.add(p.getName());
-        if (kill){
-            p.setHealth(0);
+        for (Player p : player.getArray(e)) {
+            EventCore.Alive.remove(p);
+            EventCore.Dead.remove(p);
+            EventCore.Dead.add(p);
+            if (kill) {
+                p.setHealth(0);
+            }
         }
     }
 
     @Override
     public @NotNull String toString(@Nullable Event e, boolean debug) {
-        return "revive player";
+        return "unrevive player";
     }
 
     @SuppressWarnings("unchecked")

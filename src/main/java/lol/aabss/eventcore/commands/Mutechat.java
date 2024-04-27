@@ -1,33 +1,24 @@
 package lol.aabss.eventcore.commands;
 
-import lol.aabss.eventcore.Config;
-import lol.aabss.eventcore.EventCore;
+import lol.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
 
-import static lol.aabss.eventcore.EventCore.chatMuted;
+import static lol.aabss.eventcore.util.Config.*;
 
-public class Mutechat implements CommandExecutor {
+public class Mutechat implements SimpleCommand {
+
+    public static boolean CHAT_MUTED = false;
+
     @Override
-    public boolean onCommand(CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        String permmessage = Config.getString("permission-message");
-        String prefix = Config.getString("prefix");
-        if (sender.hasPermission("eventcore.mutechat")){
-            if (chatMuted){
-                chatMuted = false;
-                Bukkit.broadcastMessage(Config.color(prefix + " &aChat is now unmuted"));
-            }
-            else{
-                chatMuted = true;
-                Bukkit.broadcastMessage(Config.color(prefix + " &cChat is now muted"));
-            }
-        }
-        else {
-            sender.sendMessage(Config.color(prefix + " " + permmessage));
-        }
+    public boolean run(CommandSender sender, Command command, String[] args) {
+        if (CHAT_MUTED)
+            Bukkit.broadcast(msg("mutechat.unmuted"));
+        else
+            Bukkit.broadcast(msg("mutechat.muted"));
+        CHAT_MUTED = !CHAT_MUTED;
         return true;
     }
+
 }

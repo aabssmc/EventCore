@@ -34,11 +34,7 @@ public class ExprRecentDead extends SimpleExpression<Player> {
 
     @Override
     protected @Nullable Player[] get(@NotNull Event e) {
-        ArrayList<Player> players = new ArrayList<>();
-        for (String play : EventCore.Recent){
-            players.add(Bukkit.getPlayer(play));
-        }
-        return players.toArray(Player[]::new);
+        return EventCore.Recent.toArray(Player[]::new);
     }
 
     @Override

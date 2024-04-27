@@ -18,20 +18,19 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-@Name("On Player Revive")
-@Description("Called when a player gets revived.")
-@Examples({
-        "on player revive:",
-        "\tif name of player is \"Oiiink\":",
-        "\t\tkill player"
-})
-@Since("1.2")
 public class EvtRevive extends SkriptEvent {
 
     static{
-        Skript.registerEvent("on revive", EvtRevive.class, ReviveEvent.class,
-                "[player] revive[d]"
-        );
+        Skript.registerEvent("Player Revive", EvtRevive.class, ReviveEvent.class,
+                        "[player] revive[d]"
+                )
+                .description("Called when a player gets revived.")
+                .examples(
+                        "on player revive:",
+                        "\tif name of player is \"Oiiink\":",
+                        "\t\tkill player"
+                )
+                .since("1.2");
         EventValues.registerEventValue(ReviveEvent.class, Player.class, new Getter<>() {
             @Override
             public Player get(ReviveEvent e) {

@@ -40,19 +40,17 @@ public class EffReviveRecent extends Effect {
 
     @Override
     protected void execute(@NotNull Event e) {
-        for (String player : EventCore.Recent){
-            Player p = Bukkit.getPlayer(player);
-            if (p != null){
-                EventCore.Alive.remove(p.getName());
-                EventCore.Dead.remove(p.getName());
-                EventCore.Alive.add(p.getName());
-                if (loc != null) {
-                    Location location = loc.getSingle(e);
-                    assert location != null;
+        for (Player p : EventCore.Recent){
+            EventCore.Alive.remove(p);
+            EventCore.Dead.remove(p);
+            EventCore.Alive.add(p);
+            if (loc != null) {
+                Location location = loc.getSingle(e);
+                if (location != null) {
                     p.teleport(location);
                 }
-                Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(p, Bukkit.getConsoleSender()));
             }
+            Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(p, Bukkit.getConsoleSender()));
         }
         EventCore.Recent.clear();
     }

@@ -13,20 +13,20 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-@Name("On Player Use Revive")
-@Description("Called when a player requests to be revived.")
-@Examples({
-        "on player use revive:",
-        "\tbroadcast \"ok\""
-})
-@Since("1.2")
+
 public class EvtUseRevive extends SkriptEvent {
 
     static{
         Skript.registerEvent("on revive", EvtUseRevive.class, UseReviveEvent.class,
-                "[player] (use|request) revive",
-                "[player] request[ed] to be revive[d]"
-        );
+                        "[player] (use|request) revive",
+                        "[player] request[ed] to be revive[d]"
+                )
+                .description("Called when a player requests to be revived.")
+                .examples(
+                        "on player use revive:",
+                        "\tbroadcast \"ok\""
+                )
+                .since("1.2");
         EventValues.registerEventValue(UseReviveEvent.class, Player.class, new Getter<>() {
             @Override
             public Player get(UseReviveEvent e) {

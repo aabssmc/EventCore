@@ -1,6 +1,6 @@
 package lol.aabss.eventcore.hooks;
 
-import lol.aabss.eventcore.Config;
+import lol.aabss.eventcore.util.Config;
 import lol.aabss.eventcore.EventCore;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
@@ -23,7 +23,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return "1.0";
+        return "1.1";
     }
 
     @Override
@@ -38,36 +38,30 @@ public class PlaceholderAPI extends PlaceholderExpansion {
 
     @Override
     public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
-        if (params.equals("alive")){
-            return EventCore.Alive.size() + "";
-        }
-        else if (params.equals("dead")) {
-            return EventCore.Dead.size() + "";
-        }
-        else if (params.equals("status")){
-            if (player == null){
-                return null;
-            }
-            else{
-                if (EventCore.Dead.contains(player.getName())){
-                    return "Dead";
-                }
-                else if (EventCore.Alive.contains(player.getName())){
-                    return "Alive";
-                }
-                else{
-                    return null;
+        return switch (params) {
+            case "alive" -> EventCore.Alive.size() + "";
+            case "dead" -> EventCore.Dead.size() + "";
+            case "status" -> {
+                if (player == null) {
+                    yield null;
+                } else {
+                    if (EventCore.Dead.contains(player)) {
+                        yield "Dead";
+                    } else if (EventCore.Alive.contains(player)) {
+                        yield "Alive";
+                    } else {
+                        yield null;
+                    }
                 }
             }
-        }
-        else if (params.equals("revive") || params.equals("revives")){
-            if (player == null){
-                return null;
+            case "revive", "revives" -> {
+                if (player == null) {
+                    yield null;
+                } else {
+                    yield Config.getRevives(player).toString();
+                }
             }
-            else{
-                return Config.getRevives(player).toString();
-            }
-        }
-        return params;
+            default -> params;
+        };
     }
 }
