@@ -1,0 +1,9 @@
+version: 2.0
+
+types:
+    visibilitystate: visibility ?state¦s @a
+
+visibilitystate:
+    all: all
+    staff: staff
+    off: off
