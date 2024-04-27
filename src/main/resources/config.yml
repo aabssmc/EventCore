@@ -1,9 +1,140 @@
-prefix: '&6&lEventCore &8>'
-permission-message: '&cYou do not have permission to do that!'
-
-# ignores players that have an eventcore.reviveall.bypass permission when reviveall
+# ignores players that have an eventcore.reviveall.bypass permission when revive-all
 ignore-perm: true
 
-# the amount of time it takes until a player is no longer eligible to be revived by recentrev
-# in minutes
-recent-rev-time: 1
+# the amount of time it takes until a player is no longer eligible to be revived by recent-rev
+# in seconds
+recent-rev-time: 30
+
+# whether it should notify the staff if a new update is found on join
+update-checker: true
+
+# messages -----------
+
+# MiniMessage supported
+prefix: "<gold><bold>EventCore <gray>»"
+permission-message: "<red>You do not have permission to do that!"
+console: "%prefix% <red>This command is only executable by players!"
+
+reloaded: "%prefix% <green>Config reloaded!"
+
+# Alive ----
+
+alivelist:
+  empty: "%prefix% <gray>There are 0 players alive<br>There are no players alive."
+  one-player: "%prefix% <gray>There is 1 player alive<br>%alive%"
+  players: "%prefix% <gray>There is %amount% players alive<br>%alive%"
+
+clearalive:
+  cleared: "%prefix% <yellow>Cleared inventory of all alive players."
+
+givealive:
+  no-item: "%prefix% <red>Please specify an item!"
+  invalid-item: "%prefix% <red>Invalid item type!"
+  gave-64: "%prefix% <yellow>Gave all alive players 64x %item%!"
+  gave: "%prefix% <yellow>Gave all alive players %amount%x %item%!"
+
+healalive:
+  healed: "%prefix% <yellow>All alive players have been healed."
+
+killalive:
+  killed: "%prefix% <yellow>All alive players have been killed."
+
+tpalive:
+  teleported: "%prefix% <yellow>You have been teleported."
+  teleport-broadcast: "%prefix% <yellow>%sender% has teleport all alive players to them!"
+
+# Dead ----
+
+cleardead:
+  cleared: "%prefix% <red>Cleared inventory of all dead players."
+
+deadlist:
+  empty: "%prefix% <gray>There are 0 players dead<br>There are no players dead."
+  one-player: "%prefix% <gray>There is 1 player dead<br>%dead%"
+  players: "%prefix% <gray>There is %amount% players dead<br>%dead%"
+
+givedead:
+  no-item: "%prefix% <red>Please specify an item!"
+  invalid-item: "%prefix% <red>Invalid item type!"
+  gave-64: "%prefix% <yellow>Gave all dead players 64x %item%!"
+  gave: "%prefix% <yellow>Gave all dead players %amount%x %item%!"
+
+healdead:
+  healed: "%prefix% <yellow>All dead players have been healed."
+
+killdead:
+  killed: "%prefix% <yellow>All dead players have been killed."
+
+tpdead:
+  teleported: "%prefix% <yellow>You have been teleported."
+  teleport-broadcast: "%prefix% <yellow>%sender% has teleport all dead players to them!"
+
+# Revives ----
+
+balrevive:
+  invalid-player: "%prefix% <red>Invalid player!"
+  self: "%prefix% <yellow>You have %revives% revives!"
+  player: "%prefix% <yellow>%player% has %revives% revives!"
+
+giverevive:
+  specifyplayer: "%prefix% <red>Please specify a player."
+  specifyamount: "%prefix% <red>Please specify an amount."
+  invalidplayer: "%prefix% <red>Invalid Player."
+  give: "%prefix% <yellow>You have given %player% %amount% revives!"
+  receive: "%prefix% <yellow>You have received %amount% revives!"
+
+recentrev:
+  revived: "%prefix% <yellow>All players from the past %time% seconds have been revived!"
+
+revive:
+  specifyplayer: "%prefix% <red>Please specify a player."
+  invalidplayer: "%prefix% <red>Invalid player."
+  alreadyalive: "%prefix% <red>%player% is already alive."
+  revived: "%prefix% <yellow>%player% has been revived by %reviver%!"
+
+reviveall:
+  revived: "%prefix% <yellow>%player% has revived all players!"
+
+setrevive:
+  specifyplayer: "%prefix% <red>Please specify a player."
+  specifyamount: "%prefix% <red>Please specify an amount."
+  invalidplayer: "%prefix% <red>Invalid player."
+  set: "%prefix% <yellow>You have set %player%'(s) revives to %amount%!"
+  receive: "%prefix% <yellow>You revives are now %amount%!"
+
+takerevive:
+  specifyplayer: "%prefix% <red>Please specify a player."
+  specifyamount: "%prefix% <red>Please specify an amount."
+  invalidplayer: "%prefix% <red>Invalid player."
+  take: "%prefix% <yellow>You have took %amount% revives from %player%!"
+  lose: "%prefix% <yellow>You have lost %amount% revives!"
+
+togglerevive:
+  enabled: "%prefix% <green>Revives enabled!"
+  disabled: "%prefix% <red>Revives disabled!"
+
+unrevive:
+  specifyplayer: "%prefix% <red>Please specify a player."
+  invalidplayer: "%prefix% <red>Invalid player."
+  alreadydead: "%prefix% <red>%player% is already dead."
+  unrevived: "%prefix% <yellow>%player% has been un-revived by %unreviver%!"
+
+userevive:
+  notenough: "%prefix% <red>You do not have enough revives."
+  revivesoff: "%prefix% <red>Revives are disabled!"
+  request: "%prefix% <yellow>%player% has requested to be revived!"
+
+# Other ----
+
+mutechat:
+  muted: "%prefix% <red>Chat is now muted"
+  unmuted: "%prefix% <green>Chat is now un-muted!"
+  cant-talk: "%prefix% <red>Chat is muted!"
+
+visibility:
+  allalreadyhidden: "%prefix% <red>All players are already hidden."
+  allhidden: "%prefix% <red>All players have been hidden!"
+  staffalreadyhidden: "%prefix% <red>All players except staff are already hidden."
+  staffhidden: "%prefix% <red>All players except staff have been hidden!"
+  visibilityalreadyoff: "%prefix% <red>Visibility is already off."
+  visibilityoff: "%prefix% <red>Visibility is now off!"
