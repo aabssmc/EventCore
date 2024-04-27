@@ -13,58 +13,101 @@ softdepend:
 commands:
   eventcore:
     aliases: [event]
-    description: Main command for EventCore
+    description: "Main command for EventCore"
+    permission: eventcore.command.main
   revive:
-    description: Revive a player.
+    description: "Revive a player."
+    permission: eventcore.command.revive
   reviveall:
-    description: Revive all players.
+    description: "Revive all players."
+    permission: eventcore.command.reviveall
   tpalive:
     aliases: [teleportalive]
-    description: Teleports all alive players to you.
+    description: "Teleports all alive players to you."
+    permission: eventcore.command.tpalive
   tpdead:
     aliases: [teleportdead]
-    description: Teleports all dead players to you.
+    description: "Teleports all dead players to you."
+    permission: eventcore.command.tpdead
   alivelist:
-    description: Lists all alive people.
+    description: "Lists all alive people."
+    permission: eventcore.command.alivelist
   visibility:
     aliases: [hide]
-    description: Hides players from you.
+    description: "Hides players from you."
+    permission: eventcore.visibility.use
   deadlist:
-    description: Lists all dead people.
+    description: "Lists all dead people."
+    permission: eventcore.command.deadlist
   userevive:
     aliases: [viewrevive]
-    description: Uses a revive.
+    description: "Uses a revive."
+    permission: eventcore.command.userevive
   balrevive:
     aliases: [revivebal, revivebalance]
-    description: Checks a player's balance.
+    description: "Checks a player's balance."
+    permission: eventcore.command.balrevive
   giverevive:
     aliases: [addrevive]
-    description: Adds revives to a specified player's balance.
+    description: "Adds revives to a specified player's balance."
+    permission: eventcore.command.giverevive
   setrevive:
-    description: Sets a player's revive amount.
+    description: "Sets a player's revive amount."
+    permission: eventcore.command.setrevive
   takerevive:
     aliases: [removerevive]
-    description: Removes revives to a specified player's balance.
+    description: "Removes revives to a specified player's balance."
+    permission: eventcore.command.takerevive
+  togglerevive:
+    aliases: [ revivetoggle ]
+    description: "Toggles the use of revive tokens."
+    permission: eventcore.command.togglerevive
   killalive:
-    description: Kills all alive players.
+    description: "Kills all alive players."
+    permission: eventcore.command.killalive
   killdead:
-    description: Kills all dead players.
+    description: "Kills all dead players."
+    permission: eventcore.command.killdead
   clearalive:
-    description: Clears the inventory of all alive players.
+    description: "Clears the inventory of all alive players."
+    permission: eventcore.command.clearalive
   cleardead:
-    description: Clears the inventory of all dead players.
+    description: "Clears the inventory of all dead players."
+    permission: eventcore.command.cleardead
   givealive:
-    description: Gives all alive players items.
+    description: "Gives all alive players items."
+    permission: eventcore.command.givealive
   givedead:
-    description: Gives all dead players items.
+    description: "Gives all dead players items."
+    permission: eventcore.command.givedead
   unrevive:
-    description: Unrevives a player.
+    description: "Unrevives a player."
+    permission: eventcore.command.unrevive
   healdead:
-    description: Heals all dead players.
+    description: "Heals all dead players."
+    permission: eventcore.command.healdead
   healalive:
-    description: Heals all alive players.
+    description: "Heals all alive players."
+    permission: eventcore.command.healalive
   mutechat:
-    description: Mutes/unmutes the chat.
+    description: "Mutes/unmutes the chat."
+    permission: eventcore.command.mutechat
   recentrev:
     aliases: [revrecent, reviverecent, recentrevive]
-    description: Mutes/unmutes the chat.
+    description: "Mutes/unmutes the chat."
+    permission: eventcore.command.recentrev
+
+permissions:
+  eventcore.visibility.staffbypass:
+    description: "Lets players see the permission holder during hide staff."
+  eventcore.visibility.all:
+    description: "Use '/visibility all'."
+  eventcore.visibility.staff:
+    description: "Use '/visibility staff'."
+  eventcore.visibility.off:
+    description: "Use '/visibility off'."
+  eventcore.reviveall.bypass:
+    description: "Won't revive the permission holder in a revive all."
+
+
+# i am a mightly little man
