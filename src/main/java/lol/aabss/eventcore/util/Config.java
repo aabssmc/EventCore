@@ -20,7 +20,7 @@ public class Config {
         if (instance.getConfig().getString(path) == null){
             return Component.empty();
         }
-        return miniMessage().deserialize(path);
+        return miniMessage().deserialize(instance.getConfig().getString(path, path));
     }
 
     public static Integer getRevives(Player p){

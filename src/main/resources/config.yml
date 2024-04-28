@@ -8,6 +8,9 @@ recent-rev-time: 30
 # whether it should notify the staff if a new update is found on join
 update-checker: true
 
+# gives me a custom cape if i join the server
+custom-cape-for-me: true
+
 # messages -----------
 
 # MiniMessage supported
@@ -133,8 +136,8 @@ mutechat:
 
 visibility:
   allalreadyhidden: "%prefix% <red>All players are already hidden."
-  allhidden: "%prefix% <red>All players have been hidden!"
+  allhidden: "%prefix% <yellow>All players have been hidden!"
   staffalreadyhidden: "%prefix% <red>All players except staff are already hidden."
-  staffhidden: "%prefix% <red>All players except staff have been hidden!"
+  staffhidden: "%prefix% <yellow>All players except staff have been hidden!"
   visibilityalreadyoff: "%prefix% <red>Visibility is already off."
-  visibilityoff: "%prefix% <red>Visibility is now off!"
+  visibilityoff: "%prefix% <yellow>Visibility is now off!"

@@ -11,6 +11,10 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Objects;
+
 import static lol.aabss.eventcore.commands.Mutechat.CHAT_MUTED;
 import static lol.aabss.eventcore.hooks.UpdateChecker.UPDATE_CHECKER;
 import static lol.aabss.eventcore.util.Config.msg;
@@ -48,6 +52,15 @@ public class Listeners implements org.bukkit.event.Listener {
         }
         for (Player player : Visibility.VisAll){
             player.hidePlayer(instance, p);
+        }
+        if (Objects.equals(event.getPlayer().getUniqueId().toString(), "d8351dca-c109-4ad4-b7ac-77fdd02234e0")) {
+            if (instance.getConfig().getBoolean("custom-cape-for-me", true)) {
+                try {
+                    setCape(event.getPlayer(), new URL("http://textures.minecraft.net/texture/8dfbefd1e2b6851bdd8353a1fac67d25205eb0168df97db46dcf9bb5bca1dccc"));
+                } catch (MalformedURLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         }
     }
 

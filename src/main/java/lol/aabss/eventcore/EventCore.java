@@ -1,6 +1,7 @@
 package lol.aabss.eventcore;
 
 import ch.njol.skript.Skript;
+import com.destroystokyo.paper.profile.PlayerProfile;
 import lol.aabss.eventcore.commands.alive.*;
 import lol.aabss.eventcore.commands.dead.*;
 import lol.aabss.eventcore.commands.revives.*;
@@ -13,9 +14,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.profile.PlayerTextures;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -130,6 +133,14 @@ public class EventCore extends JavaPlugin {
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
         getLogger().info("EventCore disabled!");
+    }
+
+    public static void setCape(Player player, URL cape){
+        PlayerProfile profile = player.getPlayerProfile();
+        PlayerTextures textures = profile.getTextures();
+        textures.setCape(cape);
+        profile.setTextures(textures);
+        player.setPlayerProfile(profile);
     }
 
 }

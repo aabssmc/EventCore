@@ -4,6 +4,7 @@ main: lol.aabss.eventcore.EventCore
 api-version: '1.13'
 authors:
   - aabss
+contributors: [xCheezie]
 description: Hosting events has never been easier!
 website: https://aabss.lol
 softdepend:
@@ -14,7 +15,6 @@ commands:
   eventcore:
     aliases: [event]
     description: "Main command for EventCore"
-    permission: eventcore.command.main
   revive:
     description: "Revive a player."
     permission: eventcore.command.revive
