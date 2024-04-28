@@ -38,7 +38,7 @@ public class MainCommand implements SimpleCommand {
 
     @Override
     public Component permissionMessage() {
-        return miniMessage().deserialize("<br><click:open_url:'https://modrinth.com/plugin/event'><b><gold>EventCore</gold></b> <yellow>by aabss</yellow> <gray>(@big.abs)</gray></click><br>");
+        return miniMessage().deserialize("<br><click:open_url:'https://modrinth.com/plugin/event'><b><gold>EventCore</gold></b> <yellow>by aabss</yellow> <gray>(@big.abs)</gray></click><br><dark_gray>thx xCheezie (Articuling)<br>");
     }
 
     @Override

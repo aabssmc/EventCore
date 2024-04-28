@@ -18,9 +18,11 @@ import org.bukkit.profile.PlayerTextures;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.UUID;
 
 import static lol.aabss.eventcore.hooks.UpdateChecker.UPDATE_CHECKER;
 
@@ -133,14 +135,6 @@ public class EventCore extends JavaPlugin {
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
         getLogger().info("EventCore disabled!");
-    }
-
-    public static void setCape(Player player, URL cape){
-        PlayerProfile profile = player.getPlayerProfile();
-        PlayerTextures textures = profile.getTextures();
-        textures.setCape(cape);
-        profile.setTextures(textures);
-        player.setPlayerProfile(profile);
     }
 
 }
