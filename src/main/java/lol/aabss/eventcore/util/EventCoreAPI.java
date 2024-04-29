@@ -1,8 +1,10 @@
 package lol.aabss.eventcore.util;
 
 import lol.aabss.eventcore.EventCore;
+import lol.aabss.eventcore.commands.Visibility;
 import lol.aabss.eventcore.commands.revives.ToggleRevive;
 import lol.aabss.eventcore.events.ReviveEvent;
+import lol.aabss.eventcore.events.VisibilityEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -10,6 +12,7 @@ import org.bukkit.entity.Player;
 import java.io.IOException;
 import java.util.List;
 
+import static lol.aabss.eventcore.EventCore.instance;
 import static lol.aabss.eventcore.util.Config.reloadConfig;
 
 public class EventCoreAPI {
@@ -110,5 +113,39 @@ public class EventCoreAPI {
 
     public void toggleRevives() {
         ToggleRevive.REVIVES = !ToggleRevive.REVIVES;
+    }
+
+    public VisibilityEvent.VisibilityState getVisibilityState(Player p){
+        if (Visibility.VisAll.contains(p)){
+            return VisibilityEvent.VisibilityState.ALL;
+        } else if (Visibility.VisStaff.contains(p)){
+            return VisibilityEvent.VisibilityState.STAFF;
+        } else {
+            return VisibilityEvent.VisibilityState.OFF;
+        }
+    }
+
+    public void setVisibilityState(Player p, VisibilityEvent.VisibilityState state){
+        if (state == VisibilityEvent.VisibilityState.ALL){
+            for (Player player : Bukkit.getOnlinePlayers()){
+                p.hidePlayer(plugin, player);
+            }
+            Visibility.VisAll.add(p);
+            Visibility.VisStaff.remove(p);
+        } else if (state == VisibilityEvent.VisibilityState.STAFF){
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (!player.hasPermission("eventcore.visibility.staffbypass")) {
+                    p.hidePlayer(instance, player);
+                }
+            }
+            Visibility.VisStaff.add(p);
+            Visibility.VisAll.remove(p);
+        } else if (state == VisibilityEvent.VisibilityState.OFF){
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                p.showPlayer(instance, player);
+            }
+            Visibility.VisStaff.remove(p);
+            Visibility.VisAll.remove(p);
+        }
     }
 }

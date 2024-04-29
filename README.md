@@ -19,6 +19,7 @@ A plugin made to simplify hosting events/challenges
 - /recentrev - eventcore.command.recentrev - Revives the recently killed alive players.
 - /revive - eventcore.command.revive - Revives a specified player.
 - /reviveall - eventcore.command.reviveall - Revives all players.
+- /revivelate - eventcore.command.revivelate - Revives all dead players.
 - /setrevive - eventcore.command.setrevive - Sets a player's revive balance to the specified amount.
 - /takerevive - eventcore.command.takerevive - Removes specified amount of revives to a player.
 - /togglerevive - eventcore.command.togglerevive - Toggles the use of revive tokens.
@@ -46,6 +47,8 @@ A plugin made to simplify hosting events/challenges
   - %eventcore_status% - The status of the player (dead or alive)
   - %eventcore_revive% - The amount of revives the player has
   - %eventcore_revives% - Alias of %eventcore_revive%
+  - %eventcore_mutechat% - True if chat is muted, otherwise false
+  - %eventcore_visibility% - The state of visibility of the player
 - Skript Support
 - and more!
 

@@ -1,5 +1,6 @@
 package lol.aabss.eventcore.hooks;
 
+import lol.aabss.eventcore.commands.Mutechat;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +23,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return "1.1";
+        return "1.2";
     }
 
     @Override
@@ -61,6 +62,14 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                 }
             }
             default -> params;
+            case "mutechat" -> String.valueOf(Mutechat.CHAT_MUTED);
+            case "visibility" -> {
+                if (player == null) {
+                    yield null;
+                } else {
+                    yield API.getVisibilityState(player).name();
+                }
+            }
         };
     }
 }
