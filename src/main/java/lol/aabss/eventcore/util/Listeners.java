@@ -21,8 +21,8 @@ public class Listeners implements org.bukkit.event.Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent event){
         Player p = event.getPlayer();
-        EventCore.Alive.remove(p);
-        EventCore.Dead.remove(p);
+        API.getAlive().remove(p);
+        API.getDead().remove(p);
         for (Player player : Visibility.VisStaff){
             player.showPlayer(instance, p);
         }
@@ -34,8 +34,8 @@ public class Listeners implements org.bukkit.event.Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         Player p = event.getPlayer();
-        EventCore.Alive.remove(event.getPlayer());
-        EventCore.Dead.add(event.getPlayer());
+        API.getAlive().remove(event.getPlayer());
+        API.getDead().add(event.getPlayer());
         if (UPDATE_CHECKER && p.hasPermission("eventcore.admin")){
             UpdateChecker.updateCheck(p);
         }
@@ -53,22 +53,20 @@ public class Listeners implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event){
-        if (Alive.contains(event.getEntity())){
-            EventCore.Alive.remove(event.getEntity());
-            EventCore.Dead.remove(event.getEntity());
-            EventCore.Dead.add(event.getEntity());
-            if (!Recent.contains(event.getEntity())){
-                EventCore.Recent.add(event.getEntity());
+        if (API.isAlive(event.getPlayer())){
+            API.getAlive().remove(event.getEntity());
+            API.getDead().remove(event.getEntity());
+            API.getDead().add(event.getEntity());
+            if (!API.isRecentlyDead(event.getPlayer())){
+                API.getRecentlyDead().add(event.getEntity());
                 Bukkit.getScheduler().runTaskLater(EventCore.getPlugin(EventCore.class), () ->
-                                EventCore.Recent.remove(event.getEntity()),
+                                API.getRecentlyDead().remove(event.getEntity()),
                         Config.get("recent-rev-time", Integer.class)*20
                 );
             }
         }
         else{
-            EventCore.Alive.remove(event.getEntity());
-            EventCore.Dead.remove(event.getEntity());
-            EventCore.Dead.add(event.getEntity());
+            API.unrevive(event.getPlayer(), false);
         }
     }
 

@@ -1,28 +1,24 @@
 package lol.aabss.eventcore;
 
 import ch.njol.skript.Skript;
-import com.destroystokyo.paper.profile.PlayerProfile;
 import lol.aabss.eventcore.commands.alive.*;
 import lol.aabss.eventcore.commands.dead.*;
 import lol.aabss.eventcore.commands.revives.*;
 import lol.aabss.eventcore.hooks.*;
 import lol.aabss.eventcore.commands.*;
 
+import lol.aabss.eventcore.util.EventCoreAPI;
 import lol.aabss.eventcore.util.Listeners;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.profile.PlayerTextures;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.UUID;
 
 import static lol.aabss.eventcore.hooks.UpdateChecker.UPDATE_CHECKER;
 
@@ -31,16 +27,18 @@ public class EventCore extends JavaPlugin {
 
     public static EventCore instance;
 
-    public static ArrayList<Player> Alive = new ArrayList<>();
-    public static ArrayList<Player> Dead = new ArrayList<>();
-    public static ArrayList<Player> Recent = new ArrayList<>();
+    public ArrayList<Player> Alive = new ArrayList<>();
+    public ArrayList<Player> Dead = new ArrayList<>();
+    public ArrayList<Player> Recent = new ArrayList<>();
 
-    public static File datafile;
-    public static FileConfiguration dataconfig;
+    public File datafile;
+    public FileConfiguration dataconfig;
+    public static EventCoreAPI API;
 
     @Override
     public void onEnable() {
         instance = this;
+        API = new EventCoreAPI(this);
 
         datafile = new File(instance.getDataFolder(), "data.yml");
         dataconfig = YamlConfiguration.loadConfiguration(datafile);
@@ -69,6 +67,7 @@ public class EventCore extends JavaPlugin {
         Objects.requireNonNull(getCommand("recentrev")).setExecutor(new RecentRev());
         Objects.requireNonNull(getCommand("revive")).setExecutor(new Revive());
         Objects.requireNonNull(getCommand("reviveall")).setExecutor(new ReviveAll());
+        Objects.requireNonNull(getCommand("revivelate")).setExecutor(new ReviveLate());
         Objects.requireNonNull(getCommand("setrevive")).setExecutor(new SetRevive());
         Objects.requireNonNull(getCommand("togglerevive")).setExecutor(new ToggleRevive());
         Objects.requireNonNull(getCommand("takerevive")).setExecutor(new TakeRevive());

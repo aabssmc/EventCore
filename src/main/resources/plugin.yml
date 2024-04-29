@@ -21,6 +21,10 @@ commands:
   reviveall:
     description: "Revive all players."
     permission: eventcore.command.reviveall
+  revivelate:
+    aliases: [revlate, laterevive, laterev]
+    description: "Revive all dead players."
+    permission: eventcore.command.revivelate
   tpalive:
     aliases: [teleportalive]
     description: "Teleports all alive players to you."

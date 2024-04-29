@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import static lol.aabss.eventcore.EventCore.API;
 import static lol.aabss.eventcore.util.Config.msg;
 
-public class ReviveAll implements SimpleCommand {
+public class ReviveLate implements SimpleCommand {
 
     @Override
     public boolean run(CommandSender sender, Command command, String[] args) {
@@ -19,13 +19,13 @@ public class ReviveAll implements SimpleCommand {
             sender.sendMessage(msg("console"));
             return true;
         }
-        for (Player list : Bukkit.getOnlinePlayers()) {
-            if (Config.get("ignore-perm", Boolean.class) && list.hasPermission("eventcore.reviveall.bypass")) {
+        for (Player p : API.getDead()){
+            if (Config.get("ignore-perm", Boolean.class) && p.hasPermission("eventcore.reviveall.bypass")) {
                 continue;
             }
-            API.revive(list, (Player) sender, true);
+            API.revive(p, (Player) sender, true);
         }
-        Bukkit.broadcast(msg("reviveall.revived")
+        Bukkit.broadcast(msg("revivelate.revived")
                 .replaceText(builder -> builder.match("%player%").replacement(sender.getName())));
         return true;
     }

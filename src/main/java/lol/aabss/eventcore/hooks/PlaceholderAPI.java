@@ -1,12 +1,11 @@
 package lol.aabss.eventcore.hooks;
 
-import lol.aabss.eventcore.util.Config;
-import lol.aabss.eventcore.EventCore;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static lol.aabss.eventcore.EventCore.API;
 
 public class PlaceholderAPI extends PlaceholderExpansion {
 
@@ -39,15 +38,15 @@ public class PlaceholderAPI extends PlaceholderExpansion {
     @Override
     public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
         return switch (params) {
-            case "alive" -> EventCore.Alive.size() + "";
-            case "dead" -> EventCore.Dead.size() + "";
+            case "alive" -> API.getAlive().size() + "";
+            case "dead" -> API.getDead().size() + "";
             case "status" -> {
                 if (player == null) {
                     yield null;
                 } else {
-                    if (EventCore.Dead.contains(player)) {
+                    if (API.isDead(player)) {
                         yield "Dead";
-                    } else if (EventCore.Alive.contains(player)) {
+                    } else if (API.isAlive(player)) {
                         yield "Alive";
                     } else {
                         yield null;
@@ -58,7 +57,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
                 if (player == null) {
                     yield null;
                 } else {
-                    yield Config.getRevives(player).toString();
+                    yield String.valueOf(API.getRevives(player));
                 }
             }
             default -> params;

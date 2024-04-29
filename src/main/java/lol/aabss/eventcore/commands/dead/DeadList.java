@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.List;
 
-import static lol.aabss.eventcore.EventCore.Dead;
+import static lol.aabss.eventcore.EventCore.API;
 import static lol.aabss.eventcore.util.Config.msg;
 
 public class DeadList implements SimpleCommand {
@@ -16,7 +16,7 @@ public class DeadList implements SimpleCommand {
     @Override
     public boolean run(CommandSender sender, Command command, String[] args) {
         List<String> names = new ArrayList<>();
-        Dead.forEach(player -> names.add(player.getName()));
+        API.getDead().forEach(player -> names.add(player.getName()));
         if (names.isEmpty()){
             sender.sendMessage(msg("deadlist.empty"));
             return true;

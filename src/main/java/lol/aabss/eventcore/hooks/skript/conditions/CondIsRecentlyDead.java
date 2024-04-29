@@ -8,7 +8,8 @@ import ch.njol.skript.doc.Since;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import static lol.aabss.eventcore.EventCore.Recent;
+import static lol.aabss.eventcore.EventCore.API;
+
 
 @Name("Is Recently Dead")
 @Description("Returns true if the player is recently dead.")
@@ -29,7 +30,7 @@ public class CondIsRecentlyDead extends PropertyCondition<Player> {
 
     @Override
     public boolean check(Player player) {
-        return Recent.contains(player);
+        return API.isRecentlyDead(player);
     }
 
     @Override

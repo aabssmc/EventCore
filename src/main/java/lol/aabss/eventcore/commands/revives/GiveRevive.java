@@ -1,6 +1,5 @@
 package lol.aabss.eventcore.commands.revives;
 
-import lol.aabss.eventcore.util.Config;
 import lol.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -10,6 +9,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+import static lol.aabss.eventcore.EventCore.API;
 import static lol.aabss.eventcore.util.Config.msg;
 
 public class GiveRevive implements SimpleCommand {
@@ -30,7 +30,7 @@ public class GiveRevive implements SimpleCommand {
             sender.sendMessage(msg("giverevive.invalidplayer"));
             return true;
         }
-        Config.setRevives(p, Config.getRevives(p)+Integer.parseInt(args[1]));
+        API.addRevives(p, Integer.valueOf(args[1]));
         sender.sendMessage(msg("giverevive.give")
                 .replaceText(builder -> builder.match("%player%").replacement(p.getName()))
                 .replaceText(builder -> builder.match("%amount%").replacement(args[1]))

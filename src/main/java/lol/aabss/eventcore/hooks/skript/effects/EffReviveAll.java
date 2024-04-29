@@ -9,18 +9,15 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import lol.aabss.eventcore.EventCore;
-import lol.aabss.eventcore.events.ReviveEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.io.Console;
+
+import static lol.aabss.eventcore.EventCore.API;
 
 @Name("Revive All Players")
 @Description("Revives all players.")
@@ -41,16 +38,14 @@ public class EffReviveAll extends Effect {
     @Override
     protected void execute(@NotNull Event e) {
         for (Player p : Bukkit.getOnlinePlayers()){
-            EventCore.Alive.remove(p);
-            EventCore.Dead.remove(p);
-            EventCore.Alive.add(p);
             if (loc != null) {
                 Location location = loc.getSingle(e);
-                if (location != null){
-                    p.teleport(location);
+                if (location != null) {
+                    API.revive(p, location);
                 }
+            } else{
+                API.revive(p);
             }
-            Bukkit.getServer().getPluginManager().callEvent(new ReviveEvent(p, Bukkit.getConsoleSender()));
         }
     }
 

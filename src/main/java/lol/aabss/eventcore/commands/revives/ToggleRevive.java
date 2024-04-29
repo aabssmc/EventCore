@@ -4,6 +4,7 @@ import lol.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import static lol.aabss.eventcore.EventCore.API;
 import static lol.aabss.eventcore.util.Config.msg;
 
 public class ToggleRevive implements SimpleCommand {
@@ -12,7 +13,7 @@ public class ToggleRevive implements SimpleCommand {
 
     @Override
     public boolean run(CommandSender sender, Command command, String[] args) {
-        REVIVES = !REVIVES;
+        API.toggleRevives();
         sender.sendMessage(msg("togglerevive."+(REVIVES ? "enabled" : "disabled)")));
         return true;
     }

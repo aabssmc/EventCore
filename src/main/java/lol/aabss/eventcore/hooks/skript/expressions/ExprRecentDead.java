@@ -10,14 +10,14 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import lol.aabss.eventcore.EventCore;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
+
+import static lol.aabss.eventcore.EventCore.API;
+
 @Name("All Recent Dead Players")
 @Description("Gets all of the recent dead players.")
 @Examples({
@@ -33,8 +33,8 @@ public class ExprRecentDead extends SimpleExpression<Player> {
     }
 
     @Override
-    protected @Nullable Player[] get(@NotNull Event e) {
-        return EventCore.Recent.toArray(Player[]::new);
+    protected Player @NotNull [] get(@NotNull Event e) {
+        return API.getRecentlyDead().toArray(Player[]::new);
     }
 
     @Override

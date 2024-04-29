@@ -1,6 +1,5 @@
 package lol.aabss.eventcore.commands.revives;
 
-import lol.aabss.eventcore.util.Config;
 import lol.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
@@ -9,6 +8,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+import static lol.aabss.eventcore.EventCore.API;
 import static lol.aabss.eventcore.util.Config.msg;
 
 public class BalRevive implements SimpleCommand {
@@ -21,7 +21,7 @@ public class BalRevive implements SimpleCommand {
         }
         if (args.length == 0 || args[0].equals(sender.getName())){
             sender.sendMessage(msg("balrevive.self")
-                    .replaceText(builder -> builder.matchLiteral("%revives%").replacement(Config.getRevives((Player) sender).toString())));
+                    .replaceText(builder -> builder.matchLiteral("%revives%").replacement(String.valueOf(API.getRevives((Player) sender)))));
             return true;
         }
         Player p = Bukkit.getPlayer(args[0]);
@@ -30,7 +30,7 @@ public class BalRevive implements SimpleCommand {
             return true;
         }
         sender.sendMessage(msg("balrevive.player")
-                .replaceText(builder -> builder.matchLiteral("%revives%").replacement(Config.getRevives(p).toString()))
+                .replaceText(builder -> builder.matchLiteral("%revives%").replacement(String.valueOf(API.getRevives(p))))
                 .replaceText(builder -> builder.matchLiteral("%player%").replacement(p.getName())));
         return true;
     }

@@ -13,7 +13,8 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static lol.aabss.eventcore.commands.revives.ToggleRevive.REVIVES;
+import static lol.aabss.eventcore.EventCore.API;
+
 
 @Name("Toggle Revives")
 @Description("Toggles the revives.")
@@ -29,7 +30,7 @@ public class EffToggleRevives extends Effect {
 
     @Override
     protected void execute(@NotNull Event e) {
-        REVIVES = !REVIVES;
+        API.toggleRevives();
     }
 
     @Override

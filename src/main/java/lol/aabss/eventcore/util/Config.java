@@ -5,9 +5,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -23,25 +21,8 @@ public class Config {
         return miniMessage().deserialize(instance.getConfig().getString(path, path));
     }
 
-    public static Integer getRevives(Player p){
-        if (dataconfig.get("revives." + p.getUniqueId()) == null){
-            return 0;
-        }
-        return dataconfig.getInt("revives." + p.getUniqueId());
-    }
-
-    public static void setRevives(Player p, Integer i){
-        dataconfig.set("revives." + p.getUniqueId(), i);
-        try {
-            dataconfig.save(datafile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        reloadConfig();
-    }
-
     public static void reloadConfig() {
-        FileConfiguration config = YamlConfiguration.loadConfiguration(datafile);
+        FileConfiguration config = YamlConfiguration.loadConfiguration(instance.datafile);
         final InputStream defConfigStream = instance.getResource("data.yml");
         if (defConfigStream == null) {
             return;

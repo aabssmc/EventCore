@@ -8,9 +8,6 @@ recent-rev-time: 30
 # whether it should notify the staff if a new update is found on join
 update-checker: true
 
-# gives me a custom cape if i join the server
-custom-cape-for-me: true
-
 # messages -----------
 
 # MiniMessage supported
@@ -97,6 +94,9 @@ revive:
 
 reviveall:
   revived: "%prefix% <yellow>%player% has revived all players!"
+
+revivelate:
+  revived: "%prefix% <yellow>%player% has revived all late players!"
 
 setrevive:
   specifyplayer: "%prefix% <red>Please specify a player."

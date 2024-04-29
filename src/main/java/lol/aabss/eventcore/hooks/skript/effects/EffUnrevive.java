@@ -9,12 +9,13 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import lol.aabss.eventcore.EventCore;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+
+import static lol.aabss.eventcore.EventCore.API;
 
 @Name("Unrevive Player")
 @Description("Unrevives a player.")
@@ -38,12 +39,7 @@ public class EffUnrevive extends Effect {
     @Override
     protected void execute(@NotNull Event e) {
         for (Player p : player.getArray(e)) {
-            EventCore.Alive.remove(p);
-            EventCore.Dead.remove(p);
-            EventCore.Dead.add(p);
-            if (kill) {
-                p.setHealth(0);
-            }
+            API.unrevive(p, kill);
         }
     }
 

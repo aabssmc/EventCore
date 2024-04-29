@@ -8,7 +8,7 @@ import ch.njol.skript.doc.Since;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import static lol.aabss.eventcore.EventCore.Alive;
+import static lol.aabss.eventcore.EventCore.API;
 
 @Name("Is Alive")
 @Description("Returns true if the player is alive.")
@@ -28,7 +28,7 @@ public class CondIsAlive extends PropertyCondition<Player> {
 
     @Override
     public boolean check(Player player) {
-        return Alive.contains(player);
+        return API.isAlive(player);
     }
 
     @Override
