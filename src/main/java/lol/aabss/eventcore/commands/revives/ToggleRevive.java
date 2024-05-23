@@ -14,7 +14,7 @@ public class ToggleRevive implements SimpleCommand {
     @Override
     public boolean run(CommandSender sender, Command command, String[] args) {
         API.toggleRevives();
-        sender.sendMessage(msg("togglerevive."+(REVIVES ? "enabled" : "disabled)")));
+        sender.sendMessage(msg("togglerevive."+(REVIVES ? "enabled" : "disabled")));
         return true;
     }
 }

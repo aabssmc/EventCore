@@ -22,7 +22,6 @@ public class Listeners implements org.bukkit.event.Listener {
     public void onLeave(PlayerQuitEvent event){
         Player p = event.getPlayer();
         API.getAlive().remove(p);
-        API.getDead().remove(p);
         for (Player player : Visibility.VisStaff){
             player.showPlayer(instance, p);
         }
@@ -35,7 +34,6 @@ public class Listeners implements org.bukkit.event.Listener {
     public void onJoin(PlayerJoinEvent event){
         Player p = event.getPlayer();
         API.getAlive().remove(event.getPlayer());
-        API.getDead().add(event.getPlayer());
         if (UPDATE_CHECKER && p.hasPermission("eventcore.admin")){
             UpdateChecker.updateCheck(p);
         }
@@ -55,8 +53,6 @@ public class Listeners implements org.bukkit.event.Listener {
     public void onDeath(PlayerDeathEvent event){
         if (API.isAlive(event.getPlayer())){
             API.getAlive().remove(event.getEntity());
-            API.getDead().remove(event.getEntity());
-            API.getDead().add(event.getEntity());
             if (!API.isRecentlyDead(event.getPlayer())){
                 API.getRecentlyDead().add(event.getEntity());
                 Bukkit.getScheduler().runTaskLater(EventCore.getPlugin(EventCore.class), () ->

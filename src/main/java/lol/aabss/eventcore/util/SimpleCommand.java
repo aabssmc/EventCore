@@ -6,22 +6,42 @@
 package lol.aabss.eventcore.util;
 
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.permissions.Permission;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static lol.aabss.eventcore.EventCore.instance;
 import static lol.aabss.eventcore.util.Config.msg;
 
 public interface SimpleCommand extends TabExecutor {
 
+    default void register(){
+        register(this.getClass().getSimpleName().toLowerCase());
+    }
+
+    default void register(String name){
+        PluginCommand cmd = instance.getCommand(name);
+        if (cmd != null){
+            cmd.setExecutor(this);
+            cmd.setTabCompleter(this);
+        }
+        if (Bukkit.getPluginManager().getPermission(this.permission()) == null) {
+            Bukkit.getPluginManager().addPermission(new Permission(this.permission()));
+        }
+    }
+
+
     @Override
     default boolean onCommand(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission(permission())) {
-            sender.sendMessage(permissionMessage());
+            sender.sendMessage(msg("permission-message"));
             return true;
         }
         return run(sender, command, args);
@@ -35,7 +55,7 @@ public interface SimpleCommand extends TabExecutor {
         if (args.length == 0 || tabs == null || tabs.isEmpty()) {
             return completions;
         }
-        String arg = args[args.length - 1].toLowerCase();
+        String arg = args[args.length-1].toLowerCase();
         for (String s : tabs) {
             if (s.toLowerCase().startsWith(arg)) {
                 completions.add(s);

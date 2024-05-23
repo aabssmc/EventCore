@@ -17,8 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.*;
 
 import static lol.aabss.eventcore.hooks.UpdateChecker.UPDATE_CHECKER;
 
@@ -27,9 +26,8 @@ public class EventCore extends JavaPlugin {
 
     public static EventCore instance;
 
-    public ArrayList<Player> Alive = new ArrayList<>();
-    public ArrayList<Player> Dead = new ArrayList<>();
-    public ArrayList<Player> Recent = new ArrayList<>();
+    public List<Player> Alive = new ArrayList<>();
+    public List<Player> Recent = new ArrayList<>();
 
     public File datafile;
     public FileConfiguration dataconfig;
@@ -46,48 +44,39 @@ public class EventCore extends JavaPlugin {
         // Registering bStats
         new Metrics(this, 19718);
 
-        Objects.requireNonNull(getCommand("alivelist")).setExecutor(new AliveList());
-        Objects.requireNonNull(getCommand("clearalive")).setExecutor(new ClearAlive());
-        Objects.requireNonNull(getCommand("givealive")).setExecutor(new GiveAlive());
-        Objects.requireNonNull(getCommand("healalive")).setExecutor(new HealAlive());
-        Objects.requireNonNull(getCommand("killalive")).setExecutor(new KillAlive());
-        Objects.requireNonNull(getCommand("tpalive")).setExecutor(new TpAlive());
+        new AliveList().register();
+        new ClearAlive().register();
+        new GiveAlive().register();
+        new HealAlive().register();
+        new KillAlive().register();
+        new TpAlive().register();
 
         // ---
-        Objects.requireNonNull(getCommand("cleardead")).setExecutor(new ClearDead());
-        Objects.requireNonNull(getCommand("deadlist")).setExecutor(new DeadList());
-        Objects.requireNonNull(getCommand("givedead")).setExecutor(new GiveDead());
-        Objects.requireNonNull(getCommand("healdead")).setExecutor(new HealDead());
-        Objects.requireNonNull(getCommand("killdead")).setExecutor(new KillDead());
-        Objects.requireNonNull(getCommand("tpdead")).setExecutor(new TpDead());
+        new DeadList().register();
+        new ClearDead().register();
+        new GiveDead().register();
+        new HealDead().register();
+        new KillDead().register();
+        new TpDead().register();
 
         // ---
-        Objects.requireNonNull(getCommand("balrevive")).setExecutor(new BalRevive());
-        Objects.requireNonNull(getCommand("giverevive")).setExecutor(new GiveRevive());
-        Objects.requireNonNull(getCommand("recentrev")).setExecutor(new RecentRev());
-        Objects.requireNonNull(getCommand("revive")).setExecutor(new Revive());
-        Objects.requireNonNull(getCommand("reviveall")).setExecutor(new ReviveAll());
-        Objects.requireNonNull(getCommand("revivelate")).setExecutor(new ReviveLate());
-        Objects.requireNonNull(getCommand("setrevive")).setExecutor(new SetRevive());
-        Objects.requireNonNull(getCommand("togglerevive")).setExecutor(new ToggleRevive());
-        Objects.requireNonNull(getCommand("takerevive")).setExecutor(new TakeRevive());
-        Objects.requireNonNull(getCommand("unrevive")).setExecutor(new Unrevive());
-        Objects.requireNonNull(getCommand("userevive")).setExecutor(new UseRevive());
+        new BalRevive().register();
+        new GiveRevive().register();
+        new RecentRev().register();
+        new Revive().register();
+        new ReviveAll().register();
+        new ReviveLate().register();
+        new SetRevive().register();
+        new TakeRevive().register();
+        new ToggleRevive().register();
+        new Unrevive().register();
+        new UseRevive().register();
 
         // ---
-        Objects.requireNonNull(getCommand("eventcore")).setExecutor(new MainCommand());
-        Objects.requireNonNull(getCommand("mutechat")).setExecutor(new Mutechat());
-        Objects.requireNonNull(getCommand("visibility")).setExecutor(new Visibility());
+        new MainCommand().register("eventcore");
+        new Mutechat().register();
+        new Visibility().register();
 
-        // Registering tab completions
-        Objects.requireNonNull(getCommand("givealive")).setTabCompleter(new GiveAlive());
-        Objects.requireNonNull(getCommand("givedead")).setTabCompleter(new GiveDead());
-        Objects.requireNonNull(getCommand("balrevive")).setTabCompleter(new BalRevive());
-        Objects.requireNonNull(getCommand("giverevive")).setTabCompleter(new GiveRevive());
-        Objects.requireNonNull(getCommand("revive")).setTabCompleter(new Revive());
-        Objects.requireNonNull(getCommand("setrevive")).setTabCompleter(new SetRevive());
-        Objects.requireNonNull(getCommand("takerevive")).setTabCompleter(new TakeRevive());
-        Objects.requireNonNull(getCommand("visibility")).setTabCompleter(new Visibility());
 
         // Registering PlaceholderAPI
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
@@ -134,6 +123,28 @@ public class EventCore extends JavaPlugin {
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
         getLogger().info("EventCore disabled!");
+    }
+
+    public static String formatList(List<?> list){
+        List<String> stringlist = new ArrayList<>();
+        list.forEach(o -> stringlist.add(o.toString()));
+        Collections.sort(stringlist);
+        StringBuilder builder = new StringBuilder();
+        int i = 0;
+        if (stringlist.size() == 1){
+            return stringlist.get(0);
+        }
+        for (Object obj : stringlist){
+            if (i == stringlist.size() - 1) {
+                builder.append(obj);
+            } else if (i == stringlist.size() - 2) {
+                builder.append(obj).append(" and ");
+            } else {
+                builder.append(obj).append(", ");
+            }
+            i++;
+        }
+        return builder.toString();
     }
 
 }

@@ -1,7 +1,7 @@
 package lol.aabss.eventcore.hooks;
 
+import com.google.gson.JsonParser;
 import org.bukkit.command.CommandSender;
-import org.json.JSONArray;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -24,7 +24,7 @@ public class UpdateChecker {
                 .build();
         try {
             String body = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString()).get().body();
-            return new JSONArray(body).getJSONObject(0).getString("version_number");
+            return JsonParser.parseString(body).getAsJsonArray().get(0).getAsJsonObject().get("version_number").getAsString();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

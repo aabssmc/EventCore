@@ -1,6 +1,5 @@
 package lol.aabss.eventcore.commands.dead;
 
-
 import lol.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -9,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static lol.aabss.eventcore.EventCore.API;
+import static lol.aabss.eventcore.EventCore.formatList;
 import static lol.aabss.eventcore.util.Config.msg;
 
 public class DeadList implements SimpleCommand {
@@ -23,11 +23,11 @@ public class DeadList implements SimpleCommand {
         }
         if (names.size() == 1){
             sender.sendMessage(msg("deadlist.one-player")
-                    .replaceText(builder -> builder.matchLiteral("%dead%").replacement(String.valueOf(names))));
+                    .replaceText(builder -> builder.matchLiteral("%dead%").replacement(formatList(names))));
             return true;
         }
         sender.sendMessage(msg("deadlist.players")
-                .replaceText(builder -> builder.matchLiteral("%dead%").replacement(String.valueOf(names)))
+                .replaceText(builder -> builder.matchLiteral("%dead%").replacement(formatList(names)))
                 .replaceText(builder -> builder.matchLiteral("%amount%").replacement(String.valueOf(names.size())))
         );
         return true;

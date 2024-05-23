@@ -1,5 +1,5 @@
 name: EventCore
-version: '2.1'
+version: '2.2'
 main: lol.aabss.eventcore.EventCore
 api-version: '1.13'
 authors:
@@ -16,6 +16,7 @@ commands:
     aliases: [event]
     description: "Main command for EventCore"
   revive:
+    aliases: rev
     description: "Revive a player."
     permission: eventcore.command.revive
   reviveall:

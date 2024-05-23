@@ -22,11 +22,11 @@ public class AliveList implements SimpleCommand {
         }
         if (names.size() == 1){
             sender.sendMessage(msg("alivelist.one-player")
-                    .replaceText(builder -> builder.matchLiteral("%alive%").replacement(String.valueOf(names))));
+                    .replaceText(builder -> builder.matchLiteral("%alive%").replacement(formatList(names))));
             return true;
         }
         sender.sendMessage(msg("alivelist.players")
-                .replaceText(builder -> builder.matchLiteral("%alive%").replacement(String.valueOf(names)))
+                .replaceText(builder -> builder.matchLiteral("%alive%").replacement(formatList(names)))
                 .replaceText(builder -> builder.matchLiteral("%amount%").replacement(String.valueOf(names.size())))
         );
         return true;

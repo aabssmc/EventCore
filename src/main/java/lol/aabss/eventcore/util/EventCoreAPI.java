@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static lol.aabss.eventcore.EventCore.instance;
@@ -24,15 +25,15 @@ public class EventCoreAPI {
     }
 
     public boolean isAlive(Player p) {
-        return plugin.Alive.contains(p);
+        return getAlive().contains(p);
     }
 
     public boolean isDead(Player p) {
-        return plugin.Dead.contains(p);
+        return getDead().contains(p);
     }
 
     public boolean isRecentlyDead(Player p) {
-        return plugin.Recent.contains(p);
+        return getRecentlyDead().contains(p);
     }
 
     public List<Player> getAlive() {
@@ -40,7 +41,11 @@ public class EventCoreAPI {
     }
 
     public List<Player> getDead() {
-        return plugin.Dead;
+        List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+        players.forEach(player -> {
+            if (getAlive().contains(player)) players.remove(player);
+        });
+        return players;
     }
 
     public List<Player> getRecentlyDead() {
@@ -91,21 +96,18 @@ public class EventCoreAPI {
 
     public void revive(Player p) {
         new ReviveEvent(p, Bukkit.getConsoleSender()).callEvent();
-        plugin.Dead.remove(p);
         plugin.Recent.remove(p);
         plugin.Alive.add(p);
     }
 
     public void revive(Player revived, Player reviver, boolean teleport) {
         new ReviveEvent(revived, reviver).callEvent();
-        plugin.Dead.remove(revived);
         plugin.Recent.remove(revived);
         plugin.Alive.add(revived);
         if (teleport) revived.teleport(reviver);
     }
 
     public void unrevive(Player p, boolean kill) {
-        plugin.Dead.add(p);
         plugin.Recent.remove(p);
         plugin.Alive.remove(p);
         if (kill) p.setHealth(0);

@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/EventCore.main.iml" filepath="$PROJECT_DIR$/.idea/modules/EventCore.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/EventCore.test.iml" filepath="$PROJECT_DIR$/.idea/modules/EventCore.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/intelij.EventCore.main.iml" filepath="$PROJECT_DIR$/.idea/modules/intelij.EventCore.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/intelij.EventCore.test.iml" filepath="$PROJECT_DIR$/.idea/modules/intelij.EventCore.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lol.aabss.EventCore.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lol.aabss.EventCore.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lol.aabss.EventCore.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lol.aabss.EventCore.test.iml" />
     </modules>

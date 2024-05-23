@@ -2,7 +2,6 @@ package lol.aabss.eventcore.commands;
 
 import lol.aabss.eventcore.events.VisibilityEvent;
 import lol.aabss.eventcore.util.SimpleCommand;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static lol.aabss.eventcore.EventCore.API;
-import static lol.aabss.eventcore.EventCore.instance;
 import static lol.aabss.eventcore.util.Config.msg;
 
 public class Visibility implements SimpleCommand {
