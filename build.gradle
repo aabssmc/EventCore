@@ -1,10 +1,9 @@
 plugins {
     id "java"
-    id "com.github.johnrengelman.shadow" version "8.1.1"
 }
 
 group = "lol.aabss"
-version = "2.1"
+version = "2.2"
 
 repositories {
     mavenCentral()
@@ -14,36 +13,21 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
+    compileOnly "io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT"
     compileOnly "me.clip:placeholderapi:2.11.4"
     implementation "com.github.SkriptLang:Skript:2.7.0"
     implementation "net.kyori:adventure-text-minimessage:4.14.0"
     implementation "net.kyori:adventure-platform-bukkit:4.3.1"
-    implementation 'org.json:json:20240303'
 }
 
-shadowJar {
-    dependencies {
-        include(dependency("org.json:json:20240303"))
-    }
-}
-
-def targetJavaVersion = 17
 java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
+def oldestJava = 17
 tasks.withType(JavaCompile).configureEach {
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava17Compatible()) {
-        options.release = targetJavaVersion
-    }
+    options.compilerArgs += ['-source', '' + oldestJava, '-target', '' + oldestJava]
 }
-
 processResources {
     def props = [version: version]
     inputs.properties props
