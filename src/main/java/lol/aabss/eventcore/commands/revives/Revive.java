@@ -42,7 +42,7 @@ public class Revive implements SimpleCommand {
     public List<String> tabComplete(CommandSender sender, Command command, String[] args) {
         if (args.length == 1){
             List<String> completions = new ArrayList<>();
-            API.getDead().forEach(player -> completions.add(player.getName()));
+            Bukkit.getOnlinePlayers().forEach(player -> completions.add(player.getName()));
             return completions;
         }
         return null;
