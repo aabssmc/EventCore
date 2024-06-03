@@ -14,6 +14,7 @@ update-checker: true
 prefix: "<gold><bold>EventCore <gray>»"
 permission-message: "<red>You do not have permission to do that!"
 console: "%prefix% <red>This command is only executable by players!"
+cooldown: "%prefix% <red>You are on cooldown! <gray>(%time%)"
 
 reloaded: "%prefix% <green>Config reloaded!"
 

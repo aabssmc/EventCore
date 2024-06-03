@@ -1,33 +1,27 @@
 package lol.aabss.eventcore.commands;
 
 import lol.aabss.eventcore.events.VisibilityEvent;
-import lol.aabss.eventcore.util.SimpleCommand;
+import lol.aabss.eventcore.util.SimpleCooldownCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static lol.aabss.eventcore.EventCore.API;
 import static lol.aabss.eventcore.util.Config.msg;
 
-public class Visibility implements SimpleCommand {
+public class Visibility implements SimpleCooldownCommand {
 
     public static ArrayList<Player> VisAll = new ArrayList<>();
     public static ArrayList<Player> VisStaff = new ArrayList<>();
-    private static final HashMap<Player, Long> cooldown = new HashMap<>();
 
     @Override
     public boolean run(CommandSender sender, Command command, String[] args) {
         if (!(sender instanceof Player p)){
             sender.sendMessage(msg("console"));
-            return true;
-        }
-        Long time = cooldown.get(p);
-        if (System.currentTimeMillis()/1000-time > 0){
-            p.sendMessage(msg("<red>You are on cooldown!</red> <gray>("+(System.currentTimeMillis()/1000-time)+")"));
             return true;
         }
         if (args.length == 0){
@@ -84,4 +78,8 @@ public class Visibility implements SimpleCommand {
         return List.of("all", "staff", "off");
     }
 
+    @Override
+    public Duration cooldown() {
+        return Duration.ofSeconds(3);
+    }
 }
