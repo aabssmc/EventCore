@@ -7,6 +7,9 @@ import org.bukkit.entity.Player;
 
 import org.bukkit.Bukkit;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static lol.aabss.eventcore.EventCore.API;
 import static lol.aabss.eventcore.util.Config.msg;
 
@@ -18,7 +21,8 @@ public class RecentRev implements SimpleCommand {
             sender.sendMessage(msg("console"));
             return true;
         }
-        for (Player p : API.getRecentlyDead()){
+        List<Player> recentlyDead = new ArrayList<>(API.getRecentlyDead());
+        for (Player p : recentlyDead) {
             API.revive(p, ((Player) sender), true);
         }
         Bukkit.broadcast(msg("recentrev.revived")

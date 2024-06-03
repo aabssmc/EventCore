@@ -27,6 +27,7 @@ public class EventCore extends JavaPlugin {
     public static EventCore instance;
 
     public List<Player> Alive = new ArrayList<>();
+    public List<Player> Dead = new ArrayList<>();
     public List<Player> Recent = new ArrayList<>();
 
     public File datafile;

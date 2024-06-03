@@ -14,11 +14,13 @@ import org.bukkit.permissions.Permission;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
-import static lol.aabss.eventcore.EventCore.instance;
-import static lol.aabss.eventcore.util.Config.msg;
 
 public interface SimpleCommand extends TabExecutor {
 
@@ -27,7 +29,7 @@ public interface SimpleCommand extends TabExecutor {
     }
 
     default void register(String name){
-        PluginCommand cmd = instance.getCommand(name);
+        PluginCommand cmd = Bukkit.getServer().getPluginCommand(name);
         if (cmd != null){
             cmd.setExecutor(this);
             cmd.setTabCompleter(this);
@@ -41,7 +43,7 @@ public interface SimpleCommand extends TabExecutor {
     @Override
     default boolean onCommand(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission(permission())) {
-            sender.sendMessage(msg("permission-message"));
+            sender.sendMessage(permissionMessage());
             return true;
         }
         return run(sender, command, args);
@@ -72,15 +74,27 @@ public interface SimpleCommand extends TabExecutor {
     }
 
     default Component permissionMessage() {
-        return msg("permission-message");
-    }
-
-    default Component prefix(){
-        return Config.getComponent("prefix");
+        return Component.text("No permission!");
     }
 
     default String permission(){
-        return "eventcore.command."+this.getClass().getSimpleName().toLowerCase();
+        return pluginName().toLowerCase()+".command"+this.getClass().getSimpleName().toLowerCase();
+    }
+
+    default String pluginName(){
+        try {
+            InputStream inputStream = ClassLoader.getSystemResource("plugin.yml").openStream();
+            InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(streamReader);
+            for (String line; (line = reader.readLine()) != null;) {
+                if (line.startsWith("name: ")){
+                    return line.replace("name: ", "");
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return "";
     }
 
 }

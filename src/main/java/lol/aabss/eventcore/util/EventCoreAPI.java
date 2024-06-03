@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static lol.aabss.eventcore.EventCore.instance;
@@ -41,11 +40,7 @@ public class EventCoreAPI {
     }
 
     public List<Player> getDead() {
-        List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
-        players.forEach(player -> {
-            if (getAlive().contains(player)) players.remove(player);
-        });
-        return players;
+        return plugin.Dead;
     }
 
     public List<Player> getRecentlyDead() {
@@ -95,14 +90,22 @@ public class EventCoreAPI {
     }
 
     public void revive(Player p) {
+        if (plugin.Alive.contains(p)){
+            unrevive(p, false);
+        }
         new ReviveEvent(p, Bukkit.getConsoleSender()).callEvent();
         plugin.Recent.remove(p);
+        plugin.Dead.remove(p);
         plugin.Alive.add(p);
     }
 
     public void revive(Player revived, Player reviver, boolean teleport) {
+        if (plugin.Alive.contains(revived)){
+            unrevive(revived, false);
+        }
         new ReviveEvent(revived, reviver).callEvent();
         plugin.Recent.remove(revived);
+        plugin.Dead.remove(revived);
         plugin.Alive.add(revived);
         if (teleport) revived.teleport(reviver);
     }
@@ -110,6 +113,7 @@ public class EventCoreAPI {
     public void unrevive(Player p, boolean kill) {
         plugin.Recent.remove(p);
         plugin.Alive.remove(p);
+        plugin.Dead.add(p);
         if (kill) p.setHealth(0);
     }
 
@@ -136,8 +140,9 @@ public class EventCoreAPI {
             Visibility.VisStaff.remove(p);
         } else if (state == VisibilityEvent.VisibilityState.STAFF){
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (!player.hasPermission("eventcore.visibility.staffbypass")) {
-                    p.hidePlayer(instance, player);
+                p.hidePlayer(instance, player);
+                if (player.hasPermission("eventcore.visibility.staffbypass")) {
+                    p.showPlayer(instance, player);
                 }
             }
             Visibility.VisStaff.add(p);
@@ -149,5 +154,6 @@ public class EventCoreAPI {
             Visibility.VisStaff.remove(p);
             Visibility.VisAll.remove(p);
         }
+        new VisibilityEvent(p, state).callEvent();
     }
 }

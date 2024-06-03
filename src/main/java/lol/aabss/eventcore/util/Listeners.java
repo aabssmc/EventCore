@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -21,7 +22,7 @@ public class Listeners implements org.bukkit.event.Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent event){
         Player p = event.getPlayer();
-        API.getAlive().remove(p);
+        API.unrevive(p, false);
         for (Player player : Visibility.VisStaff){
             player.showPlayer(instance, p);
         }
@@ -34,6 +35,7 @@ public class Listeners implements org.bukkit.event.Listener {
     public void onJoin(PlayerJoinEvent event){
         Player p = event.getPlayer();
         API.getAlive().remove(event.getPlayer());
+        API.getDead().add(event.getPlayer());
         if (UPDATE_CHECKER && p.hasPermission("eventcore.admin")){
             UpdateChecker.updateCheck(p);
         }
@@ -52,7 +54,7 @@ public class Listeners implements org.bukkit.event.Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent event){
         if (API.isAlive(event.getPlayer())){
-            API.getAlive().remove(event.getEntity());
+            API.unrevive(event.getPlayer(), false);
             if (!API.isRecentlyDead(event.getPlayer())){
                 API.getRecentlyDead().add(event.getEntity());
                 Bukkit.getScheduler().runTaskLater(EventCore.getPlugin(EventCore.class), () ->
@@ -61,18 +63,13 @@ public class Listeners implements org.bukkit.event.Listener {
                 );
             }
         }
-        else{
-            API.unrevive(event.getPlayer(), false);
-        }
     }
 
     @EventHandler
-    public void onChat(AsyncChatEvent event){
-        if (CHAT_MUTED){
-            if (!event.getPlayer().hasPermission("eventcore.mutechat.bypass")){
-                event.setCancelled(true);
-                event.getPlayer().sendMessage(msg("mutechat.cant-talk"));
-            }
+    public void onChat(AsyncPlayerChatEvent event){
+        if (CHAT_MUTED && !event.getPlayer().hasPermission("eventcore.mutechat.bypass")){
+            event.setCancelled(true);
+            event.getPlayer().sendMessage(msg("mutechat.cant-talk"));
         }
     }
 

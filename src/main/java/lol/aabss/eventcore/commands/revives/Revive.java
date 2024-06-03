@@ -30,7 +30,7 @@ public class Revive implements SimpleCommand {
             return true;
         }
         if (API.isAlive(p)){
-            p.sendMessage(msg("revive.alreadyalive")
+            sender.sendMessage(msg("revive.alreadyalive")
                     .replaceText(builder -> builder.match("%player%").replacement(p.getName())));
             return true;
         }

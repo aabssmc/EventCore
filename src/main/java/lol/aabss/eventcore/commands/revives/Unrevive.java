@@ -30,7 +30,7 @@ public class Unrevive implements SimpleCommand {
             return true;
         }
         if (API.getDead().contains(p)){
-            p.sendMessage(msg("unrevive.alreadydead")
+            sender.sendMessage(msg("unrevive.alreadydead")
                     .replaceText(builder -> builder.match("%player%").replacement(p.getName())));
             return true;
         }
