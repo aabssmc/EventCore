@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
-import java.util.List;
 
 import static lol.aabss.eventcore.EventCore.instance;
 import static lol.aabss.eventcore.util.Config.reloadConfig;
@@ -24,27 +23,15 @@ public class EventCoreAPI {
     }
 
     public boolean isAlive(Player p) {
-        return getAlive().contains(p);
+        return instance.Alive.contains(p);
     }
 
     public boolean isDead(Player p) {
-        return getDead().contains(p);
+        return instance.Dead.contains(p);
     }
 
     public boolean isRecentlyDead(Player p) {
-        return getRecentlyDead().contains(p);
-    }
-
-    public List<Player> getAlive() {
-        return plugin.Alive;
-    }
-
-    public List<Player> getDead() {
-        return plugin.Dead;
-    }
-
-    public List<Player> getRecentlyDead() {
-        return plugin.Recent;
+        return instance.Recent.contains(p);
     }
 
     public int getRevives(Player p) {

@@ -35,7 +35,7 @@ public class GiveRevive implements SimpleCommand {
                 .replaceText(builder -> builder.match("%player%").replacement(p.getName()))
                 .replaceText(builder -> builder.match("%amount%").replacement(args[1]))
         );
-        sender.sendMessage(msg("giverevive.receive")
+        p.sendMessage(msg("giverevive.receive")
                 .replaceText(builder -> builder.match("%player%").replacement(sender.getName()))
                 .replaceText(builder -> builder.match("%amount%").replacement(args[1]))
         );

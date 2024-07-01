@@ -1,5 +1,6 @@
 package lol.aabss.eventcore.commands.alive;
 
+import lol.aabss.eventcore.EventCore;
 import lol.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -15,7 +16,7 @@ public class AliveList implements SimpleCommand {
     @Override
     public boolean run(CommandSender sender, Command command, String[] args) {
         List<String> names = new ArrayList<>();
-        API.getAlive().forEach(player -> names.add(player.getName()));
+        EventCore.instance.Alive.forEach(player -> names.add(player.getName()));
         if (names.isEmpty()){
             sender.sendMessage(msg("alivelist.empty"));
             return true;

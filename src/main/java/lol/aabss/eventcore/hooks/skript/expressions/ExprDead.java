@@ -10,6 +10,7 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+import lol.aabss.eventcore.EventCore;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +35,7 @@ public class ExprDead extends SimpleExpression<Player> {
 
     @Override
     protected Player @NotNull [] get(@NotNull Event e) {
-        return API.getDead().toArray(Player[]::new);
+        return EventCore.instance.Dead.toArray(Player[]::new);
     }
 
     @Override

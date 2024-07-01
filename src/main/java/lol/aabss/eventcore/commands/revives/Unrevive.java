@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static lol.aabss.eventcore.EventCore.API;
+import static lol.aabss.eventcore.EventCore.instance;
 import static lol.aabss.eventcore.util.Config.msg;
 
 public class Unrevive implements SimpleCommand {
@@ -29,7 +30,7 @@ public class Unrevive implements SimpleCommand {
             sender.sendMessage(msg("unrevive.invalidplayer"));
             return true;
         }
-        if (API.getDead().contains(p)){
+        if (instance.Dead.contains(p)){
             sender.sendMessage(msg("unrevive.alreadydead")
                     .replaceText(builder -> builder.match("%player%").replacement(p.getName())));
             return true;

@@ -5,6 +5,7 @@
 
 package lol.aabss.eventcore.util;
 
+import lol.aabss.eventcore.EventCore;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -14,11 +15,6 @@ import org.bukkit.permissions.Permission;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,23 +74,7 @@ public interface SimpleCommand extends TabExecutor {
     }
 
     default String permission(){
-        return pluginName().toLowerCase()+".command"+this.getClass().getSimpleName().toLowerCase();
-    }
-
-    default String pluginName(){
-        try {
-            InputStream inputStream = ClassLoader.getSystemResource("plugin.yml").openStream();
-            InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-            BufferedReader reader = new BufferedReader(streamReader);
-            for (String line; (line = reader.readLine()) != null;) {
-                if (line.startsWith("name: ")){
-                    return line.replace("name: ", "");
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return "";
+        return "eventcore.command."+this.getClass().getSimpleName().toLowerCase();
     }
 
 }

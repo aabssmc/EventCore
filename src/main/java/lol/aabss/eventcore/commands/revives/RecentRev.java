@@ -1,5 +1,6 @@
 package lol.aabss.eventcore.commands.revives;
 
+import lol.aabss.eventcore.EventCore;
 import lol.aabss.eventcore.util.Config;
 import lol.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.command.*;
@@ -21,7 +22,7 @@ public class RecentRev implements SimpleCommand {
             sender.sendMessage(msg("console"));
             return true;
         }
-        List<Player> recentlyDead = new ArrayList<>(API.getRecentlyDead());
+        List<Player> recentlyDead = new ArrayList<>(EventCore.instance.Recent);
         for (Player p : recentlyDead) {
             API.revive(p, ((Player) sender), true);
         }

@@ -35,6 +35,10 @@ public class Revive implements SimpleCommand {
             return true;
         }
         API.revive(p, ((Player) sender), true);
+        sender.sendMessage(msg("revive.revived")
+                .replaceText(builder -> builder.match("%player%").replacement(p.getName()))
+                .replaceText(builder -> builder.match("%reviver%").replacement(sender.getName()))
+        );
         return true;
     }
 

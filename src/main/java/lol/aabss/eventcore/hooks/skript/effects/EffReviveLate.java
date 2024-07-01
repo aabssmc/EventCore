@@ -9,6 +9,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import lol.aabss.eventcore.EventCore;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -36,7 +37,7 @@ public class EffReviveLate extends Effect {
 
     @Override
     protected void execute(@NotNull Event event) {
-        for (Player p : API.getDead()){
+        for (Player p : EventCore.instance.Dead){
             if (loc == null){
                 API.revive(p);
             } else{

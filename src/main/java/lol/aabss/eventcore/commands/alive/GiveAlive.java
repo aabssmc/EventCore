@@ -1,5 +1,6 @@
 package lol.aabss.eventcore.commands.alive;
 
+import lol.aabss.eventcore.EventCore;
 import lol.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -27,7 +28,7 @@ public class GiveAlive implements SimpleCommand {
                 sender.sendMessage(msg("givealive.invalid-item"));
                 return true;
             }
-            for (Player p : API.getAlive()){
+            for (Player p : EventCore.instance.Alive){
                 ItemStack item = new ItemStack(mat, 64);
                 p.getInventory().addItem(item);
             }
@@ -40,7 +41,7 @@ public class GiveAlive implements SimpleCommand {
             sender.sendMessage(msg("givealive.invalid-item"));
             return true;
         }
-        for (Player p : API.getAlive()){
+        for (Player p : EventCore.instance.Alive){
             ItemStack item = new ItemStack(mat, Integer.parseInt(args[1]));
             p.getInventory().addItem(item);
         }

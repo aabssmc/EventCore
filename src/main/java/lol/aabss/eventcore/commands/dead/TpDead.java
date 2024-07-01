@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import static lol.aabss.eventcore.EventCore.API;
+import static lol.aabss.eventcore.EventCore.instance;
 import static lol.aabss.eventcore.util.Config.msg;
 
 public class TpDead implements SimpleCommand {
@@ -17,7 +18,7 @@ public class TpDead implements SimpleCommand {
             sender.sendMessage(msg("console"));
             return true;
         }
-        for (Player player: API.getDead()) {
+        for (Player player: instance.Dead) {
             player.teleport(p.getLocation());
             player.sendMessage(msg("tpdead.teleported"));
         }

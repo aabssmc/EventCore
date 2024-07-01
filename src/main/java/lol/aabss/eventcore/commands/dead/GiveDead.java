@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-import static lol.aabss.eventcore.EventCore.API;
+import static lol.aabss.eventcore.EventCore.instance;
 import static lol.aabss.eventcore.util.Config.msg;
 
 public class GiveDead implements SimpleCommand {
@@ -27,7 +27,7 @@ public class GiveDead implements SimpleCommand {
                 sender.sendMessage(msg("givedead.invalid-item"));
                 return true;
             }
-            for (Player p : API.getDead()){
+            for (Player p : instance.Dead){
                 ItemStack item = new ItemStack(mat, 64);
                 p.getInventory().addItem(item);
             }
@@ -40,7 +40,7 @@ public class GiveDead implements SimpleCommand {
             sender.sendMessage(msg("givedead.invalid-item"));
             return true;
         }
-        for (Player p : API.getDead()){
+        for (Player p : instance.Dead){
             ItemStack item = new ItemStack(mat, Integer.parseInt(args[1]));
             p.getInventory().addItem(item);
         }

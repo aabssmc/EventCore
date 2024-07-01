@@ -34,8 +34,8 @@ public class Listeners implements org.bukkit.event.Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         Player p = event.getPlayer();
-        API.getAlive().remove(event.getPlayer());
-        API.getDead().add(event.getPlayer());
+        EventCore.instance.Alive.remove(event.getPlayer());
+        instance.Dead.add(event.getPlayer());
         if (UPDATE_CHECKER && p.hasPermission("eventcore.admin")){
             UpdateChecker.updateCheck(p);
         }
@@ -56,9 +56,9 @@ public class Listeners implements org.bukkit.event.Listener {
         if (API.isAlive(event.getPlayer())){
             API.unrevive(event.getPlayer(), false);
             if (!API.isRecentlyDead(event.getPlayer())){
-                API.getRecentlyDead().add(event.getEntity());
+                instance.Recent.add(event.getEntity());
                 Bukkit.getScheduler().runTaskLater(EventCore.getPlugin(EventCore.class), () ->
-                                API.getRecentlyDead().remove(event.getEntity()),
+                                instance.Recent.remove(event.getEntity()),
                         Config.get("recent-rev-time", Integer.class)*20
                 );
             }

@@ -1,5 +1,6 @@
 package lol.aabss.eventcore.hooks;
 
+import lol.aabss.eventcore.EventCore;
 import lol.aabss.eventcore.commands.Mutechat;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
@@ -39,8 +40,8 @@ public class PlaceholderAPI extends PlaceholderExpansion {
     @Override
     public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
         return switch (params) {
-            case "alive" -> API.getAlive().size() + "";
-            case "dead" -> API.getDead().size() + "";
+            case "alive" -> EventCore.instance.Alive.size() + "";
+            case "dead" -> EventCore.instance.Dead.size() + "";
             case "status" -> {
                 if (player == null) {
                     yield null;
