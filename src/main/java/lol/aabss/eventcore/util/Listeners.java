@@ -1,6 +1,5 @@
 package lol.aabss.eventcore.util;
 
-import io.papermc.paper.event.player.AsyncChatEvent;
 import lol.aabss.eventcore.EventCore;
 import lol.aabss.eventcore.commands.Visibility;
 import lol.aabss.eventcore.hooks.UpdateChecker;
@@ -23,6 +22,7 @@ public class Listeners implements org.bukkit.event.Listener {
     public void onLeave(PlayerQuitEvent event){
         Player p = event.getPlayer();
         API.unrevive(p, false);
+        instance.Dead.removeIf(player -> player.getUniqueId().equals(p.getUniqueId()));
         for (Player player : Visibility.VisStaff){
             player.showPlayer(instance, p);
         }
@@ -34,7 +34,9 @@ public class Listeners implements org.bukkit.event.Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         Player p = event.getPlayer();
-        EventCore.instance.Alive.remove(event.getPlayer());
+        instance.Recent.removeIf(player -> player.getUniqueId().equals(p.getUniqueId()));
+        instance.Alive.removeIf(player -> player.getUniqueId().equals(p.getUniqueId()));
+        instance.Dead.removeIf(player -> player.getUniqueId().equals(p.getUniqueId()));
         instance.Dead.add(event.getPlayer());
         if (UPDATE_CHECKER && p.hasPermission("eventcore.admin")){
             UpdateChecker.updateCheck(p);

@@ -77,29 +77,27 @@ public class EventCoreAPI {
     }
 
     public void revive(Player p) {
-        if (plugin.Alive.contains(p)){
-            unrevive(p, false);
-        }
         new ReviveEvent(p, Bukkit.getConsoleSender()).callEvent();
-        plugin.Recent.remove(p);
-        plugin.Dead.remove(p);
-        plugin.Alive.add(p);
+        setRevived(p);
     }
 
     public void revive(Player revived, Player reviver, boolean teleport) {
-        if (plugin.Alive.contains(revived)){
-            unrevive(revived, false);
-        }
         new ReviveEvent(revived, reviver).callEvent();
-        plugin.Recent.remove(revived);
-        plugin.Dead.remove(revived);
-        plugin.Alive.add(revived);
+        setRevived(revived);
         if (teleport) revived.teleport(reviver);
     }
 
+    private void setRevived(Player revived) {
+        plugin.Recent.removeIf(player -> player.getUniqueId().equals(revived.getUniqueId()));
+        plugin.Dead.removeIf(player -> player.getUniqueId().equals(revived.getUniqueId()));
+        plugin.Alive.removeIf(player -> player.getUniqueId().equals(revived.getUniqueId()));
+        plugin.Alive.add(revived);
+    }
+
     public void unrevive(Player p, boolean kill) {
-        plugin.Recent.remove(p);
-        plugin.Alive.remove(p);
+        plugin.Recent.removeIf(player -> player.getUniqueId().equals(p.getUniqueId()));
+        plugin.Alive.removeIf(player -> player.getUniqueId().equals(p.getUniqueId()));
+        plugin.Dead.removeIf(player -> player.getUniqueId().equals(p.getUniqueId()));
         plugin.Dead.add(p);
         if (kill) p.setHealth(0);
     }
@@ -124,7 +122,7 @@ public class EventCoreAPI {
                 p.hidePlayer(plugin, player);
             }
             Visibility.VisAll.add(p);
-            Visibility.VisStaff.remove(p);
+            Visibility.VisStaff.removeIf(player -> player.getUniqueId().equals(p.getUniqueId()));
         } else if (state == VisibilityEvent.VisibilityState.STAFF){
             for (Player player : Bukkit.getOnlinePlayers()) {
                 p.hidePlayer(instance, player);
@@ -133,13 +131,13 @@ public class EventCoreAPI {
                 }
             }
             Visibility.VisStaff.add(p);
-            Visibility.VisAll.remove(p);
+            Visibility.VisAll.removeIf(player -> player.getUniqueId().equals(p.getUniqueId()));
         } else if (state == VisibilityEvent.VisibilityState.OFF){
             for (Player player : Bukkit.getOnlinePlayers()) {
                 p.showPlayer(instance, player);
             }
-            Visibility.VisStaff.remove(p);
-            Visibility.VisAll.remove(p);
+            Visibility.VisStaff.removeIf(player -> player.getUniqueId().equals(p.getUniqueId()));
+            Visibility.VisAll.removeIf(player -> player.getUniqueId().equals(p.getUniqueId()));
         }
         new VisibilityEvent(p, state).callEvent();
     }

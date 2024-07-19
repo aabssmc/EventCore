@@ -14,10 +14,7 @@ public class Mutechat implements SimpleCommand {
     @Override
     public boolean run(CommandSender sender, Command command, String[] args) {
         CHAT_MUTED = !CHAT_MUTED;
-        if (CHAT_MUTED)
-            Bukkit.broadcast(msg("mutechat.unmuted"));
-        else
-            Bukkit.broadcast(msg("mutechat.muted"));
+        Bukkit.broadcast(msg("mutechat." + (CHAT_MUTED ? "muted" : "unmute")));
         return true;
     }
 

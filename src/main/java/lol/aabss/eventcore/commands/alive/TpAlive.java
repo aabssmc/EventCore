@@ -19,7 +19,6 @@ public class TpAlive implements SimpleCommand {
         }
         for (Player player: EventCore.instance.Alive) {
             player.teleport(p.getLocation());
-            player.sendMessage(msg("tpalive.teleported"));
         }
         Bukkit.broadcast(msg("tpalive.teleport-broadcast")
                 .replaceText(builder -> builder.matchLiteral("%sender%").replacement(sender.getName())));

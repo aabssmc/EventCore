@@ -20,7 +20,6 @@ public class TpDead implements SimpleCommand {
         }
         for (Player player: instance.Dead) {
             player.teleport(p.getLocation());
-            player.sendMessage(msg("tpdead.teleported"));
         }
         Bukkit.broadcast(msg("tpdead.teleport-broadcast")
                 .replaceText(builder -> builder.matchLiteral("%sender%").replacement(sender.getName())));

@@ -1,6 +1,5 @@
 package lol.aabss.eventcore.commands.revives;
 
-import lol.aabss.eventcore.EventCore;
 import lol.aabss.eventcore.util.Config;
 import lol.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.Bukkit;
@@ -9,8 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import static lol.aabss.eventcore.EventCore.API;
 import static lol.aabss.eventcore.util.Config.msg;
@@ -23,7 +20,8 @@ public class ReviveLate implements SimpleCommand {
             sender.sendMessage(msg("console"));
             return true;
         }
-        for (Player p : EventCore.instance.Dead){
+        for (Player p : Bukkit.getOnlinePlayers()){
+            if (!API.isDead(p)) continue;
             if (Config.get("ignore-perm", Boolean.class) && p.hasPermission("eventcore.reviveall.bypass")) {
                 continue;
             }
