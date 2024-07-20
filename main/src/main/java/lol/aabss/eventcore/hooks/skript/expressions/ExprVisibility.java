@@ -7,7 +7,7 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.util.coll.CollectionUtils;
-import lol.aabss.eventcore.events.VisibilityEvent;
+import aabss.eventcoreapi.VisibilityState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -22,10 +22,10 @@ import static lol.aabss.eventcore.EventCore.API;
         "set visibility state of player to off"
 })
 @Since("2.2")
-public class ExprVisibility extends SimplePropertyExpression<Player, VisibilityEvent.VisibilityState> {
+public class ExprVisibility extends SimplePropertyExpression<Player, VisibilityState> {
 
     static {
-        register(ExprVisibility.class, VisibilityEvent.VisibilityState.class, "[event[core]] visibility state", "players");
+        register(ExprVisibility.class, VisibilityState.class, "[event[core]] visibility state", "players");
     }
 
     @Override
@@ -34,19 +34,19 @@ public class ExprVisibility extends SimplePropertyExpression<Player, VisibilityE
     }
 
     @Override
-    public @Nullable VisibilityEvent.VisibilityState convert(Player player) {
+    public @Nullable VisibilityState convert(Player player) {
         return API.getVisibilityState(player);
     }
 
     @Override
-    public @NotNull Class<? extends VisibilityEvent.VisibilityState> getReturnType() {
-        return VisibilityEvent.VisibilityState.class;
+    public @NotNull Class<? extends VisibilityState> getReturnType() {
+        return VisibilityState.class;
     }
 
     @Override
     public Class<?> @NotNull [] acceptChange(Changer.@NotNull ChangeMode mode) {
         if (mode == Changer.ChangeMode.SET){
-            return CollectionUtils.array(VisibilityEvent.VisibilityState.class);
+            return CollectionUtils.array(VisibilityState.class);
         }
         return CollectionUtils.array();
     }
@@ -58,7 +58,7 @@ public class ExprVisibility extends SimplePropertyExpression<Player, VisibilityE
                 return;
             }
             for (Player p : getExpr().getArray(e)){
-                API.setVisibilityState(p, (VisibilityEvent.VisibilityState) delta[0]);
+                API.setVisibilityState(p, (VisibilityState) delta[0]);
             }
         }
     }

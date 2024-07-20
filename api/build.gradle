@@ -1,0 +1,39 @@
+plugins {
+    id "java"
+    id "maven-publish"
+}
+
+group = "lol.aabss"
+
+dependencies {
+    compileOnly "io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT"
+    compileOnly "me.clip:placeholderapi:2.11.6"
+    implementation "com.github.SkriptLang:Skript:2.7.0"
+    implementation "net.kyori:adventure-text-minimessage:4.17.0"
+    implementation "net.kyori:adventure-platform-bukkit:4.3.3"
+}
+
+jar {
+    archiveBaseName.set("${rootProject.name}-api")
+    archiveVersion.set(version)
+    archiveClassifier.set("")
+    destinationDirectory.set(file("${rootProject.buildDir}/libs"))
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+}
+
+def oldestJava = 17
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += ["-source", "" + oldestJava, "-target", "" + oldestJava]
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset "UTF-8"
+    filesMatching("plugin.yml") {
+        expand props
+    }
+}

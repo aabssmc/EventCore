@@ -1,5 +1,6 @@
 package lol.aabss.eventcore.events;
 
+import aabss.eventcoreapi.VisibilityState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -7,12 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public class VisibilityEvent extends Event {
-
-    public enum VisibilityState{
-        ALL,
-        STAFF,
-        OFF
-    }
 
     /**
      * @param player The player changing visibility.

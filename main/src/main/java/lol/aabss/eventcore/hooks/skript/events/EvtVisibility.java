@@ -6,6 +6,7 @@ import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
+import aabss.eventcoreapi.VisibilityState;
 import lol.aabss.eventcore.events.VisibilityEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -32,9 +33,9 @@ public class EvtVisibility extends SkriptEvent {
                 return e.getPlayer();
             }
         }, 0);
-        EventValues.registerEventValue(VisibilityEvent.class, VisibilityEvent.VisibilityState.class, new Getter<>() {
+        EventValues.registerEventValue(VisibilityEvent.class, VisibilityState.class, new Getter<>() {
             @Override
-            public VisibilityEvent.VisibilityState get(VisibilityEvent e) {
+            public VisibilityState get(VisibilityEvent e) {
                 return e.getState();
             }
         }, 0);

@@ -1,13 +1,14 @@
 package lol.aabss.eventcore;
 
 import ch.njol.skript.Skript;
+import aabss.eventcoreapi.EventCoreAPI;
+import lol.aabss.eventcore.api.EventCoreAPIImpl;
 import lol.aabss.eventcore.commands.alive.*;
 import lol.aabss.eventcore.commands.dead.*;
 import lol.aabss.eventcore.commands.revives.*;
 import lol.aabss.eventcore.hooks.*;
 import lol.aabss.eventcore.commands.*;
 
-import lol.aabss.eventcore.util.EventCoreAPI;
 import lol.aabss.eventcore.util.Listeners;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -37,7 +38,8 @@ public class EventCore extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        API = new EventCoreAPI(this);
+        API = new EventCoreAPIImpl(this);
+        EventCoreAPI.Factory.API = API;
 
         datafile = new File(instance.getDataFolder(), "data.yml");
         dataconfig = YamlConfiguration.loadConfiguration(datafile);

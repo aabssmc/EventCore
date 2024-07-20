@@ -1,1 +1,2 @@
 rootProject.name = 'EventCore'
+include ":api", ":main"

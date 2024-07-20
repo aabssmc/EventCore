@@ -1,8 +1,10 @@
-package lol.aabss.eventcore.util;
+package lol.aabss.eventcore.api;
 
 import lol.aabss.eventcore.EventCore;
 import lol.aabss.eventcore.commands.Visibility;
 import lol.aabss.eventcore.commands.revives.ToggleRevive;
+import aabss.eventcoreapi.EventCoreAPI;
+import aabss.eventcoreapi.VisibilityState;
 import lol.aabss.eventcore.events.ReviveEvent;
 import lol.aabss.eventcore.events.VisibilityEvent;
 import org.bukkit.Bukkit;
@@ -10,16 +12,32 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
+import java.util.List;
 
 import static lol.aabss.eventcore.EventCore.instance;
 import static lol.aabss.eventcore.util.Config.reloadConfig;
 
-public class EventCoreAPI {
+public class EventCoreAPIImpl implements EventCoreAPI {
 
     private final EventCore plugin;
 
-    public EventCoreAPI(EventCore plugin) {
+    public EventCoreAPIImpl(EventCore plugin) {
         this.plugin = plugin;
+    }
+
+    @Override
+    public List<Player> getAlive() {
+        return plugin.Alive;
+    }
+
+    @Override
+    public List<Player> getDead() {
+        return plugin.Dead;
+    }
+
+    @Override
+    public List<Player> getRecentlyDead() {
+        return plugin.Recent;
     }
 
     public boolean isAlive(Player p) {
@@ -106,24 +124,24 @@ public class EventCoreAPI {
         ToggleRevive.REVIVES = !ToggleRevive.REVIVES;
     }
 
-    public VisibilityEvent.VisibilityState getVisibilityState(Player p){
+    public VisibilityState getVisibilityState(Player p){
         if (Visibility.VisAll.contains(p)){
-            return VisibilityEvent.VisibilityState.ALL;
+            return VisibilityState.ALL;
         } else if (Visibility.VisStaff.contains(p)){
-            return VisibilityEvent.VisibilityState.STAFF;
+            return VisibilityState.STAFF;
         } else {
-            return VisibilityEvent.VisibilityState.OFF;
+            return VisibilityState.OFF;
         }
     }
 
-    public void setVisibilityState(Player p, VisibilityEvent.VisibilityState state){
-        if (state == VisibilityEvent.VisibilityState.ALL){
+    public void setVisibilityState(Player p, VisibilityState state){
+        if (state == VisibilityState.ALL){
             for (Player player : Bukkit.getOnlinePlayers()){
                 p.hidePlayer(plugin, player);
             }
             Visibility.VisAll.add(p);
             Visibility.VisStaff.removeIf(player -> player.getUniqueId().equals(p.getUniqueId()));
-        } else if (state == VisibilityEvent.VisibilityState.STAFF){
+        } else if (state == VisibilityState.STAFF){
             for (Player player : Bukkit.getOnlinePlayers()) {
                 p.hidePlayer(instance, player);
                 if (player.hasPermission("eventcore.visibility.staffbypass")) {
@@ -132,7 +150,7 @@ public class EventCoreAPI {
             }
             Visibility.VisStaff.add(p);
             Visibility.VisAll.removeIf(player -> player.getUniqueId().equals(p.getUniqueId()));
-        } else if (state == VisibilityEvent.VisibilityState.OFF){
+        } else if (state == VisibilityState.OFF){
             for (Player player : Bukkit.getOnlinePlayers()) {
                 p.showPlayer(instance, player);
             }

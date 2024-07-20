@@ -1,6 +1,6 @@
 package lol.aabss.eventcore.commands;
 
-import lol.aabss.eventcore.events.VisibilityEvent;
+import aabss.eventcoreapi.VisibilityState;
 import lol.aabss.eventcore.util.SimpleCooldownCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -35,7 +35,7 @@ public class Visibility implements SimpleCooldownCommand {
                         p.sendMessage(msg("visibility.allalreadyhidden"));
                         return true;
                     }
-                    API.setVisibilityState(p, VisibilityEvent.VisibilityState.ALL);
+                    API.setVisibilityState(p, VisibilityState.ALL);
                     p.sendMessage(msg("visibility.allhidden"));
                     return true;
                 }
@@ -46,7 +46,7 @@ public class Visibility implements SimpleCooldownCommand {
                         p.sendMessage(msg("visibility.staffalreadyhidden"));
                         return true;
                     }
-                    API.setVisibilityState(p, VisibilityEvent.VisibilityState.STAFF);
+                    API.setVisibilityState(p, VisibilityState.STAFF);
                     p.sendMessage(msg("visibility.staffhidden"));
                     return true;
                 }
@@ -57,7 +57,7 @@ public class Visibility implements SimpleCooldownCommand {
                         p.sendMessage(msg("visibility.visibilityalreadyoff"));
                         return true;
                     }
-                    API.setVisibilityState(p, VisibilityEvent.VisibilityState.OFF);
+                    API.setVisibilityState(p, VisibilityState.OFF);
                     p.sendMessage(msg("visibility.visibilityoff"));
                     return true;
                 }

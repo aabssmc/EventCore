@@ -5,14 +5,14 @@ import ch.njol.skript.classes.Parser;
 import ch.njol.skript.lang.ParseContext;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.skript.util.EnumUtils;
-import lol.aabss.eventcore.events.VisibilityEvent;
+import aabss.eventcoreapi.VisibilityState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Types {
     static {
-        EnumUtils<VisibilityEvent.VisibilityState> states = new EnumUtils<>(VisibilityEvent.VisibilityState.class, "visibilitystate");
-        Classes.registerClass(new ClassInfo<>(VisibilityEvent.VisibilityState.class, "visibilitystate")
+        EnumUtils<VisibilityState> states = new EnumUtils<>(VisibilityState.class, "visibilitystate");
+        Classes.registerClass(new ClassInfo<>(VisibilityState.class, "visibilitystate")
                 .user("visibility ?states?")
                 .name("Visibility State")
                 .description("Represents a visibility state.")
@@ -21,7 +21,7 @@ public class Types {
 
                     @Override
                     @Nullable
-                    public VisibilityEvent.VisibilityState parse(@NotNull String input, @NotNull ParseContext context) {
+                    public VisibilityState parse(@NotNull String input, @NotNull ParseContext context) {
                         return states.parse(input);
                     }
 
@@ -31,12 +31,12 @@ public class Types {
                     }
 
                     @Override
-                    public @NotNull String toVariableNameString(VisibilityEvent.VisibilityState state) {
+                    public @NotNull String toVariableNameString(VisibilityState state) {
                         return state.name().replaceAll("_", " ").toLowerCase();
                     }
 
                     @Override
-                    public @NotNull String toString(VisibilityEvent.VisibilityState state, int flags) {
+                    public @NotNull String toString(VisibilityState state, int flags) {
                         return toVariableNameString(state);
                     }
                 })
