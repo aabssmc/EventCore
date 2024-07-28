@@ -1,4 +1,4 @@
-package lol.aabss.eventcore.commands;
+package lol.aabss.eventcore.commands.other;
 
 import aabss.eventcoreapi.VisibilityState;
 import lol.aabss.eventcore.util.SimpleCooldownCommand;
@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
+import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class Visibility implements SimpleCooldownCommand {
     }
 
     @Override
-    public Duration cooldown() {
+    public TemporalAmount cooldown() {
         return Duration.ofSeconds(3);
     }
 }

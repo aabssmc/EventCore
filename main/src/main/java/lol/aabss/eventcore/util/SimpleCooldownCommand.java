@@ -1,34 +1,44 @@
 package lol.aabss.eventcore.util;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAmount;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import static lol.aabss.eventcore.EventCore.cooldowns;
 import static lol.aabss.eventcore.util.Config.msg;
 
 public interface SimpleCooldownCommand extends SimpleCommand {
-    Map<CommandSender, Instant> cooldowns = new HashMap<>();
 
     @Override
     default boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Instant now = Instant.now();
-        Instant cool = cooldowns.get(sender);
+        if (!cooldowns.containsKey(this.getClass().getName())){
+            cooldowns.put(this.getClass().getName(), Map.of(sender, now.plus(cooldown())));
+            return SimpleCommand.super.onCommand(sender, command, label, args);
+        }
+        Instant cool = cooldowns.get(this.getClass().getName()).get(sender);
         if (cool != null && cool.isAfter(now)) {
             Duration remaining = Duration.between(now, cool);
             sender.sendMessage(msg("cooldown")
                     .replaceText(builder -> builder.match("%time%").replacement(formatDuration(remaining))));
             return true;
         }
-        cooldowns.put(sender, now.plus(cooldown()));
+        Map<CommandSender, Instant> newMap = cooldowns.get(this.getClass().getName());
+        newMap.put(sender, now.plus(cooldown()));
+        cooldowns.put(this.getClass().getName(), newMap);
         return SimpleCommand.super.onCommand(sender, command, label, args);
     }
 
-    Duration cooldown();
+    TemporalAmount cooldown();
 
     private String formatDuration(Duration duration) {
         long seconds = duration.getSeconds();

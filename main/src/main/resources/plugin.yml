@@ -101,6 +101,10 @@ commands:
     aliases: [revrecent, reviverecent, recentrevive]
     description: "Mutes/unmutes the chat."
     permission: eventcore.command.recentrev
+  clearchat:
+    aliases: [chatclear]
+    description: "Clears the chat of all players."
+    permission: eventcore.command.clearchat
 
 permissions:
   eventcore.visibility.staffbypass:

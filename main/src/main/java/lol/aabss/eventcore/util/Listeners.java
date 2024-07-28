@@ -1,7 +1,7 @@
 package lol.aabss.eventcore.util;
 
 import lol.aabss.eventcore.EventCore;
-import lol.aabss.eventcore.commands.Visibility;
+import lol.aabss.eventcore.commands.other.Visibility;
 import lol.aabss.eventcore.hooks.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -11,7 +11,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import static lol.aabss.eventcore.commands.Mutechat.CHAT_MUTED;
+import static lol.aabss.eventcore.commands.other.Mutechat.CHAT_MUTED;
 import static lol.aabss.eventcore.hooks.UpdateChecker.UPDATE_CHECKER;
 import static lol.aabss.eventcore.util.Config.msg;
 import static lol.aabss.eventcore.EventCore.*;

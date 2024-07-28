@@ -133,6 +133,12 @@ public interface EventCoreAPI {
     void setVisibilityState(Player p, VisibilityState state);
 
     /**
+     * Clears the chat (aka. sends a bunch of new lines).
+     * @param sendMessage Whether it should tell everyone that the chat just got cleared
+     */
+    void clearChat(boolean sendMessage);
+
+    /**
      * Super simple class to get the EventCore API
      */
     class Factory {

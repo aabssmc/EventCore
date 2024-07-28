@@ -1,4 +1,4 @@
-package lol.aabss.eventcore.commands;
+package lol.aabss.eventcore.commands.other;
 
 import lol.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.Bukkit;

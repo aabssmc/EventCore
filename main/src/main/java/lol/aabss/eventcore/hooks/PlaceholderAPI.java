@@ -1,7 +1,7 @@
 package lol.aabss.eventcore.hooks;
 
 import lol.aabss.eventcore.EventCore;
-import lol.aabss.eventcore.commands.Mutechat;
+import lol.aabss.eventcore.commands.other.Mutechat;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -22,9 +22,10 @@ public class PlaceholderAPI extends PlaceholderExpansion {
         return "aabss";
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public @NotNull String getVersion() {
-        return "1.2";
+        return EventCore.instance.getDescription().getVersion();
     }
 
     @Override

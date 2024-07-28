@@ -1,4 +1,4 @@
-package lol.aabss.eventcore.commands;
+package lol.aabss.eventcore.commands.other;
 
 import lol.aabss.eventcore.util.Config;
 import lol.aabss.eventcore.util.SimpleCommand;

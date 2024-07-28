@@ -1,7 +1,7 @@
 package lol.aabss.eventcore.api;
 
 import lol.aabss.eventcore.EventCore;
-import lol.aabss.eventcore.commands.Visibility;
+import lol.aabss.eventcore.commands.other.Visibility;
 import lol.aabss.eventcore.commands.revives.ToggleRevive;
 import aabss.eventcoreapi.EventCoreAPI;
 import aabss.eventcoreapi.VisibilityState;
@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static lol.aabss.eventcore.EventCore.instance;
+import static lol.aabss.eventcore.util.Config.msg;
 import static lol.aabss.eventcore.util.Config.reloadConfig;
 
 public class EventCoreAPIImpl implements EventCoreAPI {
@@ -158,5 +159,14 @@ public class EventCoreAPIImpl implements EventCoreAPI {
             Visibility.VisAll.removeIf(player -> player.getUniqueId().equals(p.getUniqueId()));
         }
         new VisibilityEvent(p, state).callEvent();
+    }
+
+    public void clearChat(boolean sendMessage){
+        Bukkit.getOnlinePlayers().forEach(p -> {
+            p.sendMessage("\n".repeat(1000));
+            if (sendMessage){
+                p.sendMessage(msg("clearchat.cleared"));
+            }
+        });
     }
 }

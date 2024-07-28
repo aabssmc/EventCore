@@ -5,12 +5,16 @@ import aabss.eventcoreapi.EventCoreAPI;
 import lol.aabss.eventcore.api.EventCoreAPIImpl;
 import lol.aabss.eventcore.commands.alive.*;
 import lol.aabss.eventcore.commands.dead.*;
+import lol.aabss.eventcore.commands.other.ClearChat;
+import lol.aabss.eventcore.commands.other.MainCommand;
+import lol.aabss.eventcore.commands.other.Mutechat;
+import lol.aabss.eventcore.commands.other.Visibility;
 import lol.aabss.eventcore.commands.revives.*;
 import lol.aabss.eventcore.hooks.*;
-import lol.aabss.eventcore.commands.*;
 
 import lol.aabss.eventcore.util.Listeners;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -18,6 +22,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.*;
 
 import static lol.aabss.eventcore.hooks.UpdateChecker.UPDATE_CHECKER;
@@ -34,6 +39,7 @@ public class EventCore extends JavaPlugin {
     public File datafile;
     public FileConfiguration dataconfig;
     public static EventCoreAPI API;
+    public static Map<String, Map<CommandSender, Instant>> cooldowns = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -76,6 +82,7 @@ public class EventCore extends JavaPlugin {
         new UseRevive().register();
 
         // ---
+        new ClearChat().register();
         new MainCommand().register("eventcore");
         new Mutechat().register();
         new Visibility().register();
