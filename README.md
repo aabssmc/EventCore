@@ -5,6 +5,7 @@ A plugin made to simplify hosting events/challenges
 - /alivelist - eventcore.command.alivelist - Sends all alive players.
 - /balrevive - eventcore.command.balrevive - Checks the revive balance of a player.
 - /clearalive - eventcore.command.clearalive - Clears the inventory of alive players.
+- /clearchat - eventcore.command.clearchat - Clears the chat of all players.
 - /cleardead - eventcore.command.cleardead - Clears the inventory of dead players.
 - /deadlist - eventcore.command.deadlist - Sends all dead players.
 - /eventcore - eventcore.command.main - Main command
@@ -27,13 +28,13 @@ A plugin made to simplify hosting events/challenges
 - /tpdead - eventcore.command.tpdead - Teleports all dead players.
 - /unrevive - eventcore.command.unrevive - Unrevives an alive player.
 - /userevive - eventcore.command.userevive - Uses a revive if the sender has enough revives.
-- /visibility - eventcore.command.visibility - Hides players.
+- /visibility - eventcore.visibility.use - Hides players.
 
 ## Permissions:
 - eventcore.visibility.staffbypass - Lets players see the permission holder during hide staff.
 - eventcore.visibility.all - Use '/visibility all'.
-- eventcore.visibility.all - Use '/visibility staff'.
-- eventcore.visibility.all - Use '/visibility off'.
+- eventcore.visibility.staff - Use '/visibility staff'.
+- eventcore.visibility.off - Use '/visibility off'.
 - eventcore.reviveall.bypass - Won't revive the permission holder in a revive all..
 
 

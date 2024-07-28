@@ -3,12 +3,12 @@ plugins {
 }
 
 group = "lol.aabss"
-version = "2.2"
+version = "2.3"
 
 subprojects {
 
     group = "lol.aabss"
-    version = "2.2"
+    version = "2.3"
 
     repositories {
         mavenCentral()

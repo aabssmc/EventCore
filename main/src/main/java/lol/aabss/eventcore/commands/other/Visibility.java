@@ -81,6 +81,6 @@ public class Visibility implements SimpleCooldownCommand {
 
     @Override
     public TemporalAmount cooldown() {
-        return Duration.ofSeconds(3);
+        return Duration.ofSeconds(5);
     }
 }
