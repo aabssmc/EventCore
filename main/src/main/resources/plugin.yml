@@ -1,5 +1,5 @@
 name: EventCore
-version: '2.2'
+version: '2.3'
 main: lol.aabss.eventcore.EventCore
 api-version: '1.13'
 authors:
