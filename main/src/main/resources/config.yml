@@ -31,8 +31,8 @@ clearalive:
 givealive:
   no-item: "%prefix% <red>Please specify an item!"
   invalid-item: "%prefix% <red>Invalid item type!"
-  gave-64: "%prefix% <yellow>Gave all alive players <orange>64x %item%</orange>!"
-  gave: "%prefix% <yellow>Gave all alive players <orange>%amount%x %item%</orange>!"
+  gave-64: "%prefix% <yellow>Gave all alive players <gold>64x %item%</gold>!"
+  gave: "%prefix% <yellow>Gave all alive players <gold>%amount%x %item%</gold>!"
 
 healalive:
   healed: "%prefix% <yellow>All alive players have been healed."
@@ -42,7 +42,7 @@ killalive:
 
 tpalive:
   teleported: "%prefix% <yellow>You have been teleported."
-  teleport-broadcast: "%prefix% <yellow><orange>%sender%</orange> teleport all alive players to them!"
+  teleport-broadcast: "%prefix% <yellow><gold>%sender%</gold> teleport all alive players to them!"
 
 # Dead ----
 
@@ -57,8 +57,8 @@ deadlist:
 givedead:
   no-item: "%prefix% <red>Please specify an item!"
   invalid-item: "%prefix% <red>Invalid item type!"
-  gave-64: "%prefix% <yellow>Gave all dead players <orange>64x %item%</orange>!"
-  gave: "%prefix% <yellow>Gave all dead players <orange>%amount%x %item%</orange>!"
+  gave-64: "%prefix% <yellow>Gave all dead players <gold>64x %item%</gold>!"
+  gave: "%prefix% <yellow>Gave all dead players <gold>%amount%x %item%</gold>!"
 
 healdead:
   healed: "%prefix% <yellow>All dead players have been healed."
@@ -68,50 +68,50 @@ killdead:
 
 tpdead:
   teleported: "%prefix% <yellow>You have been teleported."
-  teleport-broadcast: "%prefix% <yellow><orange>%sender%</orange> has teleport all dead players to them!"
+  teleport-broadcast: "%prefix% <yellow><gold>%sender%</gold> has teleport all dead players to them!"
 
 # Revives ----
 
 balrevive:
   invalid-player: "%prefix% <red>Invalid player!"
-  self: "%prefix% <yellow>You have <orange>%revives%</orange> revives!"
-  player: "%prefix% <yellow><orange>%player%</orange> has <orange>%revives%</orange> revives!"
+  self: "%prefix% <yellow>You have <gold>%revives%</gold> revives!"
+  player: "%prefix% <yellow><gold>%player%</gold> has <gold>%revives%</gold> revives!"
 
 giverevive:
   specifyplayer: "%prefix% <red>Please specify a player."
   specifyamount: "%prefix% <red>Please specify an amount."
   invalidplayer: "%prefix% <red>Invalid Player."
-  give: "%prefix% <yellow>You have given %player% <orange>%amount%</orange> revives!"
-  receive: "%prefix% <yellow>You have received <orange>%amount%</orange> revives!"
+  give: "%prefix% <yellow>You have given %player% <gold>%amount%</gold> revives!"
+  receive: "%prefix% <yellow>You have received <gold>%amount%</gold> revives!"
 
 recentrev:
-  revived: "%prefix% <yellow>All players from the past <orange>%time%</orange> seconds have been revived!"
+  revived: "%prefix% <yellow>All players from the past <gold>%time%</gold> seconds have been revived!"
 
 revive:
   specifyplayer: "%prefix% <red>Please specify a player."
   invalidplayer: "%prefix% <red>Invalid player."
   alreadyalive: "%prefix% <red>%player% is already alive."
-  revived: "%prefix% <yellow><orange>%player%</orange> has been revived by %reviver%!"
+  revived: "%prefix% <yellow><gold>%player%</gold> has been revived by %reviver%!"
 
 reviveall:
-  revived: "%prefix% <yellow><orange>%player%</orange> has revived all players!"
+  revived: "%prefix% <yellow><gold>%player%</gold> has revived all players!"
 
 revivelate:
-  revived: "%prefix% <yellow><orange>%player%</orange> has revived all late players!"
+  revived: "%prefix% <yellow><gold>%player%</gold> has revived all late players!"
 
 setrevive:
   specifyplayer: "%prefix% <red>Please specify a player."
   specifyamount: "%prefix% <red>Please specify an amount."
   invalidplayer: "%prefix% <red>Invalid player."
-  set: "%prefix% <yellow>You have set %player%'(s) revives to <orange>%amount%</orange>!"
-  receive: "%prefix% <yellow>Your revives are now <orange>%amount%</orange>!"
+  set: "%prefix% <yellow>You have set %player%'(s) revives to <gold>%amount%</gold>!"
+  receive: "%prefix% <yellow>Your revives are now <gold>%amount%</gold>!"
 
 takerevive:
   specifyplayer: "%prefix% <red>Please specify a player."
   specifyamount: "%prefix% <red>Please specify an amount."
   invalidplayer: "%prefix% <red>Invalid player."
-  take: "%prefix% <yellow>You have took <orange>%amount%</orange> revives from %player%!"
-  lose: "%prefix% <yellow>You have lost <orange>%amount%</orange> revives!"
+  take: "%prefix% <yellow>You have took <gold>%amount%</gold> revives from %player%!"
+  lose: "%prefix% <yellow>You have lost <gold>%amount%</gold> revives!"
 
 togglerevive:
   enabled: "%prefix% <green>Revives enabled!"
@@ -121,12 +121,12 @@ unrevive:
   specifyplayer: "%prefix% <red>Please specify a player."
   invalidplayer: "%prefix% <red>Invalid player."
   alreadydead: "%prefix% <red>%player% is already dead."
-  unrevived: "%prefix% <orange>%player%</orange> <yellow>has been un-revived by %unreviver%!"
+  unrevived: "%prefix% <gold>%player%</gold> <yellow>has been un-revived by %unreviver%!"
 
 userevive:
   notenough: "%prefix% <red>You do not have enough revives."
   revivesoff: "%prefix% <red>Revives are disabled!"
-  request: "%prefix% <orange>%player%</orange> <yellow>has requested to be revived!"
+  request: "%prefix% <gold>%player%</gold> <yellow>has requested to be revived!"
 
 # Other ----
 
@@ -144,4 +144,4 @@ visibility:
   visibilityoff: "%prefix% <yellow>Visibility is now off!"
 
 clearchat:
-  cleared: "%prefix% <yellow>Chat has been cleared by <orange>%player%</orange>!"
+  cleared: "%prefix% <yellow>Chat has been cleared by <gold>%player%</gold>!"
