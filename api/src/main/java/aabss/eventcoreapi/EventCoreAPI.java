@@ -1,6 +1,7 @@
 package aabss.eventcoreapi;
 
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -134,9 +135,16 @@ public interface EventCoreAPI {
 
     /**
      * Clears the chat (aka. sends a bunch of new lines).
-     * @param sendMessage Whether it should tell everyone that the chat just got cleared
+     * @param sendMessage Whether it should tell everyone that the chat just got cleared.
      */
     void clearChat(boolean sendMessage);
+
+    /**
+     * Clears the chat (aka. sends a bunch of new lines).
+     * @param sendMessage Whether it should tell everyone that the chat just got cleared.
+     * @param sender The sender that will be clearing the chat.
+     */
+    void clearChat(boolean sendMessage, CommandSender sender);
 
     /**
      * Super simple class to get the EventCore API

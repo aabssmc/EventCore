@@ -7,8 +7,10 @@ import aabss.eventcoreapi.EventCoreAPI;
 import aabss.eventcoreapi.VisibilityState;
 import lol.aabss.eventcore.events.ReviveEvent;
 import lol.aabss.eventcore.events.VisibilityEvent;
+import net.kyori.adventure.text.TextReplacementConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -162,10 +164,14 @@ public class EventCoreAPIImpl implements EventCoreAPI {
     }
 
     public void clearChat(boolean sendMessage){
+        clearChat(sendMessage, Bukkit.getConsoleSender());
+    }
+
+    public void clearChat(boolean sendMessage, CommandSender sender){
         Bukkit.getOnlinePlayers().forEach(p -> {
-            p.sendMessage("\n".repeat(1000));
+            p.sendMessage(" \n ".repeat(1000));
             if (sendMessage){
-                p.sendMessage(msg("clearchat.cleared"));
+                p.sendMessage(msg("clearchat.cleared").replaceText(TextReplacementConfig.builder().match("%player%").replacement(sender.getName()).build()));
             }
         });
     }
