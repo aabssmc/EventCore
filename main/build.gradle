@@ -32,7 +32,7 @@ processResources {
 }
 
 jar {
-    archiveBaseName.set("${rootProject.name}-main")
+    archiveBaseName.set("${rootProject.name}")
     archiveVersion.set(version)
     archiveClassifier.set("")
     destinationDirectory.set(file("${rootProject.buildDir}/libs"))
