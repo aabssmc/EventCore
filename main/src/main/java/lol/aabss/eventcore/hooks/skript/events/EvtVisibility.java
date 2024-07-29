@@ -6,7 +6,7 @@ import ch.njol.skript.lang.SkriptEvent;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
-import aabss.eventcoreapi.VisibilityState;
+import cc.aabss.eventcoreapi.VisibilityState;
 import lol.aabss.eventcore.events.VisibilityEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

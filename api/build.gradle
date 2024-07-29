@@ -17,7 +17,7 @@ jar {
     archiveBaseName.set("${rootProject.name}-api")
     archiveVersion.set(version)
     archiveClassifier.set("")
-    destinationDirectory.set(file("${rootProject.buildDir}/libs"))
+    destinationDirectory.set(file("${rootProject.buildDir}/libs/api"))
 }
 
 java {
@@ -35,5 +35,40 @@ processResources {
     filteringCharset "UTF-8"
     filesMatching("plugin.yml") {
         expand props
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    archiveBaseName.set("${rootProject.name}-api")
+    archiveVersion.set(version)
+    archiveClassifier.set("sources")
+    destinationDirectory.set(file("${rootProject.buildDir}/libs/api"))
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveBaseName.set("${rootProject.name}-api")
+    archiveVersion.set(version)
+    archiveClassifier.set("javadoc")
+    destinationDirectory.set(file("${rootProject.buildDir}/libs/api"))
+}
+
+javadoc {
+    options.encoding = 'UTF-8'
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+        }
     }
 }

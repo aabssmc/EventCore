@@ -1,6 +1,6 @@
 package lol.aabss.eventcore.commands.other;
 
-import aabss.eventcoreapi.VisibilityState;
+import cc.aabss.eventcoreapi.VisibilityState;
 import lol.aabss.eventcore.util.SimpleCooldownCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

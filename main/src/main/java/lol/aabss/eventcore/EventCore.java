@@ -1,7 +1,7 @@
 package lol.aabss.eventcore;
 
 import ch.njol.skript.Skript;
-import aabss.eventcoreapi.EventCoreAPI;
+import cc.aabss.eventcoreapi.EventCoreAPI;
 import lol.aabss.eventcore.api.EventCoreAPIImpl;
 import lol.aabss.eventcore.commands.alive.*;
 import lol.aabss.eventcore.commands.dead.*;

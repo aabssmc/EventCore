@@ -1,6 +1,6 @@
 package lol.aabss.eventcore.events;
 
-import aabss.eventcoreapi.VisibilityState;
+import cc.aabss.eventcoreapi.VisibilityState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

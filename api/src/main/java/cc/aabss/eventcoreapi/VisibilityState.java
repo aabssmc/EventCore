@@ -1,4 +1,4 @@
-package aabss.eventcoreapi;
+package cc.aabss.eventcoreapi;
 
 /**
  * The state of a visibility.

@@ -1,4 +1,4 @@
-package aabss.eventcoreapi;
+package cc.aabss.eventcoreapi;
 
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
