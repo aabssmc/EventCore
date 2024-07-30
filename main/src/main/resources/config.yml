@@ -8,6 +8,26 @@ recent-rev-time: 30
 # whether it should notify the staff if a new update is found on join
 update-checker: true
 
+# scoreboard ---------
+# MiniMessage supported
+# PlaceholderAPI supported
+
+# whether the scoreboard should be shown to the players
+enable-scoreboard: false
+
+# the title of the scoreboard
+scoreboard-title: "<gold><bold>EventCore"
+
+# each line of the scoreboard
+scoreboard-lines:
+  - "<yellow><bold>%player_name%:"
+  - " <yellow>Revives: <gold>%eventcore_revives%"
+  - " <yellow>Status: <gold>%eventcore_status%"
+  - ""
+  - "<yellow><bold>Event:"
+  - " <yellow>Alive: <gold>%eventcore_alive%"
+  - " <yellow>Dead: <gold>%eventcore_dead%"
+
 # messages -----------
 
 # MiniMessage supported

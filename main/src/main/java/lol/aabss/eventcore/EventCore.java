@@ -157,4 +157,13 @@ public class EventCore extends JavaPlugin {
         return builder.toString();
     }
 
+    public static boolean classExists(String className){
+        try {
+            Class.forName(className);
+            return true;
+        } catch (ClassNotFoundException ignored) {
+            return false;
+        }
+    }
+
 }
