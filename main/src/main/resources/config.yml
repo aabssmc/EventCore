@@ -35,6 +35,8 @@ prefix: "<gold><bold>EventCore <gray>»"
 permission-message: "<red>You do not have permission to do that!"
 console: "%prefix% <red>This command is only executable by players!"
 cooldown: "%prefix% <red>You are on cooldown! <gray>(%time%)"
+number-out-of-bounds: "%prefix% <red>That number is out of bounds!"
+success: "%prefix% <green>Successful!"
 
 reloaded: "%prefix% <green>Config reloaded!"
 
