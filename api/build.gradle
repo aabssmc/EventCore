@@ -46,21 +46,8 @@ task sourcesJar(type: Jar) {
     destinationDirectory.set(file("${rootProject.buildDir}/libs/api"))
 }
 
-task javadocJar(type: Jar) {
-    from javadoc
-    archiveBaseName.set("${rootProject.name}-api")
-    archiveVersion.set(version)
-    archiveClassifier.set("javadoc")
-    destinationDirectory.set(file("${rootProject.buildDir}/libs/api"))
-}
-
-javadoc {
-    options.encoding = 'UTF-8'
-}
-
 artifacts {
     archives sourcesJar
-    archives javadocJar
 }
 
 publishing {
@@ -68,7 +55,6 @@ publishing {
         mavenJava(MavenPublication) {
             from components.java
             artifact sourcesJar
-            artifact javadocJar
         }
     }
 }
