@@ -2,8 +2,6 @@ plugins {
     id "java"
 }
 
-group = "cc.aabss"
-
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT"
     compileOnly "me.clip:placeholderapi:2.11.6"
@@ -33,7 +31,7 @@ processResources {
 
 jar {
     archiveBaseName.set("${rootProject.name}")
-    archiveVersion.set(version)
+    archiveVersion.set(version.toString())
     archiveClassifier.set("")
     destinationDirectory.set(file("${rootProject.buildDir}/libs"))
     from project(":api").sourceSets.main.output

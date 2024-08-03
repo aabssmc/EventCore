@@ -3,8 +3,6 @@ plugins {
     id "maven-publish"
 }
 
-group = "cc.aabss"
-
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT"
     compileOnly "me.clip:placeholderapi:2.11.6"
@@ -15,7 +13,7 @@ dependencies {
 
 jar {
     archiveBaseName.set("${rootProject.name}-api")
-    archiveVersion.set(version)
+    archiveVersion.set(version.toString())
     archiveClassifier.set("")
     destinationDirectory.set(file("${rootProject.buildDir}/libs/api"))
 }
@@ -38,10 +36,10 @@ processResources {
     }
 }
 
-task sourcesJar(type: Jar) {
+tasks.register('sourcesJar', Jar) {
     from sourceSets.main.allSource
     archiveBaseName.set("${rootProject.name}-api")
-    archiveVersion.set(version)
+    archiveVersion.set(version.toString())
     archiveClassifier.set("sources")
     destinationDirectory.set(file("${rootProject.buildDir}/libs/api"))
 }

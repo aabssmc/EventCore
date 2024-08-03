@@ -7,7 +7,7 @@ version = "2.3"
 
 subprojects {
 
-    group = "cc.aabss"
+    group = rootProject.group
     version = rootProject.version
 
     repositories {
