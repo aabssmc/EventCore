@@ -2,12 +2,12 @@ plugins {
     id "java"
 }
 
-group = "lol.aabss"
+group = "cc.aabss"
 version = "2.3"
 
 subprojects {
 
-    group = "lol.aabss"
+    group = "cc.aabss"
     version = rootProject.version
 
     repositories {

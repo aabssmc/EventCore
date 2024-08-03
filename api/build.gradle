@@ -3,7 +3,7 @@ plugins {
     id "maven-publish"
 }
 
-group = "lol.aabss"
+group = "cc.aabss"
 
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT"
