@@ -16,10 +16,12 @@ update-checker: true
 enable-scoreboard: false
 
 # the title of the scoreboard
-scoreboard-title: "<gold><bold>EventCore"
+scoreboard-title: "<gold><bold>EventCore</bold> <dark_gray>(%server_online%/%server_max_players%)"
 
 # each line of the scoreboard
+# use %player% for the name of the player
 scoreboard-lines:
+  - ""
   - "<yellow><bold>%player_name%:"
   - " <yellow>Revives: <gold>%eventcore_revives%"
   - " <yellow>Status: <gold>%eventcore_status%"
@@ -27,6 +29,8 @@ scoreboard-lines:
   - "<yellow><bold>Event:"
   - " <yellow>Alive: <gold>%eventcore_alive%"
   - " <yellow>Dead: <gold>%eventcore_dead%"
+  - ""
+  - "<gray>eventcore.aabss.cc"
 
 # messages -----------
 
@@ -62,6 +66,11 @@ healalive:
 killalive:
   killed: "%prefix% <yellow>All alive players have been killed."
 
+potionalive:
+  cleared: "%prefix% <yellow>Cleared all effects from all alive players!"
+  invalid: "%prefix% <red>That potion does not exist!"
+  gave: "%prefix% <yellow>Gave all alive players %potioneffect% of %amplifier% for %time% seconds!"
+
 tpalive:
   teleported: "%prefix% <yellow>You have been teleported."
   teleport-broadcast: "%prefix% <yellow><gold>%sender%</gold> teleport all alive players to them!"
@@ -87,6 +96,11 @@ healdead:
 
 killdead:
   killed: "%prefix% <yellow>All dead players have been killed."
+
+potiondead:
+  cleared: "%prefix% <yellow>Cleared all effects from all dead players!"
+  invalid: "%prefix% <red>That potion does not exist!"
+  gave: "%prefix% <yellow>Gave all dead players %potioneffect% of %amplifier% for %time% seconds!"
 
 tpdead:
   teleported: "%prefix% <yellow>You have been teleported."

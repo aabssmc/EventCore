@@ -58,6 +58,7 @@ public class EventCore extends JavaPlugin {
         new GiveAlive().register();
         new HealAlive().register();
         new KillAlive().register();
+        new PotionAlive().register();
         new TpAlive().register();
 
         // ---
@@ -66,6 +67,7 @@ public class EventCore extends JavaPlugin {
         new GiveDead().register();
         new HealDead().register();
         new KillDead().register();
+        new PotionDead().register();
         new TpDead().register();
 
         // ---
@@ -87,7 +89,6 @@ public class EventCore extends JavaPlugin {
         new Mutechat().register();
         new Visibility().register();
 
-
         // Registering PlaceholderAPI
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             getLogger().info("PlaceholderAPI found! Registering placeholders...");
@@ -103,7 +104,7 @@ public class EventCore extends JavaPlugin {
             getLogger().info("Skript found! Registering elements...");
             try {
                 Skript.registerAddon(this)
-                        .loadClasses("lol.aabss.eventcore", "hooks.skript")
+                        .loadClasses("cc.aabss.eventcore", "hooks.skript")
                         .setLanguageFileDirectory("lang");
             } catch (IOException e) {
                 throw new RuntimeException();
@@ -113,7 +114,6 @@ public class EventCore extends JavaPlugin {
         else{
             getLogger().warning("Skript not found, skipping...");
         }
-
 
         // Registering all events
         getServer().getPluginManager().registerEvents(new Listeners(), this);

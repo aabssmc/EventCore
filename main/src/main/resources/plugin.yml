@@ -1,12 +1,12 @@
 name: EventCore
 version: '${version}'
-main: lol.aabss.eventcore.EventCore
+main: cc.aabss.eventcore.EventCore
 api-version: '1.13'
 authors:
   - aabss
 contributors: [xCheezie]
 description: Hosting events has never been easier!
-website: https://aabss.lol
+website: https://aabss.cc
 softdepend:
   - PlaceholderAPI
   - Skript
@@ -105,6 +105,14 @@ commands:
     aliases: [chatclear]
     description: "Clears the chat of all players."
     permission: eventcore.command.clearchat
+  potionalive:
+    aliases: [effectalive]
+    description: "Gives a potion effect to all the alive players."
+    permission: eventcore.command.potionalive
+  potiondead:
+    aliases: [effectdead]
+    description: "Gives a potion effect to all the dead players."
+    permission: eventcore.command.potiondead
 
 permissions:
   eventcore.visibility.staffbypass:

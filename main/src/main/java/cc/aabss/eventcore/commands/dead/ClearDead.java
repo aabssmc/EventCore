@@ -23,6 +23,5 @@ public class ClearDead implements SimpleCommand {
             }
         }
         sender.sendMessage(Config.msg("cleardead.cleared"));
-        return;
     }
 }
