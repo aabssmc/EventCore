@@ -7,8 +7,7 @@ import org.bukkit.command.CommandSender;
 
 public class ClearChat implements SimpleCommand {
     @Override
-    public boolean run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, Command command, String[] args) {
         EventCore.API.clearChat(true, sender);
-        return true;
     }
 }

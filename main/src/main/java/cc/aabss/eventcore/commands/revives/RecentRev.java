@@ -14,10 +14,10 @@ import java.util.List;
 public class RecentRev implements SimpleCommand {
 
     @Override
-    public boolean run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, Command command, String[] args) {
         if (sender instanceof ConsoleCommandSender) {
             sender.sendMessage(Config.msg("console"));
-            return true;
+            return;
         }
         List<Player> recentlyDead = new ArrayList<>(EventCore.instance.Recent);
         for (Player p : recentlyDead) {
@@ -25,7 +25,6 @@ public class RecentRev implements SimpleCommand {
         }
         Bukkit.broadcast(Config.msg("recentrev.revived")
                 .replaceText(builder -> builder.match("%time%").replacement(Config.get("recent-rev-time", Integer.class).toString())));
-        return true;
     }
 
 }

@@ -14,20 +14,20 @@ import java.util.List;
 public class GiveRevive implements SimpleCommand {
 
     @Override
-    public boolean run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, Command command, String[] args) {
         if (args.length == 0){
             sender.sendMessage(Config.msg("giverevive.specifyplayer"));
-            return true;
+            return;
         }
         if (args.length == 1){
             sender.sendMessage(Config.msg("giverevive.specifyamount"));
-            return true;
+            return;
         }
 
         Player p = Bukkit.getPlayer(args[0]);
         if (p == null){
             sender.sendMessage(Config.msg("giverevive.invalidplayer"));
-            return true;
+            return;
         }
         EventCore.API.addRevives(p, Integer.valueOf(args[1]));
         sender.sendMessage(Config.msg("giverevive.give")
@@ -38,7 +38,6 @@ public class GiveRevive implements SimpleCommand {
                 .replaceText(builder -> builder.match("%player%").replacement(sender.getName()))
                 .replaceText(builder -> builder.match("%amount%").replacement(args[1]))
         );
-        return true;
     }
 
     @Override

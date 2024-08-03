@@ -15,10 +15,10 @@ import static cc.aabss.eventcore.util.Config.msg;
 public class ReviveLate implements SimpleCommand {
 
     @Override
-    public boolean run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, Command command, String[] args) {
         if (sender instanceof ConsoleCommandSender) {
             sender.sendMessage(msg("console"));
-            return true;
+            return;
         }
         for (Player p : Bukkit.getOnlinePlayers()){
             if (!EventCore.API.isDead(p)) continue;
@@ -29,6 +29,5 @@ public class ReviveLate implements SimpleCommand {
         }
         Bukkit.broadcast(msg("revivelate.revived")
                 .replaceText(builder -> builder.match("%player%").replacement(sender.getName())));
-        return true;
     }
 }

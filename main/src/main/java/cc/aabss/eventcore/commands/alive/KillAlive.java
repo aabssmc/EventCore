@@ -10,11 +10,10 @@ import org.bukkit.entity.Player;
 public class KillAlive implements SimpleCommand {
 
     @Override
-    public boolean run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, Command command, String[] args) {
         for (Player p : EventCore.instance.Alive){
             p.setHealth(0);
         }
         sender.sendMessage(Config.msg("killalive.killed"));
-        return true;
     }
 }

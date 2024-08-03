@@ -12,22 +12,21 @@ import java.util.List;
 public class DeadList implements SimpleCommand {
 
     @Override
-    public boolean run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, Command command, String[] args) {
         List<String> names = new ArrayList<>();
         EventCore.instance.Dead.forEach(player -> names.add(player.getName()));
         if (names.isEmpty()){
             sender.sendMessage(Config.msg("deadlist.empty"));
-            return true;
+            return;
         }
         if (names.size() == 1){
             sender.sendMessage(Config.msg("deadlist.one-player")
                     .replaceText(builder -> builder.matchLiteral("%dead%").replacement(EventCore.formatList(names))));
-            return true;
+            return;
         }
         sender.sendMessage(Config.msg("deadlist.players")
                 .replaceText(builder -> builder.matchLiteral("%dead%").replacement(EventCore.formatList(names)))
                 .replaceText(builder -> builder.matchLiteral("%amount%").replacement(String.valueOf(names.size())))
         );
-        return true;
     }
 }

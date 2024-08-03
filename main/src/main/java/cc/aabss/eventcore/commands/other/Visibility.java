@@ -20,53 +20,52 @@ public class Visibility implements SimpleCooldownCommand {
     public static ArrayList<Player> VisStaff = new ArrayList<>();
 
     @Override
-    public boolean run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, Command command, String[] args) {
         if (!(sender instanceof Player p)){
             sender.sendMessage(msg("console"));
-            return true;
+            return;
         }
         if (args.length == 0){
             p.sendMessage(msg("<red>/visibility <all | staff | off>"));
-            return true;
+            return;
         }
         switch (args[0]) {
             case "all" -> {
                 if (p.hasPermission("eventcore.visibility.all")) {
                     if (VisAll.contains(p)) {
                         p.sendMessage(msg("visibility.allalreadyhidden"));
-                        return true;
+                        return;
                     }
                     API.setVisibilityState(p, VisibilityState.ALL);
                     p.sendMessage(msg("visibility.allhidden"));
-                    return true;
+                    return;
                 }
             }
             case "staff" -> {
                 if (p.hasPermission("eventcore.visibility.staff")) {
                     if (VisStaff.contains(p)) {
                         p.sendMessage(msg("visibility.staffalreadyhidden"));
-                        return true;
+                        return;
                     }
                     API.setVisibilityState(p, VisibilityState.STAFF);
                     p.sendMessage(msg("visibility.staffhidden"));
-                    return true;
+                    return;
                 }
             }
             case "off" -> {
                 if (p.hasPermission("eventcore.visibility.off")) {
                     if (!VisStaff.contains(p) && !VisAll.contains(p)) {
                         p.sendMessage(msg("visibility.visibilityalreadyoff"));
-                        return true;
+                        return;
                     }
                     API.setVisibilityState(p, VisibilityState.OFF);
                     p.sendMessage(msg("visibility.visibilityoff"));
-                    return true;
+                    return;
                 }
             }
             default -> p.sendMessage(msg("<red>/visibility <all | staff | off>"));
         }
         p.sendMessage(msg("permission-message"));
-        return true;
     }
 
     @Override

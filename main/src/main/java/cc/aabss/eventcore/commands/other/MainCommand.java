@@ -14,7 +14,7 @@ import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 public class MainCommand implements SimpleCommand {
 
     @Override
-    public boolean run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, Command command, String[] args) {
         if (args[0].equals("reload")) {
             EventCore.instance.reloadConfig();
             Config.reloadConfig();
@@ -22,7 +22,6 @@ public class MainCommand implements SimpleCommand {
         } else {
             sender.sendMessage(permissionMessage());
         }
-        return true;
     }
 
     @Override

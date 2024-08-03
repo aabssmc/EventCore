@@ -12,10 +12,10 @@ import org.bukkit.entity.Player;
 public class ReviveAll implements SimpleCommand {
 
     @Override
-    public boolean run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, Command command, String[] args) {
         if (sender instanceof ConsoleCommandSender) {
             sender.sendMessage(Config.msg("console"));
-            return true;
+            return;
         }
         for (Player list : Bukkit.getOnlinePlayers()) {
             if (Config.get("ignore-perm", Boolean.class) && list.hasPermission("eventcore.reviveall.bypass")) {
@@ -25,6 +25,5 @@ public class ReviveAll implements SimpleCommand {
         }
         Bukkit.broadcast(Config.msg("reviveall.revived")
                 .replaceText(builder -> builder.match("%player%").replacement(sender.getName())));
-        return true;
     }
 }

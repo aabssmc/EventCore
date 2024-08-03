@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 public class ClearAlive implements SimpleCommand {
 
     @Override
-    public boolean run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, Command command, String[] args) {
         for (Player p : EventCore.instance.Alive){
             p.getOpenInventory().close();
             p.getInventory().clear();
@@ -23,6 +23,5 @@ public class ClearAlive implements SimpleCommand {
             }
         }
         sender.sendMessage(Config.msg("clearalive.cleared"));
-        return true;
     }
 }

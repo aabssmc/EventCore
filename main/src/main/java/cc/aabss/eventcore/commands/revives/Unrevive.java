@@ -14,27 +14,26 @@ import java.util.List;
 public class Unrevive implements SimpleCommand {
 
     @Override
-    public boolean run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, Command command, String[] args) {
         if (sender instanceof ConsoleCommandSender) {
             sender.sendMessage(Config.msg("console"));
-            return true;
+            return;
         }
         if (args.length == 0){
             sender.sendMessage(Config.msg("unrevive.specifyplayer"));
-            return true;
+            return;
         }
         Player p = Bukkit.getPlayer(args[0]);
         if (p == null) {
             sender.sendMessage(Config.msg("unrevive.invalidplayer"));
-            return true;
+            return;
         }
         if (EventCore.instance.Dead.contains(p)){
             sender.sendMessage(Config.msg("unrevive.alreadydead")
                     .replaceText(builder -> builder.match("%player%").replacement(p.getName())));
-            return true;
+            return;
         }
         EventCore.API.unrevive(p, true);
-        return true;
     }
 
     @Override

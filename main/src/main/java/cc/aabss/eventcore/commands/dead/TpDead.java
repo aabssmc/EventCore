@@ -11,16 +11,15 @@ import org.bukkit.entity.Player;
 public class TpDead implements SimpleCommand {
 
     @Override
-    public boolean run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, Command command, String[] args) {
         if (!(sender instanceof Player p)) {
             sender.sendMessage(Config.msg("console"));
-            return true;
+            return;
         }
         for (Player player: EventCore.instance.Dead) {
             player.teleport(p.getLocation());
         }
         Bukkit.broadcast(Config.msg("tpdead.teleport-broadcast")
                 .replaceText(builder -> builder.matchLiteral("%sender%").replacement(sender.getName())));
-        return true;
     }
 }

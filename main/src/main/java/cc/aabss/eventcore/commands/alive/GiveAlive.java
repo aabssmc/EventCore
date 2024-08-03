@@ -15,16 +15,16 @@ import java.util.List;
 public class GiveAlive implements SimpleCommand {
 
     @Override
-    public boolean run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, Command command, String[] args) {
         if (args.length == 0){
             sender.sendMessage(Config.msg("givealive.no-item"));
-            return true;
+            return;
         }
         Material mat = Material.matchMaterial(args[0].toUpperCase());
         if (args.length == 1){
             if (mat == null){
                 sender.sendMessage(Config.msg("givealive.invalid-item"));
-                return true;
+                return;
             }
             for (Player p : EventCore.instance.Alive){
                 ItemStack item = new ItemStack(mat, 64);
@@ -32,12 +32,12 @@ public class GiveAlive implements SimpleCommand {
             }
             sender.sendMessage(Config.msg("givealive.gave-64")
                     .replaceText(builder -> builder.matchLiteral("%item%").replacement(mat.name())));
-            return true;
+            return;
         }
         Integer amount = Integer.parseInt(args[1]);
         if (mat == null){
             sender.sendMessage(Config.msg("givealive.invalid-item"));
-            return true;
+            return;
         }
         for (Player p : EventCore.instance.Alive){
             ItemStack item = new ItemStack(mat, Integer.parseInt(args[1]));
@@ -46,7 +46,6 @@ public class GiveAlive implements SimpleCommand {
         sender.sendMessage(Config.msg("givealive.gave")
                 .replaceText(builder -> builder.matchLiteral("%item%").replacement(mat.name()))
                 .replaceText(builder -> builder.matchLiteral("%amount%").replacement(String.valueOf(amount))));
-        return true;
     }
 
     @Override

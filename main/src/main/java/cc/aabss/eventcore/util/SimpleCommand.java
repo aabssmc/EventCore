@@ -41,7 +41,8 @@ public interface SimpleCommand extends TabExecutor {
             sender.sendMessage(permissionMessage());
             return true;
         }
-        return run(sender, command, args);
+        run(sender, command, args);
+        return true;
     }
 
     @Override
@@ -62,10 +63,10 @@ public interface SimpleCommand extends TabExecutor {
     }
 
 
-    boolean run(CommandSender sender, org.bukkit.command.Command command, String[] args);
+    void run(CommandSender sender, org.bukkit.command.Command command, String[] args);
 
     default List<String> tabComplete(CommandSender sender, org.bukkit.command.Command command, String[] args){
-        return List.of();
+        return null;
     }
 
     default Component permissionMessage() {
