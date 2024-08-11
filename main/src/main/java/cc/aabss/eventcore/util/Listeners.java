@@ -4,6 +4,7 @@ import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.commands.other.Mutechat;
 import cc.aabss.eventcore.commands.other.Visibility;
 import cc.aabss.eventcore.hooks.UpdateChecker;
+import cc.aabss.eventcore.util.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,7 +12,10 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 import static cc.aabss.eventcore.hooks.UpdateChecker.UPDATE_CHECKER;
@@ -60,9 +64,17 @@ public class Listeners implements org.bukkit.event.Listener {
         for (Player player : Visibility.VisAll){
             player.hidePlayer(EventCore.instance, p);
         }
-        if (EventCore.instance.getConfig().getBoolean("enable-scoreboard", false)){
-            updateBoard(p);
-        }
+        if (!EventCore.instance.getConfig().getBoolean("enable-scoreboard", false)) return;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!p.isOnline()) {
+                    this.cancel();
+                    return;
+                }
+                updateBoard(p);
+            }
+        }.runTaskTimer(EventCore.instance, 0, 20);
     }
 
     @EventHandler

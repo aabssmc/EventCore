@@ -39,12 +39,14 @@ public class Config {
         }
         config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8)));
         BOARDS.values().forEach(FastBoardBase::delete);
-        for (Player p : Bukkit.getOnlinePlayers()){
-            updateBoard(p);
+        if (EventCore.instance.getConfig().getBoolean("enable-scoreboard", false)) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                updateBoard(p);
+            }
         }
     }
 
-    static void updateBoard(Player p) {
+    public static void updateBoard(Player p) {
         FastBoard fastBoard = BOARDS.get(p.getUniqueId());
         if (fastBoard == null || fastBoard.isDeleted()){
             fastBoard = new FastBoard(p);
