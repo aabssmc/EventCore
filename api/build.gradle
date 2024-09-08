@@ -11,7 +11,7 @@ dependencies {
 }
 
 jar {
-    archiveBaseName.set("${rootProject.name}-api")
+    archiveBaseName.set("${rootProject.name.toLowerCase()}")
     archiveVersion.set(version.toString())
     archiveClassifier.set("")
     destinationDirectory.set(file("${rootProject.buildDir}/libs/api"))
@@ -37,7 +37,7 @@ processResources {
 
 tasks.register('sourcesJar', Jar) {
     from sourceSets.main.allSource
-    archiveBaseName.set("${rootProject.name}-api")
+    archiveBaseName.set("${rootProject.name.toLowerCase()}")
     archiveVersion.set(version.toString())
     archiveClassifier.set("sources")
     destinationDirectory.set(file("${rootProject.buildDir}/libs/api"))

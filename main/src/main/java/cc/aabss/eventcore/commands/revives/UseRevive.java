@@ -18,7 +18,7 @@ public class UseRevive implements SimpleCommand {
             sender.sendMessage(Config.msg("console"));
             return;
         }
-        if (!ToggleRevive.REVIVES){
+        if (!EventCore.instance.getConfig().getBoolean("revives", true)){
             sender.sendMessage(Config.msg("userevive.revivesoff"));
             return;
         }

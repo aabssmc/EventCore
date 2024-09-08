@@ -14,6 +14,7 @@ import cc.aabss.eventcore.commands.other.Mutechat;
 
 import cc.aabss.eventcore.util.Listeners;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -24,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 import static cc.aabss.eventcore.hooks.UpdateChecker.UPDATE_CHECKER;
 
@@ -164,6 +166,14 @@ public class EventCore extends JavaPlugin {
         } catch (ClassNotFoundException ignored) {
             return false;
         }
+    }
+
+    public static CompletableFuture<OfflinePlayer> getOfflinePlayerAsync(String name) {
+        return CompletableFuture.supplyAsync(() -> Bukkit.getOfflinePlayer(name));
+    }
+
+    public static CompletableFuture<OfflinePlayer> getOfflinePlayerAsync(UUID uuid) {
+        return CompletableFuture.supplyAsync(() -> Bukkit.getOfflinePlayer(uuid));
     }
 
 }

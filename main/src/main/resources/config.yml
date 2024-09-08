@@ -18,6 +18,9 @@ enable-scoreboard: false
 # the title of the scoreboard
 scoreboard-title: "<gold><bold>EventCore</bold> <dark_gray>(%server_online%/%server_max_players%)"
 
+# whether revives should be enabled
+revives-enabled: true
+
 # each line of the scoreboard
 # use %player% for the name of the player
 scoreboard-lines:

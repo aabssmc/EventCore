@@ -8,11 +8,9 @@ import org.bukkit.command.CommandSender;
 
 public class ToggleRevive implements SimpleCommand {
 
-    public static boolean REVIVES = false;
-
     @Override
     public void run(CommandSender sender, Command command, String[] args) {
         EventCore.API.toggleRevives();
-        sender.sendMessage(Config.msg("togglerevive."+(REVIVES ? "enabled" : "disabled")));
+        sender.sendMessage(Config.msg("togglerevive."+(EventCore.instance.getConfig().getBoolean("revives", true) ? "enabled" : "disabled")));
     }
 }

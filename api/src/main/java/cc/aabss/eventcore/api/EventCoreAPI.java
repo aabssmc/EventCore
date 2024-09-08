@@ -1,6 +1,7 @@
 package cc.aabss.eventcore.api;
 
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -63,28 +64,28 @@ public interface EventCoreAPI {
      * @param p The player.
      * @return Size of all the revives of the player.
      */
-    int getRevives(Player p);
+    int getRevives(OfflinePlayer p);
 
     /**
      * Sets the revive amount of the specified player.
      * @param p The player.
      * @param i The new amount of revives.
      */
-    void setRevives(Player p, Integer i);
+    void setRevives(OfflinePlayer p, Integer i);
 
     /**
      * Takes the revive amount from the player's revive balance.
      * @param p The player.
      * @param i The amount of revives to take.
      */
-    void takeRevives(Player p, Integer i);
+    void takeRevives(OfflinePlayer p, Integer i);
 
     /**
      * Adds the revive amount from the player's revive balance.
      * @param p The player.
      * @param i The amount of revives to add.
      */
-    void addRevives(Player p, Integer i);
+    void addRevives(OfflinePlayer p, Integer i);
 
     /**
      * Revives a player at the specified location, reviver will be set to console.

@@ -8,6 +8,7 @@ import cc.aabss.eventcore.events.VisibilityEvent;
 import net.kyori.adventure.text.TextReplacementConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -53,15 +54,15 @@ public class EventCoreAPIImpl implements EventCoreAPI {
         return instance.Recent.contains(p);
     }
 
-    public int getRevives(Player p) {
+    public int getRevives(OfflinePlayer p) {
         if (plugin.dataconfig.get("revives." + p.getUniqueId()) == null){
             return 0;
         }
         return plugin.dataconfig.getInt("revives." + p.getUniqueId());
     }
 
-    public void setRevives(Player p, Integer i) {
-        plugin.dataconfig.set("revives." + p.getUniqueId(), i);
+    public void setRevives(OfflinePlayer p, Integer i) {
+        plugin.dataconfig.set("revives." + p.getUniqueId(), i == 0 ? null : i);
         try {
             plugin.dataconfig.save(plugin.datafile);
         } catch (IOException e) {
@@ -70,8 +71,9 @@ public class EventCoreAPIImpl implements EventCoreAPI {
         reloadConfig();
     }
 
-    public void takeRevives(Player p, Integer i) {
-        plugin.dataconfig.set("revives." + p.getUniqueId(), getRevives(p)-i);
+    public void takeRevives(OfflinePlayer p, Integer i) {
+        int balance = getRevives(p)-i;
+        plugin.dataconfig.set("revives." + p.getUniqueId(), balance == 0 ? null : balance);
         try {
             plugin.dataconfig.save(plugin.datafile);
         } catch (IOException e) {
@@ -80,8 +82,9 @@ public class EventCoreAPIImpl implements EventCoreAPI {
         reloadConfig();
     }
 
-    public void addRevives(Player p, Integer i) {
-        plugin.dataconfig.set("revives." + p.getUniqueId(), getRevives(p)+i);
+    public void addRevives(OfflinePlayer p, Integer i) {
+        int balance = getRevives(p)+i;
+        plugin.dataconfig.set("revives." + p.getUniqueId(), balance == 0 ? null : balance);
         try {
             plugin.dataconfig.save(plugin.datafile);
         } catch (IOException e) {
@@ -122,7 +125,7 @@ public class EventCoreAPIImpl implements EventCoreAPI {
     }
 
     public void toggleRevives() {
-        ToggleRevive.REVIVES = !ToggleRevive.REVIVES;
+        plugin.getConfig().set("revives-enabled", !plugin.getConfig().getBoolean("revives-enabled", true));
     }
 
     public VisibilityState getVisibilityState(Player p){

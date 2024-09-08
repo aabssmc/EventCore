@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "cc.aabss"
-version = "2.3"
+version = "2.4"
 
 subprojects {
 

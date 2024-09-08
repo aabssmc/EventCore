@@ -10,6 +10,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -27,16 +28,16 @@ import static cc.aabss.eventcore.EventCore.API;
 })
 @Since("1.2")
 
-public class ExprRevives extends PropertyExpression<Player, Integer> {
+public class ExprRevives extends PropertyExpression<OfflinePlayer, Integer> {
 
     static{
-        register(ExprRevives.class, Integer.class, "revive(s| bal[ance])", "players");
+        register(ExprRevives.class, Integer.class, "revive(s| bal[ance])", "offlineplayers");
     }
 
     @Override
-    protected Integer @NotNull [] get(@NotNull Event event, Player @NotNull [] source) {
+    protected Integer @NotNull [] get(@NotNull Event event, OfflinePlayer @NotNull [] source) {
         List<Integer> revives = new ArrayList<>();
-        for (Player p : getExpr().getArray(event)) {
+        for (OfflinePlayer p : getExpr().getArray(event)) {
             revives.add(API.getRevives(p));
         }
         return revives.toArray(Integer[]::new);
@@ -60,13 +61,13 @@ public class ExprRevives extends PropertyExpression<Player, Integer> {
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parseResult) {
-        setExpr((Expression<? extends Player>) exprs[0]);
+        setExpr((Expression<? extends OfflinePlayer>) exprs[0]);
         return true;
     }
 
     @Override
     public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode){
-        for (Player p : getExpr().getArray(e)) {
+        for (OfflinePlayer p : getExpr().getArray(e)) {
             if (mode == Changer.ChangeMode.SET) {
                 API.setRevives(p, (Integer) delta[0]);
             } else if (mode == Changer.ChangeMode.REMOVE) {
