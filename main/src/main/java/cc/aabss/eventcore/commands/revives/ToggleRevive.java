@@ -11,6 +11,6 @@ public class ToggleRevive implements SimpleCommand {
     @Override
     public void run(CommandSender sender, Command command, String[] args) {
         EventCore.API.toggleRevives();
-        sender.sendMessage(Config.msg("togglerevive."+(EventCore.instance.getConfig().getBoolean("revives", true) ? "enabled" : "disabled")));
+        sender.sendMessage(Config.msg("togglerevive."+(EventCore.instance.getConfig().getBoolean("revives-enabled", true) ? "enabled" : "disabled")));
     }
 }
