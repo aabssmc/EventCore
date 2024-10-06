@@ -7,14 +7,20 @@ import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Revive implements SimpleCommand {
+public class Revive extends SimpleCommand {
+
+    public Revive(@NotNull String name, @Nullable String description, @Nullable String... aliases) {
+        super(name, description, aliases);
+    }
 
     @Override
-    public void run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, String commandLabel, String[] args) {
         if (sender instanceof ConsoleCommandSender) {
             sender.sendMessage(Config.msg("console"));
             return;
@@ -41,13 +47,13 @@ public class Revive implements SimpleCommand {
     }
 
     @Override
-    public List<String> tabComplete(CommandSender sender, Command command, String[] args) {
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, String[] args) {
         if (args.length == 1){
             List<String> completions = new ArrayList<>();
             Bukkit.getOnlinePlayers().forEach(player -> completions.add(player.getName()));
             return completions;
         }
-        return null;
+        return List.of();
     }
 
 }

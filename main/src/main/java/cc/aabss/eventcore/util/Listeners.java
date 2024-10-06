@@ -4,7 +4,6 @@ import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.commands.other.Mutechat;
 import cc.aabss.eventcore.commands.other.Visibility;
 import cc.aabss.eventcore.hooks.UpdateChecker;
-import cc.aabss.eventcore.util.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,8 +13,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 
 import static cc.aabss.eventcore.hooks.UpdateChecker.UPDATE_CHECKER;

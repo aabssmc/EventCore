@@ -5,19 +5,24 @@ import cc.aabss.eventcore.util.Config;
 import cc.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
+import org.jetbrains.annotations.Nullable;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
-public class SetRevive implements SimpleCommand {
+public class SetRevive extends SimpleCommand {
+
+    public SetRevive(@NotNull String name, @Nullable String description, @Nullable String... aliases) {
+        super(name, description, aliases);
+    }
 
     @Override
-    public void run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, String commandLabel, String[] args) {
         if (args.length == 0){
             sender.sendMessage(Config.msg("setrevive.specifyplayer"));
             return;
@@ -44,13 +49,13 @@ public class SetRevive implements SimpleCommand {
     }
 
     @Override
-    public List<String> tabComplete(CommandSender sender, Command command, String[] args) {
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, String[] args) {
         if (args.length == 1){
             final List<String> completions = new ArrayList<>();
             Bukkit.getOnlinePlayers().forEach(player -> completions.add(player.getName()));
             return completions;
         }
-        return null;
+        return List.of();
     }
 
 }

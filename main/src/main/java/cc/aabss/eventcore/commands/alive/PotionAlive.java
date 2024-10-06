@@ -4,11 +4,12 @@ import cc.aabss.eventcore.util.SimpleCommand;
 import net.kyori.adventure.text.TextReplacementConfig;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
-import org.bukkit.command.Command;
+import org.jetbrains.annotations.Nullable;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,13 @@ import java.util.List;
 import static cc.aabss.eventcore.EventCore.API;
 import static cc.aabss.eventcore.util.Config.msg;
 
-public class PotionAlive implements SimpleCommand {
+public class PotionAlive extends SimpleCommand {
+    public PotionAlive(@NotNull String name, @Nullable String description, @Nullable String... aliases) {
+        super(name, description, aliases);
+    }
+
     @Override
-    public void run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, String commandLabel, String[] args) {
         if (args.length >= 1){
             if (args[0].equalsIgnoreCase("clear") || args[0].equalsIgnoreCase("minecraft:clear")){
                 for (Player p : API.getAlive()){
@@ -93,7 +98,7 @@ public class PotionAlive implements SimpleCommand {
     }
 
     @Override
-    public List<String> tabComplete(CommandSender sender, Command command, String[] args) {
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, String[] args) {
         if (args.length == 1){
             List<String> list = new ArrayList<>(Registry.POTION_EFFECT_TYPE.stream().map(potionEffectType -> potionEffectType.getKey().toString()).toList());
             list.addAll(List.of("clear", "minecraft:clear"));
@@ -103,6 +108,6 @@ public class PotionAlive implements SimpleCommand {
         } else if (args.length == 4 || args.length == 5 || args.length == 6) {
             return List.of("true", "false");
         }
-        return SimpleCommand.super.tabComplete(sender, command, args);
+        return List.of();
     }
 }

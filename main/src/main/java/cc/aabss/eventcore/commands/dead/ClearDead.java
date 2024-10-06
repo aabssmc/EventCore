@@ -4,16 +4,21 @@ import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.util.Config;
 import cc.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
+import org.jetbrains.annotations.Nullable;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
-public class ClearDead implements SimpleCommand {
+public class ClearDead extends SimpleCommand {
+
+    public ClearDead(@NotNull String name, @Nullable String description, @Nullable String... aliases) {
+        super(name, description, aliases);
+    }
 
     @Override
-    public void run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, String commandLabel, String[] args) {
         for (Player p : EventCore.instance.Dead){
             p.getOpenInventory().close();
             p.getInventory().clear();

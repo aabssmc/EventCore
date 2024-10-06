@@ -1,9 +1,9 @@
 package cc.aabss.eventcore.util;
 
 import cc.aabss.eventcore.EventCore;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -11,16 +11,20 @@ import java.time.temporal.TemporalAmount;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface SimpleCooldownCommand extends SimpleCommand {
+public abstract class SimpleCooldownCommand extends SimpleCommand {
+
+    protected SimpleCooldownCommand(@NotNull String name, @Nullable String description, @Nullable String... aliases) {
+        super(name, description, aliases);
+    }
 
     @Override
-    default boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
         Instant now = Instant.now();
         if (!EventCore.cooldowns.containsKey(this.getClass().getName())){
             Map<CommandSender, Instant> senderCooldownMap = new HashMap<>();
             senderCooldownMap.put(sender, now.plus(cooldown()));
             EventCore.cooldowns.put(this.getClass().getName(), senderCooldownMap);
-            return SimpleCommand.super.onCommand(sender, command, label, args);
+            return super.execute(sender, commandLabel, args);
         }
         Instant cool = EventCore.cooldowns.get(this.getClass().getName()).get(sender);
         if (cool != null && cool.isAfter(now)) {
@@ -32,10 +36,10 @@ public interface SimpleCooldownCommand extends SimpleCommand {
         Map<CommandSender, Instant> newMap = EventCore.cooldowns.get(this.getClass().getName());
         newMap.put(sender, now.plus(cooldown()));
         EventCore.cooldowns.put(this.getClass().getName(), newMap);
-        return SimpleCommand.super.onCommand(sender, command, label, args);
+        return super.execute(sender, commandLabel, args);
     }
 
-    TemporalAmount cooldown();
+    protected abstract TemporalAmount cooldown();
 
     private String formatDuration(Duration duration) {
         long seconds = duration.getSeconds();

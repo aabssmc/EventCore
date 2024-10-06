@@ -4,18 +4,23 @@ import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.util.SimpleCommand;
 import cc.aabss.eventcore.util.Config;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
+import org.jetbrains.annotations.Nullable;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 
 import static cc.aabss.eventcore.util.Config.msg;
 
-public class ReviveLate implements SimpleCommand {
+public class ReviveLate extends SimpleCommand {
+
+    public ReviveLate(@NotNull String name, @Nullable String description, @Nullable String... aliases) {
+        super(name, description, aliases);
+    }
 
     @Override
-    public void run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, String commandLabel, String[] args) {
         if (sender instanceof ConsoleCommandSender) {
             sender.sendMessage(msg("console"));
             return;

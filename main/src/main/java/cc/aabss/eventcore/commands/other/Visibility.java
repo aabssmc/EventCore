@@ -2,9 +2,10 @@ package cc.aabss.eventcore.commands.other;
 
 import cc.aabss.eventcore.api.VisibilityState;
 import cc.aabss.eventcore.util.SimpleCooldownCommand;
-import org.bukkit.command.Command;
+import org.jetbrains.annotations.Nullable;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.time.temporal.TemporalAmount;
@@ -14,13 +15,17 @@ import java.util.List;
 import static cc.aabss.eventcore.EventCore.API;
 import static cc.aabss.eventcore.util.Config.msg;
 
-public class Visibility implements SimpleCooldownCommand {
+public class Visibility extends SimpleCooldownCommand {
 
     public static ArrayList<Player> VisAll = new ArrayList<>();
     public static ArrayList<Player> VisStaff = new ArrayList<>();
 
+    public Visibility(@NotNull String name, @Nullable String description, @Nullable String... aliases) {
+        super(name, description, aliases);
+    }
+
     @Override
-    public void run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, String commandLabel, String[] args) {
         if (!(sender instanceof Player p)){
             sender.sendMessage(msg("console"));
             return;
@@ -74,7 +79,7 @@ public class Visibility implements SimpleCooldownCommand {
     }
 
     @Override
-    public List<String> tabComplete(CommandSender sender, Command command, String[] args) {
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, String[] args) {
         return List.of("all", "staff", "off");
     }
 

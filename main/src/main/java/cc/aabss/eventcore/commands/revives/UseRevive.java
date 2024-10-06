@@ -5,15 +5,20 @@ import cc.aabss.eventcore.events.UseReviveEvent;
 import cc.aabss.eventcore.util.Config;
 import cc.aabss.eventcore.util.SimpleCommand;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class UseRevive implements SimpleCommand {
+public class UseRevive extends SimpleCommand {
+
+    public UseRevive(@NotNull String name, @Nullable String description, @Nullable String... aliases) {
+        super(name, description, aliases);
+    }
 
     @Override
-    public void run(CommandSender sender, Command command, String[] args) {
+    public void run(CommandSender sender, String commandLabel, String[] args) {
         if (sender instanceof ConsoleCommandSender){
             sender.sendMessage(Config.msg("console"));
             return;

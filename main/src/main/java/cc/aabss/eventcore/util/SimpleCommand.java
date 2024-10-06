@@ -7,9 +7,10 @@ package cc.aabss.eventcore.util;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.command.Command;
+import org.jetbrains.annotations.Nullable;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabExecutor;
 import org.bukkit.permissions.Permission;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,40 +18,44 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface SimpleCommand extends TabExecutor {
+public abstract class SimpleCommand extends Command {
 
-    default void register(){
-        register(this.getClass().getSimpleName().toLowerCase());
+    public SimpleCommand(@NotNull String name, String description, String... aliases) {
+        super(name, description, "/" + name, of(aliases));
+        this.name = name;
     }
 
-    default void register(String name){
-        PluginCommand cmd = Bukkit.getServer().getPluginCommand(name);
-        if (cmd != null){
-            cmd.setExecutor(this);
-            cmd.setTabCompleter(this);
+    private static List<String> of(@Nullable String... strings) {
+        if (strings == null) {
+            return List.of();
         }
+        return List.of(strings);
+    }
+
+    private final String name;
+
+    @Override
+    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+        if (!sender.hasPermission(permission())) {
+            sender.sendMessage(permissionMessage());
+            return true;
+        }
+        run(sender, commandLabel, args);
+        return true;
+    }
+
+    public void register(){
+        Bukkit.getCommandMap().register(name, "eventcore", this);
         if (Bukkit.getPluginManager().getPermission(this.permission()) == null) {
             Bukkit.getPluginManager().addPermission(new Permission(this.permission()));
         }
     }
 
-
     @Override
-    default boolean onCommand(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!sender.hasPermission(permission())) {
-            sender.sendMessage(permissionMessage());
-            return true;
-        }
-        run(sender, command, args);
-        return true;
-    }
-
-    @Override
-    @Nullable
-    default List<String> onTabComplete(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args, @Nullable Location location) throws IllegalArgumentException {
         final List<String> completions = new ArrayList<>();
-        List<String> tabs = tabComplete(sender, command, args);
-        if (args.length == 0 || tabs == null || tabs.isEmpty()) {
+        List<String> tabs = tabComplete(sender, alias, args);
+        if (args.length == 0 || tabs.isEmpty()) {
             return completions;
         }
         String arg = args[args.length-1].toLowerCase();
@@ -63,17 +68,17 @@ public interface SimpleCommand extends TabExecutor {
     }
 
 
-    void run(CommandSender sender, org.bukkit.command.Command command, String[] args);
+    protected abstract void run(CommandSender sender, String commandLabel, String[] args);
 
-    default List<String> tabComplete(CommandSender sender, org.bukkit.command.Command command, String[] args){
-        return null;
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, String[] args){
+        return List.of();
     }
 
-    default Component permissionMessage() {
+    public Component permissionMessage() {
         return Component.text("No permission!");
     }
 
-    default String permission(){
+    public String permission(){
         return "eventcore.command."+this.getClass().getSimpleName().toLowerCase();
     }
 

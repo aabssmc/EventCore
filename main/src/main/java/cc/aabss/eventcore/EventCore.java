@@ -7,7 +7,6 @@ import cc.aabss.eventcore.commands.other.ClearChat;
 import cc.aabss.eventcore.commands.other.Visibility;
 import cc.aabss.eventcore.commands.revives.*;
 import cc.aabss.eventcore.hooks.PlaceholderAPI;
-import ch.njol.skript.Skript;
 import cc.aabss.eventcore.api.EventCoreAPI;
 import cc.aabss.eventcore.commands.other.MainCommand;
 import cc.aabss.eventcore.commands.other.Mutechat;
@@ -55,49 +54,48 @@ public class EventCore extends JavaPlugin {
         // Registering bStats
         new Metrics(this, 19718);
 
-        new AliveList().register();
-        new ClearAlive().register();
-        new GiveAlive().register();
-        new HealAlive().register();
-        new KillAlive().register();
-        new PotionAlive().register();
-        new TpAlive().register();
+        new AliveList("alivelist", "Shows all alive players.").register();
+        new ClearAlive("clearalive", "Clears the inventory of all alive players.").register();
+        new GiveAlive("givealive", "Gives all alive players items.").register();
+        new HealAlive("healalive", "Heals all alive players.").register();
+        new KillAlive("killalive", "Kills all alive players.").register();
+        new PotionAlive("potionalive", "Applys a potion effect to all alive players.", "effectalive").register();
+        new TpAlive("tpalive", "Teleports all alive players to sender.", "teleportalive").register();
 
         // ---
-        new DeadList().register();
-        new ClearDead().register();
-        new GiveDead().register();
-        new HealDead().register();
-        new KillDead().register();
-        new PotionDead().register();
-        new TpDead().register();
+        new DeadList("deadlist", "Shows all dead players.").register();
+        new ClearDead("cleardead", "Clears the inventory of all dead players.").register();
+        new GiveDead("givedead", "Gives all dead players items.").register();
+        new HealDead("healdead", "Heals all dead players.").register();
+        new KillDead("killdead", "Kills all dead players.").register();
+        new PotionDead("potiondead", "Applys a potion effect to all dead players.", "effectdead").register();
+        new TpDead("tpdead", "Teleports all dead players to sender.", "teleportdead").register();
 
         // ---
-        new BalRevive().register();
-        new GiveRevive().register();
-        new RecentRev().register();
-        new Revive().register();
-        new ReviveAll().register();
-        new ReviveLate().register();
-        new SetRevive().register();
-        new TakeRevive().register();
-        new ToggleRevive().register();
-        new Unrevive().register();
-        new UseRevive().register();
+        new BalRevive("balrevive", "Gets the revive balance of a player.", "balrev", "revbal", "revivebal", "revivebalance").register();
+        new GiveRevive("giverevive", "Gives a revival token to a player.", "addrevive", "giverev", "addrev").register();
+        new RecentRev("recentrev", "Revives recently killed players.", "revrecent").register();
+        new Revive("revive", "Revives a player.", "rev").register();
+        new ReviveAll("reviveall", "Revives all players.", "revall").register();
+        new ReviveLate("revivelate", "Revives all dead players.", "revlate").register();
+        new SetRevive("setrevive", "Sets the revival token amount of a player.").register();
+        new TakeRevive("takerevive", "Takes a revival token from a player.", "removerevive").register();
+        new ToggleRevive("togglerevive", "Toggles the use of revivals.", "revivetoggle").register();
+        new Unrevive("unrevive", "Unrevives a player.").register();
+        new UseRevive("userevive", "Uses a revival token.").register();
 
         // ---
-        new ClearChat().register();
-        new MainCommand().register("eventcore");
-        new Mutechat().register();
-        new Visibility().register();
+        new ClearChat("clearchat", "Clears the chat.", "chatclear").register();
+        new MainCommand("eventcore", "Main command for EventCore.").register();
+        new Mutechat("mutechat", "Mutes the chat.", "chatmute").register();
+        new Visibility("visibility", "Toggles player visibility.", "hide").register();
 
         // Registering PlaceholderAPI
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             getLogger().info("PlaceholderAPI found! Registering placeholders...");
             new PlaceholderAPI().register();
             getLogger().info("All Placeholders loaded!");
-        }
-        else{
+        } else{
             getLogger().warning("PlaceholderAPI not found, skipping...");
         }
 
@@ -105,7 +103,7 @@ public class EventCore extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("Skript") != null){
             getLogger().info("Skript found! Registering elements...");
             try {
-                Skript.registerAddon(this)
+                ch.njol.skript.Skript.registerAddon(this)
                         .loadClasses("cc.aabss.eventcore", "hooks.skript")
                         .setLanguageFileDirectory("lang");
             } catch (IOException e) {
