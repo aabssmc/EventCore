@@ -10,18 +10,3 @@ website: https://aabss.cc
 softdepend:
   - PlaceholderAPI
   - Skript
-
-permissions:
-  eventcore.visibility.staffbypass:
-    description: "Lets players see the permission holder during hide staff."
-  eventcore.visibility.all:
-    description: "Use '/visibility all'."
-  eventcore.visibility.staff:
-    description: "Use '/visibility staff'."
-  eventcore.visibility.off:
-    description: "Use '/visibility off'."
-  eventcore.reviveall.bypass:
-    description: "Won't revive the permission holder in a revive all."
-
-
-# i am a mightly little man

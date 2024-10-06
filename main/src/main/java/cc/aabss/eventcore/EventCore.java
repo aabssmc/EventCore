@@ -18,6 +18,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -54,6 +55,16 @@ public class EventCore extends JavaPlugin {
         // Registering bStats
         new Metrics(this, 19718);
 
+        // Permissions -----
+
+        addPermission("eventcore.visibility.staffbypass", "Lets players see the permission holder during hide staff.");
+        addPermission("eventcore.visibility.all", "Use '/visibility all'.");
+        addPermission("eventcore.visibility.staff", "Use '/visibility staff'.");
+        addPermission("eventcore.visibility.off", "Use '/visibility off'.");
+        addPermission("eventcore.reviveall.bypass", "Won't revive the permission holder in a revive all.");
+
+
+        // Commands --------
         new AliveList("alivelist", "Shows all alive players.").register();
         new ClearAlive("clearalive", "Clears the inventory of all alive players.").register();
         new GiveAlive("givealive", "Gives all alive players items.").register();
@@ -133,6 +144,12 @@ public class EventCore extends JavaPlugin {
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
         getLogger().info("EventCore disabled!");
+    }
+
+    public void addPermission(String perm, String description) {
+        if (Bukkit.getPluginManager().getPermission(perm) == null) {
+            Bukkit.getPluginManager().addPermission(new Permission(perm, description));
+        }
     }
 
     public static String formatList(List<?> list){
