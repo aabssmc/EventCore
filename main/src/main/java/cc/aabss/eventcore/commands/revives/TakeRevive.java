@@ -3,14 +3,16 @@ package cc.aabss.eventcore.commands.revives;
 import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.util.Config;
 import cc.aabss.eventcore.util.SimpleCommand;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
@@ -21,40 +23,48 @@ public class TakeRevive extends SimpleCommand {
     }
 
     @Override
-    public void run(CommandSender sender, String commandLabel, String[] args) {
-        if (args.length == 0){
-            sender.sendMessage(Config.msg("takerevive.specifyplayer"));
-            return;
-        }
-        if (args.length == 1){
-            sender.sendMessage(Config.msg("takerevive.specifyamount"));
-            return;
-        }
-
-        EventCore.getOfflinePlayerAsync(args[0]).whenCompleteAsync((p, throwable) -> {
-            String name = p.getName() == null ? p.getUniqueId().toString() : p.getName();
-            EventCore.API.takeRevives(p, Integer.parseInt(args[1]));
-            sender.sendMessage(Config.msg("takerevive.take")
-                    .replaceText(builder -> builder.match("%player%").replacement(name))
-                    .replaceText(builder -> builder.match("%amount%").replacement(args[1]))
-            );
-            if (p.isOnline()) {
-                requireNonNull(Bukkit.getPlayer(name)).sendMessage(Config.msg("takerevive.lose")
-                        .replaceText(builder -> builder.match("%player%").replacement(sender.getName()))
-                        .replaceText(builder -> builder.match("%amount%").replacement(args[1]))
-                );
-            }
-        });
-    }
-
-    @Override
-    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, String[] args) {
-        if (args.length == 1){
-            final List<String> completions = new ArrayList<>();
-            Bukkit.getOnlinePlayers().forEach(player -> completions.add(player.getName()));
-            return completions;
-        }
-        return List.of();
+    protected LiteralArgumentBuilder<CommandSourceStack> run(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
+        return argumentBuilder
+                .then(Commands.argument("player", StringArgumentType.word())
+                        .suggests((context, builder) -> {
+                            for (Player p : Bukkit.getOnlinePlayers()) {
+                                builder.suggest(p.getName());
+                            }
+                            return builder.buildFuture();
+                        })
+                        .then(Commands.argument("amount", IntegerArgumentType.integer())
+                                .executes(context -> {
+                                    CommandSender sender = context.getSource().getSender();
+                                    String player = StringArgumentType.getString(context, "player");
+                                    Integer amount = IntegerArgumentType.getInteger(context, "amount");
+                                    EventCore.getOfflinePlayerAsync(player).whenCompleteAsync((p, throwable) -> {
+                                        String name = p.getName() == null ? p.getUniqueId().toString() : p.getName();
+                                        EventCore.API.takeRevives(p, amount);
+                                        sender.sendMessage(Config.msg("takerevive.take")
+                                                .replaceText(builder -> builder.match("%player%").replacement(name))
+                                                .replaceText(builder -> builder.match("%amount%").replacement(String.valueOf(amount)))
+                                        );
+                                        if (p.isOnline()) {
+                                            requireNonNull(Bukkit.getPlayer(name)).sendMessage(Config.msg("takerevive.lose")
+                                                    .replaceText(builder -> builder.match("%player%").replacement(sender.getName()))
+                                                    .replaceText(builder -> builder.match("%amount%").replacement(String.valueOf(amount)))
+                                            );
+                                        }
+                                    });
+                                    return 1;
+                                })
+                        )
+                        .executes(context -> {
+                            CommandSender sender = context.getSource().getSender();
+                            sender.sendMessage(Config.msg("tetrevive.specifyamount"));
+                            return 0;
+                        })
+                )
+                .executes(context -> {
+                    CommandSender sender = context.getSource().getSender();
+                    sender.sendMessage(Config.msg("tetrevive.specifyplayer"));
+                    return 0;
+                });
     }
 
 }

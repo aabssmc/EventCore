@@ -3,10 +3,14 @@ package cc.aabss.eventcore.commands.revives;
 import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.util.Config;
 import cc.aabss.eventcore.util.SimpleCommand;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,40 +24,35 @@ public class Revive extends SimpleCommand {
     }
 
     @Override
-    public void run(CommandSender sender, String commandLabel, String[] args) {
-        if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage(Config.msg("console"));
-            return;
-        }
-        if (args.length == 0){
-            sender.sendMessage(Config.msg("revive.specifyplayer"));
-            return;
-        }
-        Player p = Bukkit.getPlayer(args[0]);
-        if (p == null) {
-            sender.sendMessage(Config.msg("revive.invalidplayer"));
-            return;
-        }
-        if (EventCore.API.isAlive(p)){
-            sender.sendMessage(Config.msg("revive.alreadyalive")
-                    .replaceText(builder -> builder.match("%player%").replacement(p.getName())));
-            return;
-        }
-        EventCore.API.revive(p, ((Player) sender), true);
-        sender.sendMessage(Config.msg("revive.revived")
-                .replaceText(builder -> builder.match("%player%").replacement(p.getName()))
-                .replaceText(builder -> builder.match("%reviver%").replacement(sender.getName()))
-        );
-    }
-
-    @Override
-    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, String[] args) {
-        if (args.length == 1){
-            List<String> completions = new ArrayList<>();
-            Bukkit.getOnlinePlayers().forEach(player -> completions.add(player.getName()));
-            return completions;
-        }
-        return List.of();
+    protected LiteralArgumentBuilder<CommandSourceStack> run(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
+        return argumentBuilder
+                .requires(commandSourceStack -> commandSourceStack.getSender() instanceof Player)
+                .then(Commands.argument("players", ArgumentTypes.players())
+                        .executes(context -> {
+                            CommandSender sender = context.getSource().getSender();
+                            List<Player> players = context.getArgument("players", PlayerSelectorArgumentResolver.class).resolve(context.getSource());
+                            List<String> revivedPlayers = new ArrayList<>();
+                            for (Player p : players) {
+                                if (EventCore.API.isAlive(p)){
+                                    continue;
+                                }
+                                revivedPlayers.add(p.getName());
+                                EventCore.API.revive(p, ((Player) sender), true);
+                            }
+                            if (!revivedPlayers.isEmpty()) {
+                                sender.sendMessage(Config.msg("revive.revived")
+                                        .replaceText(builder -> builder.match("%player%").replacement(EventCore.formatList(revivedPlayers)))
+                                        .replaceText(builder -> builder.match("%reviver%").replacement(sender.getName()))
+                                );
+                            }
+                            return 1;
+                        })
+                )
+                .executes(context -> {
+                    CommandSender sender = context.getSource().getSender();
+                    sender.sendMessage(Config.msg("revive.specifyplayer"));
+                    return 0;
+                });
     }
 
 }

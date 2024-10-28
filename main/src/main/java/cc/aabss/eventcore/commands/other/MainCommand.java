@@ -3,12 +3,13 @@ package cc.aabss.eventcore.commands.other;
 import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.util.Config;
 import cc.aabss.eventcore.util.SimpleCommand;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.Nullable;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 
@@ -19,21 +20,35 @@ public class MainCommand extends SimpleCommand {
     }
 
     @Override
-    public void run(CommandSender sender, String commandLabel, String[] args) {
-        if (args[0].equals("reload")) {
-            EventCore.instance.reloadConfig();
-            Config.reloadConfig();
-            sender.sendMessage(Config.msg("reloaded"));
-        } else {
-            sender.sendMessage(permissionMessage());
-        }
+    protected LiteralArgumentBuilder<CommandSourceStack> execute(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
+        return run(argumentBuilder);
     }
 
     @Override
-    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String commandLabel, String[] args) {
-        return List.of("reload");
+    protected LiteralArgumentBuilder<CommandSourceStack> run(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
+        return argumentBuilder
+                .then(Commands.argument("arg", StringArgumentType.word())
+                        .requires(commandSourceStack -> commandSourceStack.getSender().hasPermission(permission()))
+                        .suggests((context, builder) ->
+                                builder.suggest("reload").buildFuture()
+                        )
+                        .executes(context -> {
+                            if (StringArgumentType.getString(context, "arg").equalsIgnoreCase("reload")) {
+                                EventCore.instance.reloadConfig();
+                                Config.reloadConfig();
+                                context.getSource().getSender().sendMessage(Config.msg("reloaded"));
+                                return 1;
+                            } else {
+                                context.getSource().getSender().sendMessage(permissionMessage());
+                                return 0;
+                            }
+                        }))
+                .executes(context -> {
+                    context.getSource().getSender().sendMessage(permissionMessage());
+                    return 1;
+                });
     }
-    @Override
+
     public Component permissionMessage() {
         return miniMessage().deserialize("<br><click:open_url:'https://modrinth.com/plugin/event'><b><gold>EventCore</gold></b> <yellow>by aabss</yellow> <gray>(@big.abs)</gray></click><br>");
     }

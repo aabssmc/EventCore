@@ -3,8 +3,9 @@ package cc.aabss.eventcore.commands.dead;
 import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.util.Config;
 import cc.aabss.eventcore.util.SimpleCommand;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.jetbrains.annotations.Nullable;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -17,21 +18,26 @@ public class DeadList extends SimpleCommand {
     }
 
     @Override
-    public void run(CommandSender sender, String commandLabel, String[] args) {
-        List<String> names = new ArrayList<>();
-        EventCore.instance.Dead.forEach(player -> names.add(player.getName()));
-        if (names.isEmpty()){
-            sender.sendMessage(Config.msg("deadlist.empty"));
-            return;
-        }
-        if (names.size() == 1){
-            sender.sendMessage(Config.msg("deadlist.one-player")
-                    .replaceText(builder -> builder.matchLiteral("%dead%").replacement(EventCore.formatList(names))));
-            return;
-        }
-        sender.sendMessage(Config.msg("deadlist.players")
-                .replaceText(builder -> builder.matchLiteral("%dead%").replacement(EventCore.formatList(names)))
-                .replaceText(builder -> builder.matchLiteral("%amount%").replacement(String.valueOf(names.size())))
-        );
+    protected LiteralArgumentBuilder<CommandSourceStack> run(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
+        return argumentBuilder
+                .executes(context -> {
+                    List<String> names = new ArrayList<>();
+                    EventCore.instance.Dead.forEach(player -> names.add(player.getName()));
+                    if (names.isEmpty()){
+                        context.getSource().getSender().sendMessage(Config.msg("deadlist.empty"));
+                        return 0;
+                    }
+                    if (names.size() == 1){
+                        context.getSource().getSender().sendMessage(Config.msg("deadlist.one-player")
+                                .replaceText(builder -> builder.matchLiteral("%dead%").replacement(EventCore.formatList(names))));
+                        return 0;
+                    }
+                    context.getSource().getSender().sendMessage(Config.msg("deadlist.players")
+                            .replaceText(builder -> builder.matchLiteral("%dead%").replacement(EventCore.formatList(names)))
+                            .replaceText(builder -> builder.matchLiteral("%amount%").replacement(String.valueOf(names.size())))
+                    );
+                    return 1;
+                });
     }
+
 }

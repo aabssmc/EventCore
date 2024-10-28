@@ -12,14 +12,21 @@ import cc.aabss.eventcore.commands.other.MainCommand;
 import cc.aabss.eventcore.commands.other.Mutechat;
 
 import cc.aabss.eventcore.util.Listeners;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import net.minecraft.commands.CommandBuildContext;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +35,6 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 import static cc.aabss.eventcore.hooks.UpdateChecker.UPDATE_CHECKER;
-
 
 public class EventCore extends JavaPlugin {
 
@@ -41,6 +47,7 @@ public class EventCore extends JavaPlugin {
     public File datafile;
     public FileConfiguration dataconfig;
     public static EventCoreAPI API;
+    public static CommandBuildContext COMMAND_BUILD_CONTEXT;
     public static Map<String, Map<CommandSender, Instant>> cooldowns = new HashMap<>();
 
     @Override
@@ -65,41 +72,50 @@ public class EventCore extends JavaPlugin {
 
 
         // Commands --------
-        new AliveList("alivelist", "Shows all alive players.").register();
-        new ClearAlive("clearalive", "Clears the inventory of all alive players.").register();
-        new GiveAlive("givealive", "Gives all alive players items.").register();
-        new HealAlive("healalive", "Heals all alive players.").register();
-        new KillAlive("killalive", "Kills all alive players.").register();
-        new PotionAlive("potionalive", "Applys a potion effect to all alive players.", "effectalive").register();
-        new TpAlive("tpalive", "Teleports all alive players to sender.", "teleportalive").register();
 
-        // ---
-        new DeadList("deadlist", "Shows all dead players.").register();
-        new ClearDead("cleardead", "Clears the inventory of all dead players.").register();
-        new GiveDead("givedead", "Gives all dead players items.").register();
-        new HealDead("healdead", "Heals all dead players.").register();
-        new KillDead("killdead", "Kills all dead players.").register();
-        new PotionDead("potiondead", "Applys a potion effect to all dead players.", "effectdead").register();
-        new TpDead("tpdead", "Teleports all dead players to sender.", "teleportdead").register();
+        if (Bukkit.getServer() instanceof CraftServer server) {
+            COMMAND_BUILD_CONTEXT = CommandBuildContext.simple(server.getServer().registryAccess(), server.getServer().getWorldData().getDataConfiguration().enabledFeatures());
+        }
+        LifecycleEventManager<@NotNull Plugin> manager = this.getLifecycleManager();
+        manager.registerEventHandler(LifecycleEvents.COMMANDS, event -> {
 
-        // ---
-        new BalRevive("balrevive", "Gets the revive balance of a player.", "balrev", "revbal", "revivebal", "revivebalance").register();
-        new GiveRevive("giverevive", "Gives a revival token to a player.", "addrevive", "giverev", "addrev").register();
-        new RecentRev("recentrev", "Revives recently killed players.", "revrecent").register();
-        new Revive("revive", "Revives a player.", "rev").register();
-        new ReviveAll("reviveall", "Revives all players.", "revall").register();
-        new ReviveLate("revivelate", "Revives all dead players.", "revlate").register();
-        new SetRevive("setrevive", "Sets the revival token amount of a player.").register();
-        new TakeRevive("takerevive", "Takes a revival token from a player.", "removerevive").register();
-        new ToggleRevive("togglerevive", "Toggles the use of revivals.", "revivetoggle").register();
-        new Unrevive("unrevive", "Unrevives a player.").register();
-        new UseRevive("userevive", "Uses a revival token.").register();
+            Commands commands = event.registrar();
+            new AliveList("alivelist", "Shows all alive players.").register(commands);
+            new ClearAlive("clearalive", "Clears the inventory of all alive players.").register(commands);
+            new GiveAlive("givealive", "Gives all alive players items.").register(commands);
+            new HealAlive("healalive", "Heals all alive players.").register(commands);
+            new KillAlive("killalive", "Kills all alive players.").register(commands);
+            new PotionAlive("potionalive", "Applies a potion effect to all alive players.", "effectalive").register(commands);
+            new TpAlive("tpalive", "Teleports all alive players to sender.", "teleportalive").register(commands);
 
-        // ---
-        new ClearChat("clearchat", "Clears the chat.", "chatclear").register();
-        new MainCommand("eventcore", "Main command for EventCore.").register();
-        new Mutechat("mutechat", "Mutes the chat.", "chatmute").register();
-        new Visibility("visibility", "Toggles player visibility.", "hide").register();
+            // ---
+            new DeadList("deadlist", "Shows all dead players.").register(commands);
+            new ClearDead("cleardead", "Clears the inventory of all dead players.").register(commands);
+            new GiveDead("givedead", "Gives all dead players items.").register(commands);
+            new HealDead("healdead", "Heals all dead players.").register(commands);
+            new KillDead("killdead", "Kills all dead players.").register(commands);
+            new PotionDead("potiondead", "Applies a potion effect to all dead players.", "effectdead").register(commands);
+            new TpDead("tpdead", "Teleports all dead players to sender.", "teleportdead").register(commands);
+
+            // ---
+            new BalRevive("balrevive", "Gets the revive balance of a player.", "balrev", "revbal", "revivebal", "revivebalance").register(commands);
+            new GiveRevive("giverevive", "Gives a revival token to a player.", "addrevive", "giverev", "addrev").register(commands);
+            new RecentRev("recentrev", "Revives recently killed players.", "revrecent").register(commands);
+            new Revive("revive", "Revives a player.", "rev").register(commands);
+            new ReviveAll("reviveall", "Revives all players.", "revall").register(commands);
+            new ReviveLate("revivelate", "Revives all dead players.", "revlate").register(commands);
+            new SetRevive("setrevive", "Sets the revival token amount of a player.").register(commands);
+            new TakeRevive("takerevive", "Takes a revival token from a player.", "removerevive").register(commands);
+            new ToggleRevive("togglerevive", "Toggles the use of revivals.", "revivetoggle").register(commands);
+            new Unrevive("unrevive", "Unrevives a player.").register(commands);
+            new UseRevive("userevive", "Uses a revival token.").register(commands);
+
+            // ---
+            new ClearChat("clearchat", "Clears the chat.", "chatclear").register(commands);
+            new MainCommand("eventcore", "Main command for EventCore.").register(commands);
+            new Mutechat("mutechat", "Mutes the chat.", "chatmute").register(commands);
+            new Visibility("visibility", "Toggles player visibility.", "hide").register(commands);
+        });
 
         // Registering PlaceholderAPI
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {

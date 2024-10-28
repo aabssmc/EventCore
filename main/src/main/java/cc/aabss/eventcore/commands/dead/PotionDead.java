@@ -1,18 +1,22 @@
 package cc.aabss.eventcore.commands.dead;
 
 import cc.aabss.eventcore.util.SimpleCommand;
+import com.mojang.brigadier.arguments.BoolArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.registry.RegistryKey;
+import io.papermc.paper.registry.TypedKey;
 import net.kyori.adventure.text.TextReplacementConfig;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.jetbrains.annotations.Nullable;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static cc.aabss.eventcore.EventCore.API;
 import static cc.aabss.eventcore.util.Config.msg;
@@ -23,91 +27,63 @@ public class PotionDead extends SimpleCommand {
     }
 
     @Override
-    public void run(CommandSender sender, String commandLabel, String[] args) {
-        if (args.length >= 1){
-            if (args[0].equalsIgnoreCase("clear") || args[0].equalsIgnoreCase("minecraft:clear")){
-                for (Player p : API.getDead()){
-                    p.clearActivePotionEffects();
-                }
-                sender.sendMessage("potiondead.cleared");
-                return;
-            }
-            NamespacedKey key = NamespacedKey.fromString(args[0]);
-            PotionEffectType potion = Registry.POTION_EFFECT_TYPE.get(key == null ? NamespacedKey.minecraft("none") : key);
-            if (potion == null){
-                sender.sendMessage(msg("potiondead.invalid"));
-                return;
-            }
-            for (Player p : API.getDead()){
-                p.addPotionEffect(new PotionEffect(potion, duration(args)*20, amplifier(args), ambient(args), particles(args), icon(args)));
-            }
-            sender.sendMessage(msg("potiondead.gave")
-                    .replaceText(TextReplacementConfig.builder().match("%potioneffect%").replacement(potion.getKey().toString()).build())
-                    .replaceText(TextReplacementConfig.builder().match("%amplifier%").replacement(String.valueOf(amplifier(args))).build())
-                    .replaceText(TextReplacementConfig.builder().match("%time%").replacement(String.valueOf(duration(args))).build())
-            );
-        } else {
-            sender.sendMessage(msg("<red>/potiondead <effect> [seconds] [amplifier] [ambient?] [particles?] [icon?]"));
-        }
+    protected LiteralArgumentBuilder<CommandSourceStack> run(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
+        return argumentBuilder
+                .then(Commands.argument("effect", ArgumentTypes.resourceKey(RegistryKey.POTION))
+                        .then(Commands.argument("duration", IntegerArgumentType.integer())
+                                .then(Commands.argument("amplifier", IntegerArgumentType.integer())
+                                        .then(Commands.argument("ambient", BoolArgumentType.bool())
+                                                .then(Commands.argument("particles", BoolArgumentType.bool())
+                                                        .then(Commands.argument("icon", BoolArgumentType.bool())
+                                                                .executes(context -> potion(IntegerArgumentType.getInteger(context, "duration")*20,
+                                                                        IntegerArgumentType.getInteger(context, "amplifier"),
+                                                                        BoolArgumentType.getBool(context, "ambient"),
+                                                                        BoolArgumentType.getBool(context, "particles"),
+                                                                        BoolArgumentType.getBool(context, "icon"), context)
+                                                                )
+                                                        )
+                                                        .executes(context -> potion(IntegerArgumentType.getInteger(context, "duration")*20,
+                                                                IntegerArgumentType.getInteger(context, "amplifier"),
+                                                                BoolArgumentType.getBool(context, "ambient"),
+                                                                BoolArgumentType.getBool(context, "particles"),
+                                                                false, context)
+                                                        )
+                                                )
+                                                .executes(context -> potion(IntegerArgumentType.getInteger(context, "duration")*20,
+                                                        IntegerArgumentType.getInteger(context, "amplifier"),
+                                                        BoolArgumentType.getBool(context, "ambient"),
+                                                        false, false, context)
+                                                )
+                                        )
+                                        .executes(context -> potion(IntegerArgumentType.getInteger(context, "duration")*20,
+                                                IntegerArgumentType.getInteger(context, "amplifier"),
+                                                false, false, false, context)
+                                        )
+                                )
+                                .executes(context -> potion(IntegerArgumentType.getInteger(context, "duration")*20,
+                                        1, false, false, false, context)
+                                )
+                        )
+                        .executes(context -> potion(20, 1, false, false, false, context))
+                )
+                .executes(context -> {
+                    context.getSource().getSender().sendMessage(msg("<red>/potiondead <effect> [seconds] [amplifier] [ambient?] [particles?] [icon?]"));
+                    return 0;
+                });
     }
 
-    private int duration(String[] args) {
-        if (args.length < 2) {
-            return 60;
+    private int potion(int duration, int amplifier, boolean ambient, boolean particles, boolean icon, CommandContext<CommandSourceStack> context) {
+        PotionEffect potionEffect = new PotionEffect(
+                Registry.POTION_EFFECT_TYPE.get(NamespacedKey.fromString(context.getArgument("effect", TypedKey.class).key().value())),
+                duration, amplifier, ambient, particles, icon);
+        for (Player p : API.getDead()){
+            p.addPotionEffect(potionEffect);
         }
-        if (args[1].equalsIgnoreCase("infinite")) {
-            return PotionEffect.INFINITE_DURATION;
-        }
-        try {
-            return Integer.parseInt(args[1]);
-        } catch (NumberFormatException ignored) {
-            return 60;
-        }
-    }
-
-    private int amplifier(String[] args) {
-        if (args.length < 3) {
-            return 1;
-        }
-        try {
-            return Integer.parseInt(args[2]);
-        } catch (NumberFormatException ignored) {
-            return 1;
-        }
-    }
-
-    private boolean ambient(String[] args) {
-        if (args.length < 4) {
-            return false;
-        }
-        return Boolean.parseBoolean(args[3]);
-    }
-
-    private boolean particles(String[] args) {
-        if (args.length < 5) {
-            return false;
-        }
-        return Boolean.parseBoolean(args[4]);
-    }
-
-    private boolean icon(String[] args) {
-        if (args.length < 6) {
-            return false;
-        }
-        return Boolean.parseBoolean(args[5]);
-    }
-
-    @Override
-    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, String[] args) {
-        if (args.length == 1){
-            List<String> list = new ArrayList<>(Registry.POTION_EFFECT_TYPE.stream().map(potionEffectType -> potionEffectType.getKey().toString()).toList());
-            list.addAll(List.of("clear", "minecraft:clear"));
-            return list;
-        } else if (args.length == 2) {
-            return List.of("infinite");
-        } else if (args.length == 4 || args.length == 5 || args.length == 6) {
-            return List.of("true", "false");
-        }
-        return List.of();
+        context.getSource().getSender().sendMessage(msg("potiondead.gave")
+                .replaceText(TextReplacementConfig.builder().match("%potioneffect%").replacement(potionEffect.getType().getKey().toString()).build())
+                .replaceText(TextReplacementConfig.builder().match("%amplifier%").replacement(String.valueOf(potionEffect.getAmplifier())).build())
+                .replaceText(TextReplacementConfig.builder().match("%time%").replacement(String.valueOf(potionEffect.getDuration())).build())
+        );
+        return 1;
     }
 }

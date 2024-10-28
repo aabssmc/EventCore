@@ -3,8 +3,9 @@ package cc.aabss.eventcore.commands.revives;
 import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.util.Config;
 import cc.aabss.eventcore.util.SimpleCommand;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.jetbrains.annotations.Nullable;
-import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 public class ToggleRevive extends SimpleCommand {
@@ -14,8 +15,15 @@ public class ToggleRevive extends SimpleCommand {
     }
 
     @Override
-    public void run(CommandSender sender, String commandLabel, String[] args) {
-        EventCore.API.toggleRevives();
-        sender.sendMessage(Config.msg("togglerevive."+(EventCore.instance.getConfig().getBoolean("revives-enabled", true) ? "enabled" : "disabled")));
+    protected LiteralArgumentBuilder<CommandSourceStack> run(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
+        return argumentBuilder
+                .executes(context -> {
+                    EventCore.API.toggleRevives();
+                    context.getSource().getSender().sendMessage(
+                            Config.msg("togglerevive."+(EventCore.instance.getConfig().getBoolean("revives-enabled", true) ? "enabled" : "disabled"))
+                    );
+                    return 1;
+                });
     }
+
 }

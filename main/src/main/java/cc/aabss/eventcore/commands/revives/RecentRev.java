@@ -3,7 +3,8 @@ package cc.aabss.eventcore.commands.revives;
 import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.util.Config;
 import cc.aabss.eventcore.util.SimpleCommand;
-import org.bukkit.command.*;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.entity.Player;
 
 import org.bukkit.Bukkit;
@@ -20,17 +21,18 @@ public class RecentRev extends SimpleCommand {
     }
 
     @Override
-    public void run(CommandSender sender, String commandLabel, String[] args) {
-        if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage(Config.msg("console"));
-            return;
-        }
-        List<Player> recentlyDead = new ArrayList<>(EventCore.instance.Recent);
-        for (Player p : recentlyDead) {
-            EventCore.API.revive(p, ((Player) sender), true);
-        }
-        Bukkit.broadcast(Config.msg("recentrev.revived")
-                .replaceText(builder -> builder.match("%time%").replacement(Config.get("recent-rev-time", Integer.class).toString())));
+    protected LiteralArgumentBuilder<CommandSourceStack> run(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
+        return argumentBuilder
+                .requires(commandSourceStack -> commandSourceStack.getSender() instanceof Player)
+                .executes(context -> {
+                    List<Player> recentlyDead = new ArrayList<>(EventCore.instance.Recent);
+                    for (Player p : recentlyDead) {
+                        EventCore.API.revive(p, ((Player) context.getSource().getSender()), true);
+                    }
+                    Bukkit.broadcast(Config.msg("recentrev.revived")
+                            .replaceText(builder -> builder.match("%time%").replacement(Config.get("recent-rev-time", Integer.class).toString())));
+                    return 1;
+                });
     }
 
 }

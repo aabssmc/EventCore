@@ -3,10 +3,14 @@ package cc.aabss.eventcore.commands.revives;
 import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.util.Config;
 import cc.aabss.eventcore.util.SimpleCommand;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,36 +24,36 @@ public class Unrevive extends SimpleCommand {
     }
 
     @Override
-    public void run(CommandSender sender, String commandLabel, String[] args) {
-        if (sender instanceof ConsoleCommandSender) {
-            sender.sendMessage(Config.msg("console"));
-            return;
-        }
-        if (args.length == 0){
-            sender.sendMessage(Config.msg("unrevive.specifyplayer"));
-            return;
-        }
-        Player p = Bukkit.getPlayer(args[0]);
-        if (p == null) {
-            sender.sendMessage(Config.msg("unrevive.invalidplayer"));
-            return;
-        }
-        if (EventCore.instance.Dead.contains(p)){
-            sender.sendMessage(Config.msg("unrevive.alreadydead")
-                    .replaceText(builder -> builder.match("%player%").replacement(p.getName())));
-            return;
-        }
-        EventCore.API.unrevive(p, true);
-    }
-
-    @Override
-    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, String[] args) {
-        if (args.length == 1){
-            List<String> completions = new ArrayList<>();
-            Bukkit.getOnlinePlayers().forEach(player -> completions.add(player.getName()));
-            return completions;
-        }
-        return List.of();
+    protected LiteralArgumentBuilder<CommandSourceStack> run(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
+        return argumentBuilder
+                .then(Commands.argument("players", ArgumentTypes.players())
+                        .executes(context -> {
+                            CommandSender sender = context.getSource().getSender();
+                            List<Player> players = context.getArgument("players", PlayerSelectorArgumentResolver.class).resolve(context.getSource());
+                            List<String> unrevivedPlayers = new ArrayList<>();
+                            for (Player p : players) {
+                                if (EventCore.instance.Dead.contains(p)){
+                                    sender.sendMessage(Config.msg("unrevive.alreadydead")
+                                            .replaceText(builder -> builder.match("%player%").replacement(p.getName())));
+                                    continue;
+                                }
+                                unrevivedPlayers.add(p.getName());
+                                EventCore.API.unrevive(p, true);
+                            }
+                            if (!unrevivedPlayers.isEmpty()) {
+                                sender.sendMessage(Config.msg("unrevive.unrevived")
+                                        .replaceText(builder -> builder.match("%player%").replacement(EventCore.formatList(unrevivedPlayers)))
+                                        .replaceText(builder -> builder.match("%unreviver%").replacement(sender.getName()))
+                                );
+                            }
+                            return 1;
+                        })
+                )
+                .executes(context -> {
+                    CommandSender sender = context.getSource().getSender();
+                    sender.sendMessage(Config.msg("revive.specifyplayer"));
+                    return 0;
+                });
     }
 
 }
