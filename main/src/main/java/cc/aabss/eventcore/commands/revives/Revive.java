@@ -2,7 +2,7 @@ package cc.aabss.eventcore.commands.revives;
 
 import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.util.Config;
-import cc.aabss.eventcore.util.SimpleCommand;
+import cc.aabss.eventcore.util.SimplePlayerCommand;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Revive extends SimpleCommand {
+public class Revive extends SimplePlayerCommand {
 
     public Revive(@NotNull String name, @Nullable String description, @Nullable String... aliases) {
         super(name, description, aliases);
@@ -26,7 +26,6 @@ public class Revive extends SimpleCommand {
     @Override
     protected LiteralArgumentBuilder<CommandSourceStack> run(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
         return argumentBuilder
-                .requires(commandSourceStack -> commandSourceStack.getSender() instanceof Player)
                 .then(Commands.argument("players", ArgumentTypes.players())
                         .executes(context -> {
                             CommandSender sender = context.getSource().getSender();

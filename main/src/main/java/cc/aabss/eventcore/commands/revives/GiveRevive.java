@@ -2,7 +2,7 @@ package cc.aabss.eventcore.commands.revives;
 
 import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.util.Config;
-import cc.aabss.eventcore.util.SimpleCommand;
+import cc.aabss.eventcore.util.SimplePlayerCommand;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static java.util.Objects.requireNonNull;
 
-public class GiveRevive extends SimpleCommand {
+public class GiveRevive extends SimplePlayerCommand {
 
     public GiveRevive(@NotNull String name, @Nullable String description, @Nullable String... aliases) {
         super(name, description, aliases);
@@ -25,7 +25,6 @@ public class GiveRevive extends SimpleCommand {
     @Override
     protected LiteralArgumentBuilder<CommandSourceStack> run(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
         return argumentBuilder
-                .requires(commandSourceStack -> commandSourceStack.getSender() instanceof Player)
                 .then(Commands.argument("player", StringArgumentType.word())
                         .suggests((context, builder) -> {
                             for (Player p : Bukkit.getOnlinePlayers()) {

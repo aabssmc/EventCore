@@ -3,7 +3,7 @@ package cc.aabss.eventcore.commands.other;
 import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.api.VisibilityState;
 import cc.aabss.eventcore.util.Config;
-import cc.aabss.eventcore.util.SimpleCommand;
+import cc.aabss.eventcore.util.SimplePlayerCommand;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -22,7 +22,7 @@ import java.util.Map;
 import static cc.aabss.eventcore.EventCore.API;
 import static cc.aabss.eventcore.util.Config.msg;
 
-public class Visibility extends SimpleCommand {
+public class Visibility extends SimplePlayerCommand {
 
     public static ArrayList<Player> VisAll = new ArrayList<>();
     public static ArrayList<Player> VisStaff = new ArrayList<>();
@@ -33,7 +33,6 @@ public class Visibility extends SimpleCommand {
     @Override
     protected LiteralArgumentBuilder<CommandSourceStack> run(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
         return argumentBuilder
-                .requires(commandSourceStack -> commandSourceStack.getSender() instanceof Player)
                 .then(Commands.argument("visibility", StringArgumentType.word())
                         .suggests((context, builder) -> builder
                                 .suggest(VisibilityState.ALL.name().toLowerCase())

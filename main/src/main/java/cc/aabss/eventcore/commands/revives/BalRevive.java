@@ -42,7 +42,7 @@ public class BalRevive extends SimpleCommand {
                 )
                 .executes(context -> {
                     CommandSender sender = context.getSource().getSender();
-                    if (sender instanceof  Player) {
+                    if (sender instanceof Player) {
                         sender.sendMessage(Config.msg("balrevive.self")
                                 .replaceText(builder -> builder.matchLiteral("%revives%").replacement(String.valueOf(EventCore.API.getRevives((Player) sender)))));
                         return 1;

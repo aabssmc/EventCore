@@ -2,7 +2,7 @@ package cc.aabss.eventcore.commands.revives;
 
 import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.util.Config;
-import cc.aabss.eventcore.util.SimpleCommand;
+import cc.aabss.eventcore.util.SimplePlayerCommand;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.entity.Player;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecentRev extends SimpleCommand {
+public class RecentRev extends SimplePlayerCommand {
 
     public RecentRev(@NotNull String name, @Nullable String description, @Nullable String... aliases) {
         super(name, description, aliases);
@@ -23,7 +23,6 @@ public class RecentRev extends SimpleCommand {
     @Override
     protected LiteralArgumentBuilder<CommandSourceStack> run(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
         return argumentBuilder
-                .requires(commandSourceStack -> commandSourceStack.getSender() instanceof Player)
                 .executes(context -> {
                     List<Player> recentlyDead = new ArrayList<>(EventCore.instance.Recent);
                     for (Player p : recentlyDead) {
