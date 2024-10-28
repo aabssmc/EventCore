@@ -32,6 +32,7 @@ public class Config {
     }
 
     public static void reloadConfig() {
+        EventCore.instance.saveDefaultConfig();
         FileConfiguration config = YamlConfiguration.loadConfiguration(EventCore.instance.datafile);
         final InputStream defConfigStream = EventCore.instance.getResource("data.yml");
         if (defConfigStream == null) {

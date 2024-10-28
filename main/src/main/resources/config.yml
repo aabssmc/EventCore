@@ -184,3 +184,11 @@ visibility:
 
 clearchat:
   cleared: "%prefix% <yellow>Chat has been cleared by <gold>%player%</gold>!"
+
+timer:
+  no-timer-running: "%prefix% No timer running."
+  already-running: "%prefix% A timer is already running, do /timer cancel to cancel."
+  cancelled: "%prefix% Timer cancelled."
+  finished: "%prefix% Timer finished!"
+  remaining: "%prefix% Timer: %seconds%s."
+  started: "%prefix% Timer started for %seconds%s."

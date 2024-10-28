@@ -4,6 +4,7 @@ import cc.aabss.eventcore.api.EventCoreAPIImpl;
 import cc.aabss.eventcore.commands.alive.*;
 import cc.aabss.eventcore.commands.dead.*;
 import cc.aabss.eventcore.commands.other.ClearChat;
+import cc.aabss.eventcore.commands.other.Timer;
 import cc.aabss.eventcore.commands.other.Visibility;
 import cc.aabss.eventcore.commands.revives.*;
 import cc.aabss.eventcore.hooks.PlaceholderAPI;
@@ -114,6 +115,7 @@ public class EventCore extends JavaPlugin {
             new ClearChat("clearchat", "Clears the chat.", "chatclear").register(commands);
             new MainCommand("eventcore", "Main command for EventCore.").register(commands);
             new Mutechat("mutechat", "Mutes the chat.", "chatmute").register(commands);
+            new Timer("timer", "Makes a new timer.", "countdown").register(commands);
             new Visibility("visibility", "Toggles player visibility.", "hide").register(commands);
         });
 

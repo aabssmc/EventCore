@@ -148,6 +148,17 @@ public interface EventCoreAPI {
     void clearChat(boolean sendMessage, CommandSender sender);
 
     /**
+     * Starts a timer.
+     * @param seconds How long the timer will go for in seconds
+     */
+    boolean startTimer(long seconds);
+
+    /**
+     * Stops a timer if it's going on.
+     */
+    boolean stopTimer();
+
+    /**
      * Super simple class to get the EventCore API
      */
     class Factory {

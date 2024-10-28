@@ -2,7 +2,6 @@ package cc.aabss.eventcore.api;
 
 import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.commands.other.Visibility;
-import cc.aabss.eventcore.commands.revives.ToggleRevive;
 import cc.aabss.eventcore.events.ReviveEvent;
 import cc.aabss.eventcore.events.VisibilityEvent;
 import net.kyori.adventure.text.TextReplacementConfig;
@@ -11,6 +10,8 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +23,8 @@ import static cc.aabss.eventcore.util.Config.reloadConfig;
 public class EventCoreAPIImpl implements EventCoreAPI {
 
     private final EventCore plugin;
+    private BukkitTask timerTask;
+    private long remainingSeconds;
 
     public EventCoreAPIImpl(EventCore plugin) {
         this.plugin = plugin;
@@ -175,5 +178,42 @@ public class EventCoreAPIImpl implements EventCoreAPI {
                 p.sendMessage(msg("clearchat.cleared").replaceText(TextReplacementConfig.builder().match("%player%").replacement(sender.getName()).build()));
             }
         });
+    }
+
+    @Override
+    public boolean startTimer(long seconds) {
+        if (timerTask != null && !timerTask.isCancelled()) {
+            return false;
+        }
+        remainingSeconds = seconds;
+        Bukkit.broadcast(msg("timer.started")
+                        .replaceText(TextReplacementConfig.builder().match("%seconds%").replacement(String.valueOf(remainingSeconds)).build())
+        );
+        timerTask = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (remainingSeconds <= 0) {
+                    Bukkit.broadcast(msg("timer.finished"));
+                    cancel();
+                } else {
+                    Bukkit.broadcast(msg("timer.remaining")
+                            .replaceText(TextReplacementConfig.builder().match("%seconds%").replacement(String.valueOf(remainingSeconds)).build())
+                    );
+                    remainingSeconds--;
+                }
+            }
+        }.runTaskTimer(plugin, 0L, 20L);
+        return true;
+    }
+
+    @Override
+    public boolean stopTimer() {
+        if (timerTask != null && !timerTask.isCancelled()) {
+            timerTask.cancel();
+            Bukkit.broadcast(msg("timer.cancelled"));
+            return true;
+        } else {
+            return false;
+        }
     }
 }
