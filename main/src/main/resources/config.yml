@@ -21,6 +21,9 @@ scoreboard-title: "<gold><bold>EventCore</bold> <dark_gray>(%server_online%/%ser
 # whether revives should be enabled
 revives-enabled: true
 
+# whether during a revival, the messages should be seen
+show-revival-messages: false
+
 # each line of the scoreboard
 # use %player% for the name of the player
 scoreboard-lines:

@@ -2,6 +2,7 @@ package cc.aabss.eventcore.util;
 
 import cc.aabss.eventcore.EventCore;
 import cc.aabss.eventcore.commands.other.Mutechat;
+import cc.aabss.eventcore.commands.other.Revival;
 import cc.aabss.eventcore.commands.other.Visibility;
 import cc.aabss.eventcore.hooks.UpdateChecker;
 import org.bukkit.Bukkit;
@@ -93,6 +94,21 @@ public class Listeners implements org.bukkit.event.Listener {
         if (Mutechat.CHAT_MUTED && !event.getPlayer().hasPermission("eventcore.mutechat.bypass")){
             event.setCancelled(true);
             event.getPlayer().sendMessage(msg("mutechat.cant-talk"));
+        }
+
+        if (Revival.answer != null) {
+            if (event.getMessage().equals(Revival.answer) && !Revival.winners.contains(event.getPlayer().getName())) {
+                Revival.winners.add(event.getPlayer().getName());
+                if (Revival.winners.size() >= Revival.winnerSize) {
+                    Bukkit.broadcast(msg("%prefix% <gold>The winner(s) are: <yellow>"+EventCore.formatList(Revival.winners)));
+                    Revival.answer = null;
+                    Revival.winners.clear();
+                    Revival.winnerSize = 0;
+                    if (Config.get("show-revival-messages", Boolean.class)) {
+                        Mutechat.CHAT_MUTED = Revival.formerChatMute;
+                    }
+                }
+            }
         }
     }
 
