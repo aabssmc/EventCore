@@ -1,0 +1,38 @@
+package app.qwertz.eventcore.commands.alive;
+
+import app.qwertz.eventcore.EventCore;
+import app.qwertz.eventcore.util.Config;
+import app.qwertz.eventcore.util.SimpleCommand;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import org.bukkit.Material;
+import org.jetbrains.annotations.Nullable;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
+public class ClearAlive extends SimpleCommand {
+
+    public ClearAlive(@NotNull String name, @Nullable String description, @Nullable String... aliases) {
+        super(name, description, aliases);
+    }
+
+    @Override
+    protected LiteralArgumentBuilder<CommandSourceStack> run(LiteralArgumentBuilder<CommandSourceStack> argumentBuilder) {
+        return argumentBuilder
+                .executes(context -> {
+                    for (Player p : EventCore.instance.Alive){
+                        p.getOpenInventory().close();
+                        p.getInventory().clear();
+                        p.getInventory().addItem(new ItemStack(Material.AIR, 1));
+                        for (Item item : p.getLocation().getNearbyEntitiesByType(Item.class, 3)){
+                            item.remove();
+                        }
+                    }
+                    context.getSource().getSender().sendMessage(Config.msg("clearalive.cleared"));
+                    return 1;
+                });
+    }
+
+}

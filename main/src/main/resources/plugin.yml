@@ -1,12 +1,9 @@
 name: EventCore
 version: '${version}'
-main: cc.aabss.eventcore.EventCore
+main: app.qwertz.eventcore.EventCore
 api-version: '1.13'
-authors:
-  - aabss
+authors: [aabss, QWERTZ_EXE]
 contributors: [xCheezie]
 description: Hosting events has never been easier!
-website: https://aabss.cc
-softdepend:
-  - PlaceholderAPI
-  - Skript
+website: https://qwertz.app
+softdepend: [PlaceholderAPI, Skript]

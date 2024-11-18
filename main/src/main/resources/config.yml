@@ -36,7 +36,7 @@ scoreboard-lines:
   - " <yellow>Alive: <gold>%eventcore_alive%"
   - " <yellow>Dead: <gold>%eventcore_dead%"
   - ""
-  - "<gray>eventcore.aabss.cc"
+  - "<gray>eventcore.qwertz.app"
 
 # messages -----------
 

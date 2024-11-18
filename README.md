@@ -53,11 +53,11 @@ A plugin made to simplify hosting events/challenges
 - Skript Support
 - and more!
 
-For support, join my discord [here](https://discord.gg/33g92zJnPC)
+For support, join my discord [here](https://discord.gg/Vp6Q4FHCzf)
 
 # Links
 [SpigotMC](https://www.spigotmc.org/resources/eventcore-plugin.113142/) |
 [Modrinth](https://modrinth.com/plugin/event) |
 [bStats](https://bstats.org/plugin/bukkit/EventCore/19718) |
 [PAPI Wiki](https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders#eventcore) |
-[Source Code](https://github.com/aabssmc/EventCore)
+[Source Code](https://github.com/QWERTZexe/EventCore)
