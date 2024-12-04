@@ -1,0 +1,144 @@
+# 当执行全部复活时忽略拥有eventcorereviveallbypass权限的玩家
+ignore-perm: true
+
+# 玩家在设置秒数期间无法复活
+# 以秒为单位
+recent-rev-time: 30
+
+# 是否应该在加入时通知管理员有新版本更新
+update-checker: true
+
+# 如果我加入服务器，会给我一个定制披风 ;)
+custom-cape-for-me: true
+
+# messages -----------
+
+# MiniMessage supported
+prefix: "<gold><bold>EventCore <gray>»"
+permission-message: "<red>您没有执行此操作的权限！"
+console: "%prefix% <red>此命令仅可由玩家执行！"
+
+reloaded: "%prefix% <green>配置已重新加载！"
+
+# 存活玩家 ----
+
+alivelist:
+  empty: "%prefix% <gray>当前没有存活的玩家 <br>没有存活的玩家"
+  one-player: "%prefix% <gray>当前有1名存活的玩家<br>%alive%"
+  players: "%prefix% <gray>当前有%amount%名存活的玩家<br>%alive%"
+
+clearalive:
+  cleared: "%prefix% <yellow>已清除所有存活玩家的物品栏"
+
+givealive:
+  no-item: "%prefix% <red>请指定一种物品！"
+  invalid-item: "%prefix% <red>无效的物品类型！"
+  gave-64: "%prefix% <yellow>已向所有存活玩家发放64个%item%！"
+  gave: "%prefix% <yellow>已向所有存活玩家发放%amount%个%item%！"
+
+healalive:
+  healed: "%prefix% <yellow>已治愈所有存活玩家"
+
+killalive:
+  killed: "%prefix% <yellow>已杀死所有存活玩家"
+
+tpalive:
+  teleported: "%prefix% <yellow>您已被传送"
+  teleport-broadcast: "%prefix% <yellow>%sender%已将所有存活玩家传送到他们的位置！"
+
+# 死亡玩家 ----
+
+cleardead:
+  cleared: "%prefix% <red>已清除所有死亡玩家的物品栏"
+
+deadlist:
+  empty: "%prefix% <gray>当前没有死亡的玩家<br>没有死亡的玩家"
+  one-player: "%prefix% <gray>当前有1名死亡的玩家<br>%dead%"
+  players: "%prefix% <gray>当前有%amount%名死亡的玩家<br>%dead%"
+
+givedead:
+  no-item: "%prefix% <red>请指定一种物品！"
+  invalid-item: "%prefix% <red>无效的物品类型！"
+  gave-64: "%prefix% <yellow>已向所有死亡玩家发放64个%item%！"
+  gave: "%prefix% <yellow>已向所有死亡玩家发放%amount%个%item%！"
+
+healdead:
+  healed: "%prefix% <yellow>已治愈所有死亡玩家"
+
+killdead:
+  killed: "%prefix% <yellow>已杀死所有死亡玩家"
+
+tpdead:
+  teleported: "%prefix% <yellow>您已被传送"
+  teleport-broadcast: "%prefix% <yellow>%sender%已将所有死亡玩家传送到他们的位置！"
+
+# 复活 ----
+
+balrevive:
+  invalid-player: "%prefix% <red>无效的玩家！"
+  self: "%prefix% <yellow>您有%revives%次复活机会！"
+  player: "%prefix% <yellow>%player%有%revives%次复活机会！"
+
+giverevive:
+  specifyplayer: "%prefix% <red>请指定一名玩家"
+  specifyamount: "%prefix% <red>请指定数量"
+  invalidplayer: "%prefix% <red>无效的玩家"
+  give: "%prefix% <yellow>您已向%player%赠送%amount%次复活机会！"
+  receive: "%prefix% <yellow>您已获得%amount%次复活机会！"
+
+recentrev:
+  revived: "%prefix% <yellow>过去%time%秒内的所有玩家已复活！"
+
+# 设置复活次数 ----
+
+setrevive:
+  specifyplayer: "%prefix% <red>请指定一名玩家"
+  specifyamount: "%prefix% <red>请指定数量"
+  invalidplayer: "%prefix% <red>无效的玩家"
+  set: "%prefix% <yellow>您已将%player%的复活次数设置为%amount%！"
+  receive: "%prefix% <yellow>您的复活次数现在为%amount%！"
+
+# 扣除复活次数 ----
+
+takerevive:
+  specifyplayer: "%prefix% <red>请指定一名玩家"
+  specifyamount: "%prefix% <red>请指定数量"
+  invalidplayer: "%prefix% <red>无效的玩家"
+  take: "%prefix% <yellow>您已从%player%那里扣除了%amount%次复活次数！"
+  lose: "%prefix% <yellow>您已失去%amount%次复活次数！"
+
+# 切换复活状态 ----
+
+togglerevive:
+  enabled: "%prefix% <green>已启用复活功能！"
+  disabled: "%prefix% <red>已禁用复活功能！"
+
+# 取消复活 ----
+
+unrevive:
+  specifyplayer: "%prefix% <red>请指定一名玩家"
+  invalidplayer: "%prefix% <red>无效的玩家"
+  alreadydead: "%prefix% <red>%player%已经死亡"
+  unrevived: "%prefix% <yellow>%player%已被%unreviver%取消复活！"
+
+# 使用复活次数 ----
+
+userevive:
+  notenough: "%prefix% <red>您的复活次数不足"
+  revivesoff: "%prefix% <red>复活功能已禁用！"
+  request: "%prefix% <yellow>%player%请求复活！"
+
+# 其他 ----
+
+mutechat:
+  muted: "%prefix% <red>聊天已被静音"
+  unmuted: "%prefix% <green>聊天已解除静音！"
+  cant-talk: "%prefix% <red>聊天已被静音！"
+
+visibility:
+  allalreadyhidden: "%prefix% <red>所有玩家已经隐藏"
+  allhidden: "%prefix% <yellow>所有玩家已被隐藏！"
+  staffalreadyhidden: "%prefix% <red>除工作人员外，所有玩家已经隐藏"
+  staffhidden: "%prefix% <yellow>除工作人员外，所有玩家已被隐藏！"
+  visibilityalreadyoff: "%prefix% <red>可见性已经关闭"
+  visibilityoff: "%prefix% <yellow>可见性已关闭！"
